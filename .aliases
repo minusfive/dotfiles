@@ -1,0 +1,59 @@
+# =====================
+# = Command Shortcuts =
+# =====================
+# Apply LS_OPTIONS to LS
+alias ls='ls --group-directories-first -p --color=always'
+# Same as above + show all files except "." & ".."
+alias la='ls -A'
+# Same as above + long list + use powers of 1000 vs. 1024 + ISO time
+alias ll='la --si --time-style=long-iso -l'
+# Same as above + sort by modification time
+alias lt='ll -t'
+# Same as 'la' above + output as comma separated list
+alias lr='la -m'
+# Make RM [semi]interactive + protect root + verbose
+alias rm='rm --preserve-root -Iv'
+# Make LN interactive
+alias ln='ln -i'
+# Make MV interactive + verbose
+alias mv='mv -iv'
+# Make CP verbose
+alias cp='cp -v'
+
+# Terminal control
+alias t='wezterm cli set-tab-title'
+alias wt='wezterm cli set-window-title'
+alias x=exit
+alias q=exit
+
+# Shortcut to print current directory
+alias .="echo $PWD"
+
+# Correct common misspellings
+alias cd..="cd .."
+alias ..="cd .."
+# alias c="clear"
+# alias e="exit"
+# alias ssh="ssh -X"
+
+# Colorize Grep
+alias grep='grep --color=always'
+
+# Keep bunzip2 decompressed files
+alias bunzip2='bunzip2 -k'
+
+# Editor
+alias e=nvim
+alias edit=nvim
+alias n=nvim
+alias v=nvim
+alias vi=nvim
+alias vim=nvim
+
+# Shortcut to Sites directory
+alias dev='cd ~/dev'
+
+# =======
+# = Hub =
+# =======
+alias git=hub

@@ -1,0 +1,204 @@
+#!/bin/bash
+
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+ 
+# The keywords COLOR, OPTIONS, and EIGHTBIT (honored by the
+# slackware version of dircolors) are recognized but ignored.
+ 
+# Below, there should be one TERM entry for each termtype that is colorizable
+TERM linux
+TERM linux-c
+TERM mach-color
+TERM console
+TERM con132x25
+TERM con132x30
+TERM con132x43
+TERM con132x60
+TERM con80x25
+TERM con80x28
+TERM con80x30
+TERM con80x43
+TERM con80x50
+TERM con80x60
+TERM xterm
+TERM xterm-color
+TERM xterm-debian
+TERM rxvt
+TERM screen
+TERM screen-w
+TERM vt100
+ 
+#  di = directory
+#  fi = file
+#  ln = symbolic link
+#  pi = fifo file
+#  so = socket file
+#  bd = block (buffered) special file (block device)
+#  cd = character (unbuffered) special file (character device)
+#  or = symbolic link pointing to a non-existent file (orphan)
+#  mi = non-existent file pointed to by a symbolic link (visible when you type ls -l)
+#  ex = file which is executable (ie. has 'x' set in permissions (executable)).
+#
+
+# Below are the color init strings for the basic file types. A color init
+# string consists of one or more of the following numeric codes:
+# Attribute codes:
+#  00 = none                       01 = bold                       03 = italic
+#  04 = underline                  05 = blink                      07 = reverse
+#  08 = concealed
+#
+# Text color codes:
+#  30 = black                      31 = red                        32 = green
+#  33 = yellow                     34 = blue                       35 = magenta
+#  36 = cyan                       37 = light gray
+#
+#  90 = dark grey                  91 = light red                  92 = light green
+#  93 = dark yellow                94 = light blue                 95 = light purple
+#  96 = turquoise                  97 = white
+#
+# Background color codes:
+#  40 = black  background          41 = red   background           42 = green   background
+#  43 = yellow background          44 = blue  background           45 = magenta background
+#  46 = cyan   background          47 = light gray background
+#
+# 100 = dark grey background      101 = bright red background      102 = bright green background
+# 103 = bright yellow background  104 = bright blue background     105 = bright purple background
+# 106 = turquoise background      107 = white background
+#
+NORMAL                00            # global default, although everything should be something.
+FILE                  00;97         # normal file
+DIR                   00;96         # directory
+LINK                  04;36         # symbolic link. (Use 'target' to use color of file pointed to.)
+FIFO                  00;33         # pipe
+SOCK                  01;35         # socket
+DOOR                  01;35         # door
+BLK                   01;33         # block device driver
+CHR                   01;33         # character device driver
+ORPHAN                04;05;96      # symlink to nonexistent file...
+MISSING               05;90         # ... and the file they point to
+SETUID                00;37;41      # file that is setuid (u+s)
+SETGID                00;30;43      # file that is setgid (g+s)
+STICKY_OTHER_WRITABLE 01;95         # dir that is sticky and other-writable (+t,o+w)
+OTHER_WRITABLE        00;91         # dir that is other-writable (o+w) and not sticky
+STICKY                00;37;44      # dir with the sticky bit set (+t) and not other-writable
+EXEC                  00;32         # This is for files with execute permission:
+ 
+# List any file extensions like '.gz' or '.tar' that you would like ls
+# to colorize below. Put the extension, a space, and the color init string.
+# (and any comments you want to add after a '#')
+ 
+# If you use DOS-style suffixes, you may want to uncomment the following:
+# executables (bright red)
+# .cmd  00;35
+# .exe  00;35
+# .com  00;35
+# .btm  00;35
+# .bat  00;35
+# .sh   00;35
+# .csh  00;35
+
+# Common hidden files (dark grey)
+.DS_Store  90
+.gitignore 90
+
+# disk images (bright green)
+.iso  00;94
+.dmg  00;94
+
+# archives / compressed (cyan)
+.tar  00;36
+.tgz  00;36
+.arj  00;36
+.taz  00;36
+.lzh  00;36
+.zip  00;36
+.z    00;36
+.Z    00;36
+.gz   00;36
+.bz2  00;36
+.bz   00;36
+.tbz2 00;36
+.tz   00;36
+.deb  00;36
+.rpm  00;36
+.jar  00;36
+.rar  00;36		# app-arch/rar
+.ace  00;36		# app-arch/unace
+.zoo  00;36		# app-arch/zoo
+.cpio 00;36		# app-arch/cpio
+.7z   00;36		# app-arch/p7zip
+.rz   00;36		# app-arch/rzip
+
+# image formats
+.jpg  00;93
+.jpeg 00;93
+.gif  00;93
+.bmp  00;93
+.ppm  00;93
+.tga  00;93
+.xbm  00;93
+.xpm  00;93
+.tif  00;93
+.tiff 00;93
+.png  00;93
+.svg  00;93
+.psd  00;93
+.ai   00;93
+.mng  00;93
+.ico  00;93
+.xcf  00;93
+.pcx  00;93
+.mpg  00;93
+.mpeg 00;93
+.m2v  00;93 # MPEG-2 Video only
+.avi  00;93
+.mkv  00;93 # Matroska (http://matroska.org/)
+.ogm  00;93 # Ogg Media File
+.mp4  00;93 # "Offical" container for MPEG-4
+.m4v  00;93 # MPEG-4 Video only
+.mp4v 00;93 # MPEG-4 Video only
+.mov  00;93 # Quicktime (http://developer.apple.com/qa/qtw/qtw99.html)
+.qt   00;93 # Quicktime (http://developer.apple.com/qa/qtw/qtw99.html)
+.wmv  00;93 # Windows Media Video
+.asf  00;93 # Advanced Systems Format (contains Windows Media Video)
+.rm   00;93 # Real Media
+.rmvb 00;93 # Real Media Variable Bitrate
+.flc  00;93 # AutoDesk Animator
+.fli  00;93 # AutoDesk Animator
+.gl   00;93
+.dl   00;93
+
+# source code files
+.pl   00;33
+.PL   00;33
+.pm   00;33
+.tt   00;33
+.yml  00;33
+.sql  00;33
+.html 00;33
+.css  00;33
+.js   00;33
+.haml 00;33
+.sass 00;33
+.rb   00;33
+
+# Document files
+# .pdf    00;32
+# .ps     00;32
+# .txt    00;32
+# .patch  00;32
+# .diff   00;32
+# .log    00;32
+# .tex    00;32
+# .doc    00;32
+
+# Audio files
+.mp3  00;93
+.wav  00;93
+.mid  00;93
+.midi 00;93
+.au   00;93
+.ogg  00;93
+.flac 00;93
+.aac  00;93

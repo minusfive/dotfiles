@@ -1,0 +1,75 @@
+[include]
+  # For username / creds / etc
+  path = ~/.gitconfig.local
+[core]
+  excludesfile = ~/.gitignore
+  editor = nvim
+  whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less
+[merge]
+  tool = opendiff
+  summary = true
+[diff]
+  tool = opendiff
+[alias]
+  st = status
+  ci = commit
+  co = checkout
+  br = branch
+  lg = log -p
+  lgg = log --color --graph --pretty=format:'%C(cyan)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit
+  ls = ls-files
+  ign = ls-files -o -i --exclude-standard
+	up = !git fetch && git rebase --autostash FETCH_HEAD
+[color]
+  diff = always
+  status = always
+  branch = always
+  interactive = always
+  ui = always
+  grep = always
+[color "status"]
+  header = normal
+  added = green
+  changed = yellow
+  untracked = red
+  branch = blue
+  nobranch = red reverse
+[color "branch"]
+  current = cyan reverse
+  local = cyan
+  remote = blue
+[color "diff"]
+  commit = yellow reverse
+  meta = normal
+  frag = cyan
+  func = white bold
+  old = red
+  new = green
+  whitespace = red reverse
+[color "decorate"]
+  branch = cyan
+  remoteBranch = blue
+  tag = yellow
+  stash = magenta
+  HEAD = cyan bold
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
+[color "interactive"]
+  prompt = magenta
+  header = black white
+  help = cyan
+  error = red reverse
+[push]
+	default = current
+[filter "media"]
+	clean = git media clean %f
+	smudge = git media smudge %f
+	required = true
+[pull]
+	rebase = true
+[commit]
+	gpgsign = true
