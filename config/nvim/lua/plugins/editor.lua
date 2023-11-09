@@ -88,6 +88,8 @@ return {
       highlight_overrides = {
         all = function(colors)
           return {
+            DashboardFooter = { fg = colors.surface2 },
+            MiniIndentscopeSymbol = { fg = colors.surface2 },
             NoiceCmdlineIcon = { fg = colors.peach },
             NoiceCmdlinePopupBorder = { fg = colors.peach },
             NoiceCmdlinePopupTitle = { fg = colors.peach },
@@ -102,6 +104,15 @@ return {
         },
       },
     },
+  },
+
+  -- Indent line scope highlight
+  {
+    "echasnovski/mini.indentscope",
+    opts = function(_, opts)
+      opts.draw = opts.draw or {}
+      opts.draw.animation = require("mini.indentscope").gen_animation.none()
+    end,
   },
 
   -- Notifications, command pop-ups, etc.
@@ -177,15 +188,15 @@ return {
       local c = opts.sections.lualine_c
       local diagnostics = c[2]
       local file_type_icon = c[3]
-      local pretty_path = c[4]
+      -- local pretty_path = c[4]
       local root_dir = c[1]
       local symbols = c[5]
 
       opts.sections.lualine_a = { "mode" }
-      opts.sections.lualine_b = { "%l:%c %p%%" }
+      opts.sections.lualine_b = { { "%p%% | %c", color = { bg = "StatusLine" }, padding = 2 } }
       opts.sections.lualine_c = { root_dir, file_type_icon, { "filename", path = 1 }, symbols }
-      opts.sections.lualine_y = {}
-      opts.sections.lualine_z = { "branch" }
+      opts.sections.lualine_y = { "branch" }
+      opts.sections.lualine_z = {}
 
       -- Transpose statusline `c` component to winbar, altering its order
       opts.options.disabled_filetypes.winbar = vim.deepcopy(opts.options.disabled_filetypes.statusline)
@@ -243,6 +254,8 @@ return {
     end,
   },
 
+  { "nvim-treesitter/nvim-treesitter-context", opts = { max_lines = 1, trim_scope = "inner" } },
+
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
@@ -276,6 +289,7 @@ return {
       defaults = {
         -- Content
         -- path_display = { "smart" },
+        dynamic_preview_title = true,
 
         --- Layout
         layout_strategy = "flex",
