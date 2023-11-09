@@ -96,18 +96,10 @@ return {
       },
 
       integrations = {
-        aerial = true,
-
         dap = {
           enabled = true,
           enable_ui = true,
         },
-
-        dashboard = true,
-        headlines = true,
-        leap = true,
-        markdown = true,
-        treesitter_context = true,
       },
     },
   },
