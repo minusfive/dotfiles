@@ -5,6 +5,7 @@ local logo = string.rep("\n", 8) .. require("config.logos").v
 local commands = {
   telescope = {
     file_browser = "Telescope file_browser",
+    undo = "Telescope undo",
   },
 }
 
@@ -209,6 +210,22 @@ return {
     end,
   },
 
+  -- focus mode
+  {
+    "folke/zen-mode.nvim",
+    event = "VeryLazy",
+    dependencies = { "folke/twilight.nvim", opts = { context = 15 } },
+    opts = {
+      plugins = {
+        wezterm = { enabled = true },
+      },
+    },
+    keys = {
+      { "<leader>zz", "<cmd>ZenMode<cr>", desc = "Zen Mode" },
+      { "<leader>zt", "<cmd>Twilight<cr>", desc = "Twilight" },
+    },
+  },
+
   -- configure file tree
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -282,8 +299,31 @@ return {
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      -- Browse files with telescope
+      {
+        "nvim-telescope/telescope-file-browser.nvim",
+        event = "VeryLazy",
+        config = function()
+          Util.on_load("telescope.nvim", function()
+            require("telescope").load_extension("file_browser")
+          end)
+        end,
+      },
+      {
+        "debugloop/telescope-undo.nvim",
+        event = "VeryLazy",
+        config = function()
+          Util.on_load("telescope.nvim", function()
+            require("telescope").load_extension("undo")
+          end)
+        end,
+      },
+    },
     keys = {
       { "<leader><space>", string.format("<cmd>%s<cr>", commands.telescope.file_browser), desc = "File Browser" },
+      { "<leader>su", string.format("<cmd>%s<cr>", commands.telescope.undo), desc = "Undo Tree" },
     },
     opts = {
       defaults = {
@@ -360,9 +400,16 @@ return {
           grouped = true,
           hidden = true,
           hide_parent_dir = true,
+          hijack_netrw = true,
           prompt_path = true,
           -- respect_gitignore = false,
           select_buffer = true,
+        },
+        undo = {
+          theme = "ivy",
+          layout_config = {
+            prompt_position = "bottom",
+          },
         },
         yank_history = {
           theme = "ivy",
@@ -372,17 +419,6 @@ return {
         },
       },
     },
-  },
-
-  -- Browse files with telescope
-  {
-    "nvim-telescope/telescope-file-browser.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-    config = function()
-      Util.on_load("telescope.nvim", function()
-        require("telescope").load_extension("file_browser")
-      end)
-    end,
   },
 
   -- Use <tab> for completion and snippets (supertab)

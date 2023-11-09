@@ -27,6 +27,9 @@ vim.opt.breakindent = true
 vim.opt.breakindentopt:append({ "shift:2", "sbr" })
 vim.opt.cpoptions:append("n")
 
+-- keep cursorline in the middle
+vim.opt.scrolloff = 999
+
 -- nvim
 vim.g.minipairs_disable = true
 
