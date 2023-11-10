@@ -230,6 +230,22 @@ return {
     },
   },
 
+  -- keybindings
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      plugins = {
+        marks = true,
+        registers = true,
+        spelling = {
+          enabled = true,
+          suggestions = 20,
+        },
+      },
+    },
+  },
+
   -- configure file tree
   {
     "nvim-neo-tree/neo-tree.nvim",
