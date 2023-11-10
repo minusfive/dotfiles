@@ -193,8 +193,11 @@ return {
       local root_dir = c[1]
       local symbols = c[5]
 
+      root_dir.padding = root_dir.padding or {}
+      root_dir.padding.left = 2
+
       opts.sections.lualine_a = { "mode" }
-      opts.sections.lualine_b = { { "%p%% | %c", color = { bg = "StatusLine" }, padding = 2 } }
+      opts.sections.lualine_b = {}
       opts.sections.lualine_c = { root_dir, file_type_icon, { "filename", path = 1 }, symbols }
       opts.sections.lualine_y = { "branch" }
       opts.sections.lualine_z = {}
@@ -203,7 +206,8 @@ return {
       opts.options.disabled_filetypes.winbar = vim.deepcopy(opts.options.disabled_filetypes.statusline)
       table.insert(opts.options.disabled_filetypes.winbar, "neo-tree")
       opts.winbar = {
-        lualine_c = { diagnostics },
+        lualine_b = { diagnostics, { "%p%% | %c", color = { bg = "StatusLine" }, padding = 2 } },
+        lualine_c = {},
         lualine_x = { file_type_icon, { "filename", path = 1 } },
       }
       opts.inactive_winbar = opts.winbar
