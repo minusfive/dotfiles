@@ -1,0 +1,16 @@
+cmdline
+jumpable
+colorscheme
+ui
+statusline
+winbar
+treesitter
+lspconfig
+winblend
+lsp
+gitignore
+supertab
+LuaSnip
+cmp
+param
+ConfigSchema
