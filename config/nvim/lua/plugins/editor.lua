@@ -275,6 +275,7 @@ return {
   -- edgy
   {
     "folke/edgy.nvim",
+    enabled = false,
     opts = {
       animate = {
         fps = 120,
