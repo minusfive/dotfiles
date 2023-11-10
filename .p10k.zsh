@@ -39,7 +39,7 @@
     # =========================[ Line #2 ]=========================
     newline                 # \n
     vi_mode                 # VI mode
-    prompt_char_joined             # prompt symbol
+    # prompt_char_joined             # prompt symbol
   )
 
   # The list of segments shown on the right. Fill it with less important segments.
