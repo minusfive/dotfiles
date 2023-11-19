@@ -69,7 +69,7 @@ return {
 
       on_highlights = function(highlights, colors)
         highlights.CursorLine.bg = colors.bg_dark
-        highlights.NoiceCmdlineIcon = highlights.DiagnosticWarn
+        highlights.NoiceCmdlineIcon = highlights.DinosticWarn
         highlights.NoiceCmdlinePopupBorder = highlights.DiagnosticWarn
         highlights.NoiceCmdlinePopupTitle = highlights.DiagnosticWarn
         highlights.DashboardFooter.fg = colors.blue0
@@ -82,18 +82,49 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     opts = {
+      -- transparent_background = true,
       dim_inactive = {
         enabled = true,
       },
 
       highlight_overrides = {
         all = function(colors)
+          local search = { bg = colors.peach, fg = colors.mantle }
+          local search_selection = { bg = colors.rosewater, fg = colors.base, style = { "bold" } }
+          local visual = { bg = colors.mauve, fg = colors.mantle, style = { "bold" } }
+
           return {
+            -- Custom cursor colors per mode
+            MCursorInsert = { bg = colors.green, fg = colors.mantle },
+            MCursorNormal = { bg = colors.text, fg = colors.mantle },
+            MCursorVisual = { bg = colors.text, fg = colors.mauve },
+            MCursorReplace = { bg = colors.red, fg = colors.mantle },
+
+            -- Make some elements more subtle
             DashboardFooter = { fg = colors.surface2 },
             MiniIndentscopeSymbol = { fg = colors.surface2 },
-            NoiceCmdlineIcon = { fg = colors.peach },
+
+            -- Noice icons with inverted colors
+            Command = { fg = colors.peach },
+            NoiceCmdlineIcon = search,
+            NoiceCmdlineIconSearch = search,
             NoiceCmdlinePopupBorder = { fg = colors.peach },
             NoiceCmdlinePopupTitle = { fg = colors.peach },
+
+            -- Flash / search matching Noice colors
+            FlashLabel = search_selection,
+            FlashMatch = search,
+            Search = search,
+            IncSearch = search,
+            CurSearch = search_selection,
+            SearchCount = { fg = colors.peach },
+
+            -- Visual selections with inverted colors matching lualine mode bg
+            Visual = visual,
+            VisualNOS = visual,
+
+            -- Floating Windows
+            FloatBorder = { fg = colors.surface2 },
           }
         end,
       },
@@ -121,9 +152,16 @@ return {
     "folke/noice.nvim",
     opts = {
       cmdline = {
-        opts = nui_options.popup,
+        view = "cmdline",
         format = {
-          help_vertical = { kind = "help", pattern = "^:%s*verti?c?a?l? he?l?p?%s+", icon = "" },
+          calculator = { icon = "   " },
+          cmdline = { icon = "   " },
+          filter = { icon = "   " },
+          help = { icon = "    " },
+          help_vert = { kind = "Help", pattern = "^:%s*verti?c?a?l? he?l?p?%s+", icon = "    " },
+          lua = { icon = "   " },
+          search_down = { icon = " 󰶹   " },
+          search_up = { icon = " 󰶼   " },
         },
       },
 
@@ -183,34 +221,71 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     opts = function(_, opts)
-      opts.options.component_separators = { "", "" }
-      opts.options.section_separators = { "", "" }
+      local colors = require("catppuccin.palettes").get_palette("mocha")
 
+      -- local icons = require("lazyvim.config").icons
       local c = opts.sections.lualine_c
       local diagnostics = c[2]
       local file_type_icon = c[3]
       -- local pretty_path = c[4]
-      local root_dir = c[1]
+      -- local root_dir = c[1]
       local symbols = c[5]
 
-      root_dir.padding = root_dir.padding or {}
-      root_dir.padding.left = 2
+      local x = opts.sections.lualine_x
+      local cmd = table.remove(x, 1)
+      local diff = table.remove(x)
 
-      opts.sections.lualine_a = { "mode" }
-      opts.sections.lualine_b = {}
-      opts.sections.lualine_c = { root_dir, file_type_icon, { "filename", path = 1 }, symbols }
+      cmd.color = "Command"
+      file_type_icon.color = file_type_icon.color or {}
+      file_type_icon.color.bg = colors.mantle
+
+      opts.options.component_separators = { "", "" }
+      opts.options.section_separators = { "", "" }
+
+      opts.sections.lualine_a = {}
+      opts.sections.lualine_b = { { "%p%% %c" } }
+      opts.sections.lualine_c = { cmd }
       opts.sections.lualine_y = { "branch" }
       opts.sections.lualine_z = {}
 
-      -- Transpose statusline `c` component to winbar, altering its order
       opts.options.disabled_filetypes.winbar = vim.deepcopy(opts.options.disabled_filetypes.statusline)
       table.insert(opts.options.disabled_filetypes.winbar, "neo-tree")
+
       opts.winbar = {
-        lualine_b = { diagnostics, { "%p%% | %c", color = { bg = "StatusLine" }, padding = 2 } },
-        lualine_c = {},
-        lualine_x = { file_type_icon, { "filename", path = 1 } },
+        lualine_a = {
+          {
+            "bo:modified",
+            fmt = function(output)
+              return output == "true" and "󱇧" or nil
+            end,
+            color = { bg = colors.yellow },
+          },
+          {
+            "bo:readonly",
+            fmt = function(output)
+              return output == "true" and "󰈡" or nil
+            end,
+            color = { bg = colors.red },
+          },
+          "mode",
+        },
+
+        lualine_b = {
+          file_type_icon,
+          { "filename", file_status = false, path = 1, color = { bg = colors.mantle } },
+        },
+        lualine_c = { symbols },
+        lualine_x = {
+          { "searchcount", color = "SearchCount" },
+          diagnostics,
+          diff,
+        },
       }
-      opts.inactive_winbar = opts.winbar
+
+      opts.inactive_winbar = {
+        lualine_c = opts.winbar.lualine_b,
+        lualine_x = opts.winbar.lualine_x,
+      }
     end,
   },
 
@@ -275,7 +350,7 @@ return {
   -- edgy
   {
     "folke/edgy.nvim",
-    enabled = false,
+    optional = true,
     opts = {
       animate = {
         fps = 120,

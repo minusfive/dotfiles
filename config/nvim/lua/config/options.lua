@@ -7,11 +7,13 @@ vim.opt.mousemoveevent = true
 
 -- blinking cursor
 vim.opt.guicursor = {
-  "n-v:block-blinkwait175-blinkoff150-blinkon175",
-  "i-c-ci-ve:ver25",
-  "r-cr:hor20",
+  "n-v-r-cr:block-blinkwait175-blinkoff150-blinkon175",
+  "i-c-ci-ve:ver75",
+  "r-cr:MCursorReplace/lMCursorReplace",
   "o:hor50",
-  "i:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
+  "i:blinkwait700-blinkoff400-blinkon250-MCursorInsert/lMCursorInsert",
+  -- "n:MCursorNormal/lMCursorNormal",
+  "v:MCursorVisual/lMCursorVisual",
   "sm:block-blinkwait175-blinkoff150-blinkon175",
 }
 
@@ -19,12 +21,12 @@ vim.opt.guicursor = {
 vim.opt.conceallevel = 0
 
 -- soft wrap
-vim.o.showbreak = "╰╴"
+-- vim.o.showbreak = "╰╴"
 vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.breakat:append("_")
 vim.opt.breakindent = true
-vim.opt.breakindentopt:append({ "shift:2", "sbr" })
+vim.opt.breakindentopt:append({ "shift:3", "sbr" })
 vim.opt.cpoptions:append("n")
 
 -- keep cursorline in the middle
@@ -41,11 +43,12 @@ vim.filetype.add({
   --   tiltfile = "tiltfile",
   --   Tiltfile = "tiltfile",
   -- },
-  -- filename = {
-  --   [".env"] = "sh",
-  --   ["tsconfig.json"] = "jsonc",
-  --   [".yamlfmt"] = "yaml",
-  -- },
+  filename = {
+    ["Jenkinsfile"] = "groovy",
+    --   [".env"] = "sh",
+    --   ["tsconfig.json"] = "jsonc",
+    --   [".yamlfmt"] = "yaml",
+  },
   pattern = {
     ["%.env%.[%w_.-]+"] = "sh",
     ["%.gitconfig%.[%w_.-]+"] = "gitconfig",
