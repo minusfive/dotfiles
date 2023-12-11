@@ -8,9 +8,10 @@ vim.opt.mousemoveevent = true
 -- blinking cursor
 vim.opt.guicursor = {
   "n-v-r-cr:block-blinkwait175-blinkoff150-blinkon175",
-  "i-c-ci-ve:ver75",
+  "i-c-ci-ve:ver50",
   "r-cr:MCursorReplace/lMCursorReplace",
-  "o:hor50",
+  "o:hor50-MCursorCommand/lMCursorCommand",
+  "c-ci:MCursorCommand/lMCursorCommand",
   "i:blinkwait700-blinkoff400-blinkon250-MCursorInsert/lMCursorInsert",
   -- "n:MCursorNormal/lMCursorNormal",
   "v:MCursorVisual/lMCursorVisual",
@@ -26,11 +27,15 @@ vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.breakat:append("_")
 vim.opt.breakindent = true
-vim.opt.breakindentopt:append({ "shift:3", "sbr" })
-vim.opt.cpoptions:append("n")
+vim.opt.breakindentopt:append({
+  "shift:3",
+  -- "sbr",
+})
+-- vim.opt.cpoptions:append("n")
 
 -- keep cursorline in the middle
-vim.opt.scrolloff = 999
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
 
 -- nvim
 vim.g.minipairs_disable = true

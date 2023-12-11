@@ -99,12 +99,13 @@ return {
             MCursorNormal = { bg = colors.text, fg = colors.mantle },
             MCursorVisual = { bg = colors.text, fg = colors.mauve },
             MCursorReplace = { bg = colors.red, fg = colors.mantle },
+            MCursorCommand = search,
 
             -- Make some elements more subtle
             DashboardFooter = { fg = colors.surface2 },
             MiniIndentscopeSymbol = { fg = colors.surface2 },
 
-            -- Noice icons with inverted colors
+            -- Command utils themed with command mode colors (orange-ish)
             Command = { fg = colors.peach },
             NoiceCmdlineIcon = search,
             NoiceCmdlineIconSearch = search,
@@ -267,7 +268,12 @@ return {
             end,
             color = { bg = colors.red },
           },
-          "mode",
+          {
+            "mode",
+            fmt = function(str)
+              return str:sub(1, 1)
+            end,
+          },
         },
 
         lualine_b = {
