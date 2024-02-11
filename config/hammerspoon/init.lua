@@ -195,20 +195,20 @@ WM.hotkeys = {
 	-- TOP row
 	{ "App: Notes", WM.meh, "w", WM:openApp("Notes") }, -- "write"
 	{ "App: WhatsApp", WM.hyper, "w", WM:openApp("WhatsApp") }, -- "write"
-	{ "App: Messages", WM.meh, "p", WM:openApp("Messages") }, -- "personal"
 	{ "App: Finder", WM.meh, "f", WM:openApp("Finder") },
 	-- MIDDLE row
-	{ "App: Chrome", WM.meh, "g", WM:openApp("Google Chrome") }, -- "google"
 	{ "App: WezTerm", WM.meh, "t", WM:openApp("WezTerm") }, -- "terminal"
+	{ "App: Messages", WM.hyper, "t", WM:openApp("Messages") }, -- "text"
 	{ "App: Slack", WM.meh, "s", WM:openApp("Safari") },
 	{ "App: Slack", WM.hyper, "s", WM:openApp("Slack") },
 	{ "App: Outlook", WM.meh, "r", WM:openApp("Microsoft Outlook") }, -- "reply"
 	{ "App: Insomnia", WM.meh, "a", WM:openApp("Insomnia") }, -- "api"
 	-- BOTTOM row
 	{ "App: Zoom", WM.meh, "z", WM:openApp("Zoom.us") },
-	{ "App: VSCode", WM.meh, "c", WM:openApp("Visual Studio Code") }, -- "code"
+	{ "App: Chrome", WM.meh, "c", WM:openApp("Google Chrome") }, -- "chrome"
 	-- { "App: Discord", WM.meh, "d", WM:openApp("Discord") },
-	{ "App: Pulse Secure", WM.meh, "v", WM:openApp("Pulse Secure") }, -- "vpn"
+	{ "App: VSCode", WM.meh, "v", WM:openApp("Visual Studio Code") }, -- "VSCode"
+	{ "App: Pulse Secure", WM.hyper, "v", WM:openApp("Pulse Secure") }, -- "vpn"
 	-- =====================================
 
 	{ "Window: Center", WM.hyper, "e", WM.center },
