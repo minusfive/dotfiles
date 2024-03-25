@@ -193,6 +193,7 @@ WM.hotkeys = {
 
 	-- ============= LEFT hand =============
 	-- TOP row
+	{ "App: 1Password", WM.meh, "q", WM:openApp("1Password") },
 	{ "App: Notes", WM.meh, "w", WM:openApp("Notes") }, -- "write"
 	{ "App: WhatsApp", WM.hyper, "w", WM:openApp("WhatsApp") }, -- "write"
 	{ "App: Finder", WM.meh, "f", WM:openApp("Finder") },
@@ -206,7 +207,7 @@ WM.hotkeys = {
 	-- BOTTOM row
 	{ "App: Zoom", WM.meh, "z", WM:openApp("Zoom.us") },
 	{ "App: Chrome", WM.meh, "c", WM:openApp("Google Chrome") }, -- "chrome"
-	-- { "App: Discord", WM.meh, "d", WM:openApp("Discord") },
+	{ "App: Discord", WM.hyper, "d", WM:openApp("Discord") },
 	{ "App: VSCode", WM.meh, "v", WM:openApp("Visual Studio Code") }, -- "VSCode"
 	{ "App: Pulse Secure", WM.hyper, "v", WM:openApp("Pulse Secure") }, -- "vpn"
 	-- =====================================
