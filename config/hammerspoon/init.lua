@@ -182,80 +182,73 @@ function WM:bindHotkeys()
 	end
 end
 
+-- Optimized for @minusfive/zmk-config Colemak-DH
 WM.hotkeys = {
-	-- App launcher hotkeys
-	-- For Colemak-DH keyboard layout
-	-- ============ RIGHT hand =============
-	-- TOP row
-	-- MIDDLE row
-	-- BOTTOM row
-	-- =====================================
+	{ "Reload Config", WM.hyper, "7", hs.reload },
 
 	-- ============= LEFT hand =============
+	-- App launcher
+	-- =====================================
 	-- TOP row
-	{ "App: 1Password", WM.meh, "q", WM:openApp("1Password") },
-	{ "App: Notes", WM.meh, "w", WM:openApp("Notes") }, -- "write"
-	{ "App: WhatsApp", WM.hyper, "w", WM:openApp("WhatsApp") }, -- "write"
+	{ "App: Messages", WM.meh, "w", WM:openApp("Messages") },
+	{ "App: WhatsApp", WM.hyper, "w", WM:openApp("WhatsApp") },
 	{ "App: Finder", WM.meh, "f", WM:openApp("Finder") },
+	{ "App: 1Password", WM.meh, "p", WM:openApp("1Password") },
+	{ "App: Keeper", WM.hyper, "p", WM:openApp("Keeper Password Manager") },
+
 	-- MIDDLE row
-	{ "App: WezTerm", WM.meh, "t", WM:openApp("WezTerm") }, -- "terminal"
-	{ "App: Messages", WM.hyper, "t", WM:openApp("Messages") }, -- "text"
-	{ "App: Slack", WM.meh, "s", WM:openApp("Safari") },
-	{ "App: Slack", WM.hyper, "s", WM:openApp("Slack") },
-	{ "App: Outlook", WM.meh, "r", WM:openApp("Microsoft Outlook") }, -- "reply"
-	{ "App: Insomnia", WM.meh, "a", WM:openApp("Insomnia") }, -- "api"
+	{ "App: Insomnia", WM.meh, "a", WM:openApp("Insomnia") },
+	{ "App: Outlook", WM.meh, "r", WM:openApp("Microsoft Outlook") },
+	{ "App: Reminders", WM.hyper, "r", WM:openApp("Reminders") },
+	{ "App: Slack", WM.meh, "s", WM:openApp("Slack") },
+	{ "App: Safari", WM.hyper, "s", WM:openApp("Safari") },
+	{ "App: WezTerm", WM.meh, "t", WM:openApp("WezTerm") },
+
 	-- BOTTOM row
 	{ "App: Zoom", WM.meh, "z", WM:openApp("Zoom.us") },
-	{ "App: Chrome", WM.meh, "c", WM:openApp("Google Chrome") }, -- "chrome"
+	{ "App: Excel", WM.meh, "x", WM:openApp("Microsoft Excel") },
+	{ "App: Chrome", WM.meh, "c", WM:openApp("Google Chrome") },
+	{ "App: Notes", WM.meh, "d", WM:openApp("Notes") },
 	{ "App: Discord", WM.hyper, "d", WM:openApp("Discord") },
-	{ "App: VSCode", WM.meh, "v", WM:openApp("Visual Studio Code") }, -- "VSCode"
-	{ "App: Pulse Secure", WM.hyper, "v", WM:openApp("Pulse Secure") }, -- "vpn"
+	{ "App: VSCode", WM.hyper, "v", WM:openApp("Visual Studio Code") },
+
+	-- ============= RIGHT hand ============
+	-- Window Management
 	-- =====================================
+	{ "WM: Center", WM.hyper, "e", WM.center },
 
-	{ "Window: Center", WM.hyper, "e", WM.center },
+	{ "WM: Cycle R", WM.meh, "]", WM.cycleXR },
+	{ "WM: Cycle L", WM.meh, "[", WM.cycleXL },
 
-	{ "Window: Zoom", WM.hyper, "z", WM.toggleZoom },
-	{ "Window: Full Screen", WM.hyper, "f", WM.toggleFullScreen },
+	{ "WM: Next Screen", WM.hyper, "]", WM.screenNext },
+	{ "WM: Prev Screen", WM.hyper, "[", WM.screenPrev },
 
-	{ "Window: Cycle R", WM.meh, "]", WM.cycleXR },
-	{ "Window: Cycle L", WM.meh, "[", WM.cycleXL },
+	{ "WM: ResizeIn", WM.meh, "-", WM.resizeIn },
+	{ "WM: ResizeOut", WM.meh, "=", WM.resizeOut },
 
-	{ "Window: Next Screen", WM.hyper, "]", WM.screenNext },
-	{ "Window: Prev Screen", WM.hyper, "[", WM.screenPrev },
+	{ "WM: Maximize", WM.meh, "m", WM.maximize },
+	{ "WM: Full Screen", WM.hyper, "m", WM.toggleFullScreen },
 
-	{ "Window: ResizeIn", WM.meh, "-", WM.resizeIn },
-	{ "Window: ResizeOut", WM.meh, "=", WM.resizeOut },
+	{ "WM: 1/2 Top", WM.hyper, "up", WM:move({ x = 0.00, y = 0.00, w = 1.00, h = 0.50 }) },
+	{ "WM: 1/2 Bottom", WM.hyper, "down", WM:move({ x = 0.00, y = 0.50, w = 1.00, h = 0.50 }) },
 
-	{ "Window: Maximize", WM.meh, "m", WM.maximize },
-	{ "Window: 1/2 T", WM.hyper, "up", WM:move({ x = 0.00, y = 0.00, w = 1.00, h = 0.50 }) },
-	{ "Window: 1/2 B", WM.hyper, "down", WM:move({ x = 0.00, y = 0.50, w = 1.00, h = 0.50 }) },
-	{ "Window: 1/2 L", WM.meh, "n", WM:move({ x = 0.00, y = 0.00, w = 0.50, h = 1.00 }) },
-	{ "Window: 1/2 C", WM.meh, "e", WM:move({ x = 0.25, y = 0.00, w = 0.50, h = 1.00 }) },
-	{ "Window: 1/2 R", WM.meh, "i", WM:move({ x = 0.50, y = 0.00, w = 0.50, h = 1.00 }) },
-	{ "Window: 1/3 L", WM.meh, "h", WM:move({ x = 0.0000, y = 0.00, w = 0.3333, h = 1.00 }) },
-	{ "Window: 1/3 C", WM.meh, ",", WM:move({ x = 0.3333, y = 0.00, w = 0.3333, h = 1.00 }) },
-	{ "Window: 1/3 R", WM.meh, ".", WM:move({ x = 0.6666, y = 0.00, w = 0.3333, h = 1.00 }) },
-	{ "Window: 1/4 ↖", WM.hyper, "j", WM:move({ x = 0.00, y = 0.00, w = 0.50, h = 0.50 }) },
-	{ "Window: 1/4 ↗", WM.hyper, "l", WM:move({ x = 0.50, y = 0.00, w = 0.50, h = 0.50 }) },
-	{ "Window: 1/4 ↙", WM.hyper, "k", WM:move({ x = 0.00, y = 0.50, w = 0.50, h = 0.50 }) },
-	{ "Window: 1/4 ↘", WM.hyper, "h", WM:move({ x = 0.50, y = 0.50, w = 0.50, h = 0.50 }) },
-	{ "Window: 1/4 1", WM.meh, "left", WM:move({ x = 0.00, y = 0.00, w = 0.25, h = 1.00 }) },
-	{ "Window: 1/4 2", WM.meh, "up", WM:move({ x = 0.25, y = 0.00, w = 0.25, h = 1.00 }) },
-	{ "Window: 1/4 3", WM.meh, "down", WM:move({ x = 0.50, y = 0.00, w = 0.25, h = 1.00 }) },
-	{ "Window: 1/4 4", WM.meh, "right", WM:move({ x = 0.75, y = 0.00, w = 0.25, h = 1.00 }) },
+	{ "WM: 1/2 Left", WM.meh, "n", WM:move({ x = 0.00, y = 0.00, w = 0.50, h = 1.00 }) },
+	{ "WM: 1/2 Center", WM.meh, "e", WM:move({ x = 0.25, y = 0.00, w = 0.50, h = 1.00 }) },
+	{ "WM: 1/2 Right", WM.meh, "i", WM:move({ x = 0.50, y = 0.00, w = 0.50, h = 1.00 }) },
 
-	-- { "Fifth1", WM.hyper, 'a', WM:move({ x = 0.00, y = 0.00, w = 0.20, h = 1.00 }) },
-	-- { "Fifth2", WM.hyper, 'r', WM:move({ x = 0.20, y = 0.00, w = 0.20, h = 1.00 }) },
-	-- { "Fifth3", WM.hyper, 's', WM:move({ x = 0.40, y = 0.00, w = 0.20, h = 1.00 }) },
-	-- { "Fifth4", WM.hyper, 't', WM:move({ x = 0.60, y = 0.00, w = 0.20, h = 1.00 }) },
-	-- { "Fifth5", WM.hyper, 'g', WM:move({ x = 0.80, y = 0.00, w = 0.20, h = 1.00 }) },
+	{ "WM: 1/3 Left", WM.hyper, "n", WM:move({ x = 0.0000, y = 0.00, w = 0.3333, h = 1.00 }) },
+	{ "WM: 1/3 Center", WM.hyper, "e", WM:move({ x = 0.3333, y = 0.00, w = 0.3333, h = 1.00 }) },
+	{ "WM: 1/3 Right", WM.hyper, "i", WM:move({ x = 0.6666, y = 0.00, w = 0.3333, h = 1.00 }) },
 
-	-- { "Sixth1", WM.hyper, 'q', WM:move({ x = 0.0000, y = 0.00, w = 0.1666, h = 1.00 }) },
-	-- { "Sixth2", WM.hyper, 'w', WM:move({ x = 0.1666, y = 0.00, w = 0.1666, h = 1.00 }) },
-	-- { "Sixth3", WM.hyper, 'f', WM:move({ x = 0.3333, y = 0.00, w = 0.1666, h = 1.00 }) },
-	-- { "Sixth4", WM.hyper, 'z', WM:move({ x = 0.5000, y = 0.00, w = 0.1666, h = 1.00 }) },
-	-- { "Sixth5", WM.hyper, 'x', WM:move({ x = 0.6666, y = 0.00, w = 0.1666, h = 1.00 }) },
-	-- { "Sixth6", WM.hyper, 'c', WM:move({ x = 0.8333, y = 0.00, w = 0.1666, h = 1.00 }) },
+	{ "WM: 1/4 1", WM.meh, "l", WM:move({ x = 0.00, y = 0.00, w = 0.25, h = 1.00 }) },
+	{ "WM: 1/4 2", WM.meh, "u", WM:move({ x = 0.25, y = 0.00, w = 0.25, h = 1.00 }) },
+	{ "WM: 1/4 3", WM.meh, "y", WM:move({ x = 0.50, y = 0.00, w = 0.25, h = 1.00 }) },
+	{ "WM: 1/4 4", WM.meh, "'", WM:move({ x = 0.75, y = 0.00, w = 0.25, h = 1.00 }) },
+
+	{ "WM: 1/4 ↖", WM.hyper, "j", WM:move({ x = 0.00, y = 0.00, w = 0.50, h = 0.50 }) },
+	{ "WM: 1/4 ↗", WM.hyper, "'", WM:move({ x = 0.50, y = 0.00, w = 0.50, h = 0.50 }) },
+	{ "WM: 1/4 ↙", WM.hyper, "k", WM:move({ x = 0.00, y = 0.50, w = 0.50, h = 0.50 }) },
+	{ "WM: 1/4 ↘", WM.hyper, "/", WM:move({ x = 0.50, y = 0.50, w = 0.50, h = 0.50 }) },
 }
 
 WM:bindHotkeys()
