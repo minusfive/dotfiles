@@ -378,11 +378,11 @@ return {
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
+    --@class PluginLspOpts
     opts = {
-      border = "rounded",
-      inlay_hints = {
-        enabled = true,
-      },
+      -- inlay_hints = {
+      --   enabled = true,
+      -- },
       servers = { eslint = {} },
       setup = {
         eslint = function()
