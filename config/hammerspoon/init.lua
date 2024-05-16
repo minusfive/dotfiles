@@ -200,8 +200,8 @@ WM.hotkeys = {
 	{ "App: Insomnia", WM.meh, "a", WM:openApp("Insomnia") },
 	{ "App: Outlook", WM.meh, "r", WM:openApp("Microsoft Outlook") },
 	{ "App: Reminders", WM.hyper, "r", WM:openApp("Reminders") },
-	{ "App: Slack", WM.meh, "s", WM:openApp("Slack") },
-	{ "App: Safari", WM.hyper, "s", WM:openApp("Safari") },
+	{ "App: Slack", WM.hyper, "s", WM:openApp("Slack") },
+	{ "App: Safari", WM.meh, "s", WM:openApp("Safari") },
 	{ "App: WezTerm", WM.meh, "t", WM:openApp("WezTerm") },
 
 	-- BOTTOM row
@@ -236,9 +236,9 @@ WM.hotkeys = {
 	{ "WM: 1/2 Center", WM.meh, "e", WM:move({ x = 0.25, y = 0.00, w = 0.50, h = 1.00 }) },
 	{ "WM: 1/2 Right", WM.meh, "i", WM:move({ x = 0.50, y = 0.00, w = 0.50, h = 1.00 }) },
 
-	{ "WM: 1/3 Left", WM.hyper, "n", WM:move({ x = 0.0000, y = 0.00, w = 0.3333, h = 1.00 }) },
-	{ "WM: 1/3 Center", WM.hyper, "e", WM:move({ x = 0.3333, y = 0.00, w = 0.3333, h = 1.00 }) },
-	{ "WM: 1/3 Right", WM.hyper, "i", WM:move({ x = 0.6666, y = 0.00, w = 0.3333, h = 1.00 }) },
+	{ "WM: 1/3 Left", WM.meh, "h", WM:move({ x = 0.0000, y = 0.00, w = 0.3333, h = 1.00 }) },
+	{ "WM: 1/3 Center", WM.meh, ",", WM:move({ x = 0.3333, y = 0.00, w = 0.3333, h = 1.00 }) },
+	{ "WM: 1/3 Right", WM.meh, ".", WM:move({ x = 0.6666, y = 0.00, w = 0.3333, h = 1.00 }) },
 
 	{ "WM: 1/4 1", WM.meh, "l", WM:move({ x = 0.00, y = 0.00, w = 0.25, h = 1.00 }) },
 	{ "WM: 1/4 2", WM.meh, "u", WM:move({ x = 0.25, y = 0.00, w = 0.25, h = 1.00 }) },
