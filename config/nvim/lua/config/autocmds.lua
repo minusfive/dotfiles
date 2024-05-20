@@ -5,7 +5,7 @@
 -- Use absolute numbers in `insert` mode and hide cursorline on leave
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
   callback = function()
-    -- vim.opt.relativenumber = true
+    vim.opt.relativenumber = true
     local ok, cl = pcall(vim.api.nvim_win_get_var, 0, "auto-cursorline")
     if ok and cl then
       vim.wo.cursorline = true
@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnte
 })
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
   callback = function()
-    -- vim.opt.relativenumber = false
+    vim.opt.relativenumber = false
     local cl = vim.wo.cursorline
     if cl then
       vim.api.nvim_win_set_var(0, "auto-cursorline", cl)

@@ -54,8 +54,4 @@ vim.filetype.add({
     --   ["tsconfig.json"] = "jsonc",
     --   [".yamlfmt"] = "yaml",
   },
-  pattern = {
-    ["%.env%.[%w_.-]+"] = "sh",
-    ["%.gitconfig%.[%w_.-]+"] = "gitconfig",
-  },
 })

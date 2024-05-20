@@ -80,6 +80,7 @@ return {
 
   {
     "catppuccin/nvim",
+    optional = true,
     name = "catppuccin",
     opts = {
       -- transparent_background = true,
@@ -142,6 +143,7 @@ return {
   -- Indent line scope highlight
   {
     "echasnovski/mini.indentscope",
+    optional = true,
     opts = function(_, opts)
       opts.draw = opts.draw or {}
       opts.draw.animation = require("mini.indentscope").gen_animation.none()
@@ -151,6 +153,7 @@ return {
   -- Notifications, command pop-ups, etc.
   {
     "folke/noice.nvim",
+    optional = true,
     opts = {
       cmdline = {
         view = "cmdline",
@@ -183,6 +186,7 @@ return {
 
   {
     "rcarriga/nvim-notify",
+    optional = true,
     opts = {
       fps = 60,
       stages = "slide",
@@ -194,6 +198,7 @@ return {
   -- ui tabs
   {
     "akinsho/bufferline.nvim",
+    optional = true,
     enabled = false,
     opts = function(_, opts)
       local bufferline = require("bufferline")
@@ -314,6 +319,7 @@ return {
   -- keybindings
   {
     "folke/which-key.nvim",
+    optional = true,
     event = "VeryLazy",
     opts = {
       plugins = {
@@ -330,6 +336,7 @@ return {
   -- configure file tree
   {
     "nvim-neo-tree/neo-tree.nvim",
+    optional = true,
     opts = {
       filesystem = {
         filtered_items = {
@@ -373,16 +380,18 @@ return {
     end,
   },
 
-  { "nvim-treesitter/nvim-treesitter-context", opts = { max_lines = 1, trim_scope = "inner" } },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    optional = true,
+    opts = { max_lines = 1, trim_scope = "inner" },
+  },
 
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
     --@class PluginLspOpts
     opts = {
-      -- inlay_hints = {
-      --   enabled = true,
-      -- },
+      inlay_hints = { enabled = false },
       servers = { eslint = {} },
       setup = {
         eslint = function()
@@ -527,6 +536,7 @@ return {
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
     "L3MON4D3/LuaSnip",
+    optional = true,
     keys = function()
       return {}
     end,
@@ -548,7 +558,7 @@ return {
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
       end
 
-      local luasnip = require("luasnip")
+      -- local luasnip = require("luasnip")
       local cmp = require("cmp")
 
       -- sources
@@ -594,8 +604,8 @@ return {
             cmp.select_next_item()
             -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
             -- this way you will only jump inside the snippet region
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
+            -- elseif luasnip.expand_or_jumpable() then
+            --   luasnip.expand_or_jump()
           elseif has_words_before() then
             cmp.complete()
           else
@@ -606,8 +616,8 @@ return {
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() and cmp.get_active_entry() then
             cmp.select_prev_item()
-          elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
+          -- elseif luasnip.jumpable(-1) then
+          --   luasnip.jump(-1)
           else
             fallback()
           end
