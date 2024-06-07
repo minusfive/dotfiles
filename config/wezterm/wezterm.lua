@@ -19,19 +19,19 @@ config.front_end = "WebGpu"
 config.term = "wezterm"
 
 -- Theme
-local tokyo_night_mod = wezterm.color.get_builtin_schemes()["tokyonight_night"]
--- tokyo_night_mod.background = "#16161e"
--- tokyo_night_mod.background = "#1a1b26"
-tokyo_night_mod.tab_bar.background = tokyo_night_mod.tab_bar.inactive_tab_edge
-tokyo_night_mod.tab_bar.new_tab.bg_color = tokyo_night_mod.background
-tokyo_night_mod.tab_bar.active_tab.intensity = "Bold"
-tokyo_night_mod.tab_bar.active_tab.bg_color = tokyo_night_mod.background
-tokyo_night_mod.tab_bar.inactive_tab.bg_color = tokyo_night_mod.tab_bar.background
+-- local tokyo_night_mod = wezterm.color.get_builtin_schemes()["tokyonight_night"]
+-- -- tokyo_night_mod.background = "#16161e"
+-- -- tokyo_night_mod.background = "#1a1b26"
+-- tokyo_night_mod.tab_bar.background = tokyo_night_mod.tab_bar.inactive_tab_edge
+-- tokyo_night_mod.tab_bar.new_tab.bg_color = tokyo_night_mod.background
+-- tokyo_night_mod.tab_bar.active_tab.intensity = "Bold"
+-- tokyo_night_mod.tab_bar.active_tab.bg_color = tokyo_night_mod.background
+-- tokyo_night_mod.tab_bar.inactive_tab.bg_color = tokyo_night_mod.tab_bar.background
 
 config.animation_fps = 60
 config.color_scheme = "Catppuccin Mocha"
-config.color_schemes = { ["tokyonight_mod"] = tokyo_night_mod }
-config.command_palette_bg_color = tokyo_night_mod.background
+-- config.color_schemes = { ["tokyonight_mod"] = tokyo_night_mod }
+-- config.command_palette_bg_color = tokyo_night_mod.background
 config.command_palette_font_size = 18.0
 config.hide_tab_bar_if_only_one_tab = true
 config.macos_window_background_blur = 20
