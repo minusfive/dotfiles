@@ -29,29 +29,28 @@ vim.opt.breakat:append("_")
 vim.opt.breakindent = true
 vim.opt.breakindentopt:append({
   "shift:3",
-  -- "sbr",
+  -- "sbr", -- Display the 'showbreak' value before applying the additional indent.
 })
 -- vim.opt.cpoptions:append("n")
 
 -- keep cursorline in the middle
-vim.opt.scrolloff = 8
-vim.opt.sidescrolloff = 8
+vim.opt.scrolloff = 999
 
 -- nvim
-vim.g.minipairs_disable = true
+-- vim.g.minipairs_disable = true
 
 -- filetypes
-vim.filetype.add({
-  -- extension = {
-  --   conf = "conf",
-  --   env = "sh",
-  --   tiltfile = "tiltfile",
-  --   Tiltfile = "tiltfile",
-  -- },
-  filename = {
-    ["Jenkinsfile"] = "groovy",
-    --   [".env"] = "sh",
-    --   ["tsconfig.json"] = "jsonc",
-    --   [".yamlfmt"] = "yaml",
-  },
-})
+-- vim.filetype.add({
+--   -- extension = {
+--   --   conf = "conf",
+--   --   env = "sh",
+--   --   tiltfile = "tiltfile",
+--   --   Tiltfile = "tiltfile",
+--   -- },
+--   filename = {
+--     ["Jenkinsfile"] = "groovy",
+--     --   [".env"] = "sh",
+--     --   ["tsconfig.json"] = "jsonc",
+--     --   [".yamlfmt"] = "yaml",
+--   },
+-- })

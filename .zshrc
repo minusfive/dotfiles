@@ -100,13 +100,19 @@ HIST_STAMPS="yyyy-mm-dd"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=( 
     # other plugins...
-    rtx
     # zsh-autocomplete
-    zsh-autosuggestions
-    fast-syntax-highlighting
-    git
-    docker
     colored-man-pages
+    docker
+    fast-syntax-highlighting
+    fd
+    fzf
+    git
+    mise
+    terraform
+    virtualenv
+    yarn
+    zoxide
+    zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -127,7 +133,7 @@ KEYTIMEOUT=1
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -146,12 +152,12 @@ fi
 # =====================
 [[ -f ~/.aliases ]] && source ~/.aliases
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$HOME/.yarn/bin:$XDG_CONFIG_HOME/yarn/global/node_modules/.bin:$PATH"
 
-source /Users/villalj/.docker/init-zsh.sh || true # Added by Docker Desktop
+source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
 
 # Created by `pipx` on 2023-07-01 00:49:16
-export PATH="$PATH:/Users/villalj/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -163,4 +169,4 @@ ZELLIJ_CONFIG_DIR="$HOME/dotfiles/config/zellij"
 [[ -f ~/dotfiles/config/wezterm/shell-completion.zsh ]] && source ~/dotfiles/config/wezterm/shell-completion.zsh
 
 # Lazygit
-LG_CONFIG_FILE="$HOME/dotfiles/config/lazygit/config.yml,$HOME/dotfiles/config/lazygit/theme.yml"
+# LG_CONFIG_FILE="$HOME/dotfiles/config/lazygit/config.yml,$HOME/dotfiles/config/lazygit/theme.yml"

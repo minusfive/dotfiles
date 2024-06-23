@@ -190,26 +190,27 @@ WM.hotkeys = {
 	-- App launcher
 	-- =====================================
 	-- TOP row
-	{ "App: Messages", WM.meh, "w", WM:openApp("Messages") },
+	{ "App: 1Password", WM.meh, "1", WM:openApp("1Password") },
 	{ "App: WhatsApp", WM.hyper, "w", WM:openApp("WhatsApp") },
 	{ "App: Finder", WM.meh, "f", WM:openApp("Finder") },
-	{ "App: 1Password", WM.meh, "p", WM:openApp("1Password") },
-	{ "App: Keeper", WM.hyper, "p", WM:openApp("Keeper Password Manager") },
+	{ "App: Discord", WM.hyper, "b", WM:openApp("Discord") },
+	{ "App: Keeper", WM.meh, "p", WM:openApp("Keeper Password Manager") },
 
 	-- MIDDLE row
-	{ "App: Insomnia", WM.meh, "a", WM:openApp("Insomnia") },
-	{ "App: Outlook", WM.meh, "r", WM:openApp("Microsoft Outlook") },
+	{ "App: Outlook", WM.meh, "0", WM:openApp("Microsoft Outlook") },
+	{ "App: Insomnia", WM.meh, "r", WM:openApp("Insomnia") },
 	{ "App: Reminders", WM.hyper, "r", WM:openApp("Reminders") },
-	{ "App: Slack", WM.hyper, "s", WM:openApp("Slack") },
-	{ "App: Safari", WM.meh, "s", WM:openApp("Safari") },
+	{ "App: Slack", WM.meh, "s", WM:openApp("Slack") },
+	{ "App: Safari", WM.hyper, "s", WM:openApp("Safari") },
 	{ "App: WezTerm", WM.meh, "t", WM:openApp("WezTerm") },
+	{ "App: Messages", WM.hyper, "t", WM:openApp("Messages") },
 
 	-- BOTTOM row
 	{ "App: Zoom", WM.meh, "z", WM:openApp("Zoom.us") },
 	{ "App: Excel", WM.meh, "x", WM:openApp("Microsoft Excel") },
 	{ "App: Chrome", WM.meh, "c", WM:openApp("Google Chrome") },
-	{ "App: Notes", WM.meh, "d", WM:openApp("Notes") },
-	{ "App: Discord", WM.hyper, "d", WM:openApp("Discord") },
+	{ "App: Obsidian", WM.meh, "d", WM:openApp("Obsidian") },
+	{ "App: Notes", WM.hyper, "d", WM:openApp("Notes") },
 	{ "App: VSCode", WM.hyper, "v", WM:openApp("Visual Studio Code") },
 
 	-- ============= RIGHT hand ============

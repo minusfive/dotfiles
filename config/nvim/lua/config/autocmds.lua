@@ -23,6 +23,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
     end
   end,
 })
+
 -- Open diagnostics on cursor hold
 -- vim.api.nvim_create_autocmd("CursorHold", {
 --   callback = function()
@@ -37,6 +38,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
 --     vim.diagnostic.open_float(nil, opts)
 --   end,
 -- })
+
 -- To instead override globally
 -- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 -- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
