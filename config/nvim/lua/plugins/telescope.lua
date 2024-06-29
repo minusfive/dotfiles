@@ -10,9 +10,17 @@ local commands = {
 
 return {
   "nvim-telescope/telescope.nvim",
+  optional = true,
   dependencies = {
     "nvim-lua/plenary.nvim",
     -- Browse files with telescope
+    {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+      config = function()
+        require("telescope").load_extension("fzf")
+      end,
+    },
     {
       "nvim-telescope/telescope-file-browser.nvim",
       event = "VeryLazy",

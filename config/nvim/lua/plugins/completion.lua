@@ -35,7 +35,12 @@ return {
       local cmp = require("cmp")
 
       -- sources
-      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" } }))
+      table.insert(opts.sources, { name = "emoji" })
+
+      -- Lower copilot priority
+      if opts.sources[1].name == "copilot" then
+        opts.sources[1].group_index = 2
+      end
 
       -- borders
       opts.window = {
@@ -46,6 +51,8 @@ return {
       -- disable preselect
       opts.preselect = cmp.PreselectMode.None
       opts.completion.completeopt = "menu,menuone,preview,noinsert,noselect"
+
+      -- Trigger completion upon typing and entering insert mode
       opts.completion.autocomplete = {
         cmp.TriggerEvent.TextChanged,
         cmp.TriggerEvent.InsertEnter,

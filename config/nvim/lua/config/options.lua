@@ -34,7 +34,7 @@ vim.opt.breakindentopt:append({
 -- vim.opt.cpoptions:append("n")
 
 -- keep cursorline in the middle
-vim.opt.scrolloff = 999
+vim.opt.scrolloff = 16
 
 -- nvim
 -- vim.g.minipairs_disable = true

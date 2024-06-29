@@ -6,9 +6,9 @@ WM.hyper = { "ctrl", "alt", "shift", "cmd" }
 -- Set default window resize animation duration
 hs.window.animationDuration = 0
 -- Bind hotkeys help modal
--- hs.hotkey.showHotkeys(WM.meh, "k")
+hs.hotkey.showHotkeys(WM.meh, "k")
 -- Disable hotkey alerts
-hs.hotkey.alertDuration = 0
+-- hs.hotkey.alertDuration = 0
 
 -- Default Alert style
 hs.alert.defaultStyle = {
@@ -193,25 +193,25 @@ WM.hotkeys = {
 	{ "App: 1Password", WM.meh, "1", WM:openApp("1Password") },
 	{ "App: WhatsApp", WM.hyper, "w", WM:openApp("WhatsApp") },
 	{ "App: Finder", WM.meh, "f", WM:openApp("Finder") },
-	{ "App: Discord", WM.hyper, "b", WM:openApp("Discord") },
 	{ "App: Keeper", WM.meh, "p", WM:openApp("Keeper Password Manager") },
+	{ "App: Discord", WM.hyper, "b", WM:openApp("Discord") },
 
 	-- MIDDLE row
-	{ "App: Outlook", WM.meh, "0", WM:openApp("Microsoft Outlook") },
-	{ "App: Insomnia", WM.meh, "r", WM:openApp("Insomnia") },
+	{ "App: Insomnia", WM.meh, "a", WM:openApp("Insomnia") },
+	{ "App: Outlook", WM.meh, "r", WM:openApp("Microsoft Outlook") },
 	{ "App: Reminders", WM.hyper, "r", WM:openApp("Reminders") },
-	{ "App: Slack", WM.meh, "s", WM:openApp("Slack") },
+	{ "App: Chrome", WM.meh, "s", WM:openApp("Google Chrome") },
 	{ "App: Safari", WM.hyper, "s", WM:openApp("Safari") },
 	{ "App: WezTerm", WM.meh, "t", WM:openApp("WezTerm") },
-	{ "App: Messages", WM.hyper, "t", WM:openApp("Messages") },
 
 	-- BOTTOM row
 	{ "App: Zoom", WM.meh, "z", WM:openApp("Zoom.us") },
 	{ "App: Excel", WM.meh, "x", WM:openApp("Microsoft Excel") },
-	{ "App: Chrome", WM.meh, "c", WM:openApp("Google Chrome") },
+	{ "App: Slack", WM.meh, "c", WM:openApp("Slack") },
+	{ "App: Messages", WM.hyper, "c", WM:openApp("Messages") },
 	{ "App: Obsidian", WM.meh, "d", WM:openApp("Obsidian") },
 	{ "App: Notes", WM.hyper, "d", WM:openApp("Notes") },
-	{ "App: VSCode", WM.hyper, "v", WM:openApp("Visual Studio Code") },
+	-- { "App: VSCode", WM.hyper, "v", WM:openApp("Visual Studio Code") },
 
 	-- ============= RIGHT hand ============
 	-- Window Management

@@ -19,6 +19,7 @@ return {
         filter = { icon = "   " },
         help = { icon = "    " },
         help_vert = { kind = "Help", pattern = "^:%s*verti?c?a?l? he?l?p?%s+", icon = "    " },
+        inc_rename = { kind = "IncRename", pattern = "^:IncRename", icon = " 󰑕  " },
         lua = { icon = "   " },
         search_down = { icon = " 󰶹   " },
         search_up = { icon = " 󰶼   " },
@@ -26,7 +27,10 @@ return {
     },
 
     presets = {
+      bottom_search = true,
       command_palette = false,
+      inc_rename = false,
+      long_message_to_split = true,
       lsp_doc_border = true,
     },
 
