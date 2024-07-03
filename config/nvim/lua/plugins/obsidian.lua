@@ -20,54 +20,49 @@ end
 
 return {
   {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      defaults = {
-        ["<leader>n"] = { name = "+new" },
-      },
-    },
-  },
-  {
     "epwalsh/obsidian.nvim",
     version = "*", -- recommended, use latest release instead of latest commit
     -- optional = true,
-    -- lazy = true,
+    lazy = true,
+
+    --- ---
+    -- Enable only for markdown files, or (see lines below)...
     -- ft = "markdown",
-    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+    -- ...only load for markdown files in vault:
     event = {
-      "VeryLazy",
-      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-      -- Personal
-      "BufReadPre "
+      -- if you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+      -- e.g. "bufreadpre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+      -- personal
+      "bufreadpre "
         .. vault_path_absolute
         .. "/**.md",
-      "BufNewFile " .. vault_path_absolute .. "/**.md",
+      "bufnewfile " .. vault_path_absolute .. "/**.md",
     },
+    --- ---
+
     dependencies = {
-      -- Required.
+      -- required.
       "nvim-lua/plenary.nvim",
     },
     keys = {
-      { "<leader>nn", "<cmd>vsplit & ObsidianNew<cr>", desc = "Note (Obsidian)", remap = true },
+      { "<leader>nn", "<cmd>ObsidianQuickSwitch<cr>", desc = "New Note (Obsidian)", remap = true },
     },
     opts = {
-      -- Either 'wiki' or 'markdown'.
+      -- either 'wiki' or 'markdown'.
       preferred_link_style = "wiki",
 
-      -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
+      -- optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
       completion = {
-        -- Set to false to disable completion.
+        -- set to false to disable completion.
         nvim_cmp = true,
-        -- Trigger completion at 2 chars.
+        -- trigger completion at 2 chars.
         min_chars = 2,
       },
 
-      -- A list of workspace names, paths, and configuration overrides.
-      -- If you use the Obsidian app, the 'path' of a workspace should generally be
+      -- a list of workspace names, paths, and configuration overrides.
+      -- if you use the obsidian app, the 'path' of a workspace should generally be
       -- your vault root (where the `.obsidian` folder is located).
-      -- When obsidian.nvim is loaded by your plugin manager, it will automatically set
+      -- when obsidian.nvim is loaded by your plugin manager, it will automatically set
       -- the workspace to the first workspace in the list whose `path` is a parent of the
       -- current markdown file being edited.
       workspaces = {
@@ -78,33 +73,33 @@ return {
       },
 
       daily_notes = {
-        -- Optional, if you keep daily notes in a separate directory.
+        -- optional, if you keep daily notes in a separate directory.
         folder = "Journal",
-        -- Optional, if you want to change the date format for the ID of daily notes.
-        date_format = "%Y-%m-%d",
-        -- Optional, if you want to change the date format of the default alias of daily notes.
-        -- alias_format = "%B %-d, %Y",
-        -- Optional, default tags to add to each new daily note created.
+        -- optional, if you want to change the date format for the id of daily notes.
+        date_format = "%y-%m-%d",
+        -- optional, if you want to change the date format of the default alias of daily notes.
+        -- alias_format = "%b %-d, %y",
+        -- optional, default tags to add to each new daily note created.
         -- default_tags = { "daily-notes" },
-        -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-        template = "Note Template.md",
+        -- optional, if you want to automatically insert a template from your template directory like 'daily.md'
+        template = "note template.md",
       },
-      -- Optional, for templates (see below).
+      -- optional, for templates (see below).
       templates = {
-        folder = "Templates",
-        date_format = "%Y-%m-%d",
-        time_format = "%H:%M",
-        -- A map for custom variables, the key should be the variable and the value a function
+        folder = "templates",
+        date_format = "%y-%m-%d",
+        time_format = "%h:%m",
+        -- a map for custom variables, the key should be the variable and the value a function
         substitutions = {},
       },
 
-      -- Optional, configure additional syntax highlighting / extmarks.
-      -- This requires you have `conceallevel` set to 1 or 2. See `:help conceallevel` for more details.
+      -- optional, configure additional syntax highlighting / extmarks.
+      -- this requires you have `conceallevel` set to 1 or 2. see `:help conceallevel` for more details.
       ui = {
         enable = false, -- set to false to disable all additional syntax features
         update_debounce = 200, -- update delay after a text change (in milliseconds)
-        max_file_length = 5000, -- disable UI features for files with more than this many lines
-        -- Define how various check-boxes are displayed
+        max_file_length = 5000, -- disable ui features for files with more than this many lines
+        -- define how various check-boxes are displayed
         checkboxes = {
           -- NOTE: the 'char' value has to be a single character, and the highlight groups are defined below.
           [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
@@ -127,10 +122,42 @@ return {
         highlight_text = { hl_group = "ObsidianHighlightText" },
         tags = { hl_group = "ObsidianTag" },
         block_ids = { hl_group = "ObsidianBlockID" },
+        -- hl_groups = {
+        --   -- The options are passed directly to `vim.api.nvim_set_hl()`. See `:help nvim_set_hl`.
+        --   ObsidianTodo = { bold = true, fg = "#f78c6c" },
+        --   ObsidianDone = { bold = true, fg = "#89ddff" },
+        --   ObsidianRightArrow = { bold = true, fg = "#f78c6c" },
+        --   ObsidianTilde = { bold = true, fg = "#ff5370" },
+        --   ObsidianImportant = { bold = true, fg = "#d73128" },
+        --   ObsidianBullet = { bold = true, fg = "#89ddff" },
+        --   ObsidianRefText = { underline = true, fg = "#c792ea" },
+        --   ObsidianExtLinkIcon = { fg = "#c792ea" },
+        --   ObsidianTag = { italic = true, fg = "#89ddff" },
+        --   ObsidianBlockID = { italic = true, fg = "#89ddff" },
+        --   ObsidianHighlightText = { bg = "#75662e" },
+        -- },
       },
 
-      -- Optional, customize how note IDs are generated given an optional title.
+      -- optional, customize how note ids are generated given an optional title.
       note_id_func = title_id,
+
+      -- Specify how to handle attachments.
+      attachments = {
+        -- The default folder to place images in via `:ObsidianPasteImg`.
+        -- If this is a relative path it will be interpreted as relative to the vault root.
+        -- You can always override this per image by passing a full path to the command instead of just a filename.
+        img_folder = "Assets", -- This is the default
+        -- A function that determines the text to insert in the note when pasting an image.
+        -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+        -- This is the default implementation.
+        -- ---@param client obsidian.Client
+        -- ---@param path obsidian.Path the absolute path to the image file
+        -- ---@return string
+        -- img_text_func = function(client, path)
+        --   path = client:vault_relative_path(path) or path
+        --   return string.format("![%s](%s)", path.name, path)
+        -- end,
+      },
     },
   },
 }

@@ -36,21 +36,9 @@ vim.opt.breakindentopt:append({
 -- keep cursorline in the middle
 vim.opt.scrolloff = 16
 
+-- python
+vim.g.lazyvim_python_lsp = "basedpyright"
+vim.g.lazyvim_python_ruff = "ruff"
+
 -- nvim
 -- vim.g.minipairs_disable = true
-
--- filetypes
--- vim.filetype.add({
---   -- extension = {
---   --   conf = "conf",
---   --   env = "sh",
---   --   tiltfile = "tiltfile",
---   --   Tiltfile = "tiltfile",
---   -- },
---   filename = {
---     ["Jenkinsfile"] = "groovy",
---     --   [".env"] = "sh",
---     --   ["tsconfig.json"] = "jsonc",
---     --   [".yamlfmt"] = "yaml",
---   },
--- })

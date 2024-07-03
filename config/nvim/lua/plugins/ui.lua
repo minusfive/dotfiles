@@ -1,6 +1,16 @@
 local logo = string.rep("\n", 8) .. require("config.logos").v
 
+-- Notifications, command pop-ups, etc.
+local nui_options = {
+  popup = {
+    win_options = {
+      winblend = 5,
+    },
+  },
+}
+
 return {
+  -- loading screen
   {
     "nvimdev/dashboard-nvim",
     opts = function(_, opts)
@@ -15,12 +25,84 @@ return {
       return opts
     end,
   },
+
+  -- Notification messages
+  {
+    "rcarriga/nvim-notify",
+    optional = true,
+    opts = {
+      fps = 120,
+      stages = "slide",
+      render = "wrapped-compact",
+      top_down = false,
+    },
+  },
+
+  -- Window enhancements
+  {
+    "folke/edgy.nvim",
+    optional = true,
+    event = "VeryLazy",
+    opts = {
+      animate = {
+        fps = 120,
+        cps = 360,
+      },
+      left = {
+        {
+          ft = "neo-tree",
+          size = { width = 50 },
+        },
+      },
+    },
+  },
+
+  -- Notification messages
+  {
+    "folke/noice.nvim",
+    optional = true,
+    opts = {
+      cmdline = {
+        view = "cmdline",
+        format = {
+          calculator = { icon = "   " },
+          cmdline = { icon = "   " },
+          filter = { icon = "   " },
+          help = { icon = "    " },
+          help_vert = { kind = "Help", pattern = "^:%s*verti?c?a?l? he?l?p?%s+", icon = "    " },
+          inc_rename = { kind = "IncRename", pattern = "^:IncRename", icon = " 󰑕  " },
+          lua = { icon = "   " },
+          search_down = { icon = " 󰶹   " },
+          search_up = { icon = " 󰶼   " },
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = false,
+        inc_rename = false,
+        long_message_to_split = true,
+        lsp_doc_border = true,
+      },
+      views = {
+        cmdline_popupmenu = nui_options.popup,
+        confirm = nui_options.popup,
+        hover = nui_options.popup,
+        popup = nui_options.popup,
+        popupmenu = nui_options.popup,
+      },
+    },
+  },
+
+  -- Focus mode
   {
     "folke/zen-mode.nvim",
     event = "VeryLazy",
     dependencies = { "folke/twilight.nvim", opts = { context = 15 } },
     opts = {
       backdrop = 0,
+      optionns = {
+        laststatus = 0,
+      },
       plugins = {
         twilight = { enabled = false },
         wezterm = { enabled = true, font = "+2" },
@@ -31,8 +113,11 @@ return {
       { "<leader>zt", "<cmd>Twilight<cr>", desc = "Twilight" },
     },
   },
+
+  -- Animation enhancements
   {
     "echasnovski/mini.animate",
+    enabled = false,
     optional = true,
     event = "VeryLazy",
     opts = function(_, opts)
@@ -51,23 +136,18 @@ return {
       return opts
     end,
   },
+
+  -- Indentation scope line
   {
-    "folke/edgy.nvim",
+    "echasnovski/mini.indentscope",
     optional = true,
-    event = "VeryLazy",
-    opts = {
-      animate = {
-        fps = 120,
-        cps = 360,
-      },
-      left = {
-        {
-          ft = "neo-tree",
-          size = { width = 50 },
-        },
-      },
-    },
+    opts = function(_, opts)
+      opts.draw = opts.draw or {}
+      opts.draw.animation = require("mini.indentscope").gen_animation.none()
+    end,
   },
+
+  -- Statusline, Winbar and Bufferline (buffer tabs) configuration
   {
     "nvim-lualine/lualine.nvim",
     opts = function(_, opts)
@@ -143,5 +223,33 @@ return {
         lualine_x = opts.winbar.lualine_x,
       }
     end,
+  },
+
+  -- Bufferline (buffer tabs)
+  {
+    "akinsho/bufferline.nvim",
+    -- optional = true,
+    enabled = false,
+    -- opts = function(_, opts)
+    --   local bufferline = require("bufferline")
+    --   opts.options.always_show_bufferline = true
+    --   opts.options.buffer_close_icon = "✕"
+    --   opts.options.close_icon = opts.options.buffer_close_icon
+    --   opts.options.hover = {
+    --     enabled = true,
+    --     delay = 200,
+    --     reveal = { "close", "buffer_close" },
+    --   }
+    --   opts.options.indicator = {
+    --     icon = "",
+    --     style = "underline",
+    --   }
+    --   opts.options.separator_style = { "", "" }
+    --   opts.options.show_close_icon = true
+    --   opts.options.show_buffer_close_icons = true
+    --   opts.options.show_duplicate_prefix = true
+    --   opts.options.style_preset = bufferline.style_preset.minimal
+    --   opts.options.tab_size = 20
+    -- end,
   },
 }

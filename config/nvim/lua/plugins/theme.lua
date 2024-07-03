@@ -7,7 +7,7 @@ return {
   },
   {
     "catppuccin/nvim",
-    optional = true,
+    -- optional = true,
     name = "catppuccin",
     opts = {
       -- transparent_background = true,
@@ -67,35 +67,47 @@ return {
     },
   },
 
-  -- {
-  --   "folke/tokyonight.nvim",
-  --   opts = {
-  --     dim_inactive = true,
-  --     lualine_bold = true,
-  --     style = "night",
-  --
-  --     styles = {
-  --       sidebars = "dark",
-  --       floats = "dark",
-  --       -- sidebars = "transparent",
-  --       -- floats = "transparent",
-  --     },
-  --
-  --     -- transparent = true,
-  --     use_background = "dark",
-  --
-  --     on_colors = function(colors)
-  --       colors.border_highlight = colors.dark3
-  --     end,
-  --
-  --     on_highlights = function(highlights, colors)
-  --       highlights.CursorLine.bg = colors.bg_dark
-  --       highlights.NoiceCmdlineIcon = highlights.DinosticWarn
-  --       highlights.NoiceCmdlinePopupBorder = highlights.DiagnosticWarn
-  --       highlights.NoiceCmdlinePopupTitle = highlights.DiagnosticWarn
-  --       highlights.DashboardFooter.fg = colors.blue0
-  --       highlights.TreesitterContext.bg = highlights.BufferTabpageFill.bg
-  --     end,
-  --   },
-  -- },
+  {
+    "folke/tokyonight.nvim",
+    name = "tokyonight",
+    -- optional = true,
+    opts = {
+      dim_inactive = true,
+      lualine_bold = true,
+      style = "night",
+
+      styles = {
+        sidebars = "dark",
+        floats = "dark",
+        -- sidebars = "transparent",
+        -- floats = "transparent",
+      },
+
+      -- transparent = true,
+      use_background = "dark",
+
+      on_colors = function(colors)
+        colors.border_highlight = colors.dark3
+      end,
+
+      on_highlights = function(highlights, colors)
+        highlights.CursorLine.bg = colors.bg_dark
+        highlights.NoiceCmdlineIcon = highlights.DinosticWarn
+        highlights.NoiceCmdlinePopupBorder = highlights.DiagnosticWarn
+        highlights.NoiceCmdlinePopupTitle = highlights.DiagnosticWarn
+        highlights.DashboardFooter.fg = colors.blue0
+        highlights.TreesitterContext.bg = highlights.BufferTabpageFill.bg
+      end,
+    },
+  },
+
+  {
+    "nyoom-engineering/oxocarbon.nvim",
+    name = "oxocarbon",
+    -- optional = true,
+    -- Add in any other configuration;
+    --   event = foo,
+    --   config = bar
+    --   end,
+  },
 }
