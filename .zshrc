@@ -1,15 +1,15 @@
 # use standard XDG directories
 XDG_CONFIG_HOME="$HOME/.config"
 
-# shell integration
-[[ -f ~/dotfiles/config/wezterm/shell-integration.sh ]] && source ~/dotfiles/config/wezterm/shell-integration.sh
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# shell integration
+[[ -f ~/dotfiles/config/wezterm/shell-integration.sh ]] && source ~/dotfiles/config/wezterm/shell-integration.sh
 
 ### Homebrew completion
 if type brew &>/dev/null; then
@@ -170,3 +170,4 @@ ZELLIJ_CONFIG_DIR="$HOME/dotfiles/config/zellij"
 
 # Lazygit
 # LG_CONFIG_FILE="$HOME/dotfiles/config/lazygit/config.yml,$HOME/dotfiles/config/lazygit/theme.yml"
+
