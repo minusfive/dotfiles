@@ -1,0 +1,14 @@
+tap "buo/cask-upgrade"
+
+brew "mas"
+brew "zsh"
+brew "git"
+brew "coreutils"
+brew "neovim"
+brew "stow"
+brew "fzf"
+brew "fd"
+brew "ripgrep"
+brew "zoxide"
+
+cask "hammerspoon"
