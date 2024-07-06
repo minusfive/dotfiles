@@ -200,9 +200,9 @@ WM.hotkeys = {
 	{ "App: Insomnia", WM.meh, "a", WM:openApp("Insomnia") },
 	{ "App: Outlook", WM.meh, "r", WM:openApp("Microsoft Outlook") },
 	{ "App: Reminders", WM.hyper, "r", WM:openApp("Reminders") },
-	{ "App: Chrome", WM.meh, "s", WM:openApp("Google Chrome") },
-	{ "App: Safari", WM.hyper, "s", WM:openApp("Safari") },
+	{ "App: Safari", WM.meh, "s", WM:openApp("Safari") },
 	{ "App: WezTerm", WM.meh, "t", WM:openApp("WezTerm") },
+	{ "App: Chrome", WM.meh, "g", WM:openApp("Google Chrome") },
 
 	-- BOTTOM row
 	{ "App: Zoom", WM.meh, "z", WM:openApp("Zoom.us") },

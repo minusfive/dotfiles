@@ -87,6 +87,7 @@ return {
         layout_config = {
           prompt_position = "bottom",
         },
+        hidden = "true",
       },
       git_files = {
         theme = "ivy",
@@ -106,6 +107,12 @@ return {
       lsp_workspace_symbols = { path_display = { "shorten" } },
       -- lsp_code_actions = {},
       -- current_buffer_fuzzy_find = {},
+      grep_string = {
+        additional_args = { "--hidden" },
+      },
+      live_grep = {
+        additional_args = { "--hidden" },
+      },
     },
     extensions = {
       file_browser = {

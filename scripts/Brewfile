@@ -1,14 +1,24 @@
-tap "buo/cask-upgrade"
+# frozen_string_literal: true
 
-brew "mas"
-brew "zsh"
-brew "git"
-brew "coreutils"
-brew "neovim"
-brew "stow"
-brew "fzf"
-brew "fd"
-brew "ripgrep"
-brew "zoxide"
+tap 'buo/cask-upgrade'
 
-cask "hammerspoon"
+brew 'mas'
+brew 'zsh'
+brew 'git'
+brew 'lazygit'
+brew 'coreutils'
+brew 'neovim'
+brew 'stow'
+brew 'fzf'
+brew 'fd'
+brew 'bat'
+brew 'ripgrep'
+brew 'zoxide'
+brew 'node'
+brew 'go'
+brew 'ruby'
+brew 'wget'
+
+cask 'hammerspoon'
+cask 'wezterm'
+cask 'obsidian'
