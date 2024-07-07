@@ -12,7 +12,7 @@ _darcs
 \.hg
 
 \.git
-\.gitignore
+# \.gitignore
 \.gitmodules
 
 .+~          # emacs backup files
@@ -29,3 +29,4 @@ _darcs
 # Project
 ^/assets
 ^/scripts
+\.luarc.json
