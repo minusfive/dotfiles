@@ -30,7 +30,7 @@ if [[ ! -f $BREW_BUNDLE_PATH ]]; then
     echo "- Brewfile not found"
 else
     echo "- Installing Homebrew bundle"
-    brew bundle --file $BREW_BUNDLE_PATH
+    brew bundle -v --file $BREW_BUNDLE_PATH
 fi
 
 # Install OhMyZsh
