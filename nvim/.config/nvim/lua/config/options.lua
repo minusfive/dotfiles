@@ -13,7 +13,7 @@ vim.opt.guicursor = {
   "o:hor50-MCursorCommand/lMCursorCommand",
   "c-ci:MCursorCommand/lMCursorCommand",
   "i:blinkwait700-blinkoff400-blinkon250-MCursorInsert/lMCursorInsert",
-  -- "n:MCursorNormal/lMCursorNormal",
+  "n:MCursorNormal/lMCursorNormal",
   "v:MCursorVisual/lMCursorVisual",
   "sm:block-blinkwait175-blinkoff150-blinkon175",
 }
@@ -40,5 +40,12 @@ vim.opt.scrolloff = 16
 vim.g.lazyvim_python_lsp = "basedpyright"
 vim.g.lazyvim_python_ruff = "ruff"
 
--- nvim
--- vim.g.minipairs_disable = true
+-- disable autoclosing brackets, quotes, etc.?
+vim.g.minipairs_disable = true
+
+-- additional filetypes
+vim.filetype.add({
+  filename = {
+    Brewfile = "ruby",
+  },
+})

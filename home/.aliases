@@ -53,7 +53,12 @@ alias vim=nvim
 # Shortcut to Sites directory
 alias dev='cd ~/dev'
 
+# use bat instead of cat, for previews, etc.
+alias cat='bat'
+alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+
+
 # =======
 # = Hub =
 # =======
-alias git=hub
+# alias git=hub

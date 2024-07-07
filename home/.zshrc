@@ -1,5 +1,12 @@
 # use standard XDG directories
 XDG_CONFIG_HOME="$HOME/.config"
+XDG_DATA_HOME="$HOME/.local/share"
+XDG_STATE_HOME="$HOME/.local/state"
+XDG_CACHE_HOME="$HOME/.cache"
+
+# wezterm shell integration
+TERMINFO_DIRS="$XDG_CONFIG_HOME/wezterm/terminfo"
+[[ -f $XDG_CONFIG_HOME/wezterm/shell-integration.sh ]] && source $XDG_CONFIG_HOME/wezterm/shell-integration.sh
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -8,9 +15,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# shell integration
-[[ -f ~/dotfiles/config/wezterm/shell-integration.sh ]] && source ~/dotfiles/config/wezterm/shell-integration.sh
-
 ### Homebrew completion
 if type brew &>/dev/null; then
     BREW_PREFIX=$(brew --prefix)
@@ -18,14 +22,14 @@ if type brew &>/dev/null; then
     PATH=$BREW_PREFIX/opt/coreutils/libexec/gnubin:$BREW_PREFIX/bin:$BREW_PREFIX/sbin:/usr/bin:$PATH
     MANPATH=$BREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH
 
-    if [ -d "/usr/local/opt/ruby/bin" ]; then
-        export PATH=/usr/local/opt/ruby/bin:$PATH
+    if [ -d "$BREW_PREFIX/opt/ruby/bin" ]; then
+        export PATH=$BREW_PREFIX/opt/ruby/bin:$PATH
         export PATH=`gem environment gemdir`/bin:$PATH
     fi
 fi
 
 # Python
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+# export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -105,7 +109,6 @@ plugins=(
     docker
     fast-syntax-highlighting
     fd
-    fzf
     git
     mise
     terraform
@@ -113,6 +116,7 @@ plugins=(
     yarn
     zoxide
     zsh-autosuggestions
+    fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -154,7 +158,7 @@ fi
 
 export PATH="$HOME/.yarn/bin:$XDG_CONFIG_HOME/yarn/global/node_modules/.bin:$PATH"
 
-source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
+[[ -f $HOME/.docker/init-zsh.sh ]] && source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
 
 # Created by `pipx` on 2023-07-01 00:49:16
 export PATH="$PATH:$HOME/.local/bin"
@@ -163,11 +167,13 @@ export PATH="$PATH:$HOME/.local/bin"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Multiplexers
-ZELLIJ_CONFIG_DIR="$HOME/dotfiles/config/zellij"
+ZELLIJ_CONFIG_DIR="$XDG_CONFIG_HOME/zellij"
 
 # Wezterm CLI auto-complete
-[[ -f ~/dotfiles/config/wezterm/shell-completion.zsh ]] && source ~/dotfiles/config/wezterm/shell-completion.zsh
+[[ -f $XDG_CONFIG_HOME/wezterm/shell-completion.zsh ]] && source $XDG_CONFIG_HOME/wezterm/shell-completion.zsh
 
 # Lazygit
-# LG_CONFIG_FILE="$HOME/dotfiles/config/lazygit/config.yml,$HOME/dotfiles/config/lazygit/theme.yml"
+# LG_CONFIG_FILE="$XDG_CONFIG_HOME/lazygit/config.yml,$XDG_CONFIG_HOME/lazygit/theme.yml"
 
+# FZF
+source <(fzf --zsh)

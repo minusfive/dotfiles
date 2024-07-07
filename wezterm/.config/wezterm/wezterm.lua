@@ -16,7 +16,18 @@ end
 config.front_end = "WebGpu"
 
 -- Enable advanced features
+config.set_environment_variables = {
+	XDG_CONFIG_HOME = "$HOME/.config",
+	XDG_DATA_HOME = "$HOME/.local/share",
+	XDG_STATE_HOME = "$HOME/.local/state",
+	XDG_CACHE_HOME = "$HOME/.cache",
+	TERMINFO_DIRS = "$XDG_CONFIG_HOME/wezterm/terminfo",
+	WSLENV = "TERMINFO_DIRS",
+}
 config.term = "wezterm"
+
+-- Default working directory
+config.default_cwd = wezterm.home_dir .. "/dev"
 
 -- Theme
 -- local tokyo_night_mod = wezterm.color.get_builtin_schemes()["tokyonight_night"]
