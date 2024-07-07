@@ -789,6 +789,12 @@
         "options": {
           "full_name": "1Password"
         }
+      },
+      "monitorcontrol": {
+        "version": "4.2.0",
+        "options": {
+          "full_name": "MonitorControl"
+        }
       }
     }
   },
