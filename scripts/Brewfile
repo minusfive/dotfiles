@@ -19,6 +19,7 @@ brew 'go'
 brew 'ruby'
 brew 'wget'
 
+cask '1Password'
 cask 'hammerspoon'
 cask 'wezterm'
 cask 'obsidian'

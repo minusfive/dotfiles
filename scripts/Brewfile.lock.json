@@ -783,6 +783,12 @@
         "options": {
           "full_name": "obsidian"
         }
+      },
+      "1password": {
+        "version": "8.10.34",
+        "options": {
+          "full_name": "1Password"
+        }
       }
     }
   },
