@@ -20,9 +20,12 @@ brew 'ruby'
 brew 'wget'
 brew 'htop'
 
-cask '1Password'
+cask '1password'
 cask 'hammerspoon'
 cask 'wezterm'
 cask 'obsidian'
-cask 'MonitorControl'
-cask 'ImageOptim'
+cask 'monitorcontrol'
+cask 'imageoptim'
+cask 'discord'
+
+mas 'WhatsApp Messenger', id: 310_633_997
