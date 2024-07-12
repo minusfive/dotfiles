@@ -191,26 +191,26 @@ WM.hotkeys = {
 	-- =====================================
 	-- TOP row
 	{ "App: 1Password", WM.meh, "1", WM:openApp("1Password") },
-	{ "App: WhatsApp", WM.hyper, "w", WM:openApp("WhatsApp") },
+	{ "App: Obsidian", WM.meh, "w", WM:openApp("Obsidian") },
+	{ "App: Notes", WM.hyper, "w", WM:openApp("Notes") },
 	{ "App: Finder", WM.meh, "f", WM:openApp("Finder") },
 	{ "App: Keeper", WM.meh, "p", WM:openApp("Keeper Password Manager") },
-	{ "App: Discord", WM.hyper, "b", WM:openApp("Discord") },
 
 	-- MIDDLE row
 	{ "App: Insomnia", WM.meh, "a", WM:openApp("Insomnia") },
 	{ "App: Outlook", WM.meh, "r", WM:openApp("Microsoft Outlook") },
 	{ "App: Reminders", WM.hyper, "r", WM:openApp("Reminders") },
 	{ "App: Safari", WM.meh, "s", WM:openApp("Safari") },
+	{ "App: Slack", WM.hyper, "s", WM:openApp("Slack") },
 	{ "App: WezTerm", WM.meh, "t", WM:openApp("WezTerm") },
 	{ "App: Chrome", WM.meh, "g", WM:openApp("Google Chrome") },
 
 	-- BOTTOM row
 	{ "App: Zoom", WM.meh, "z", WM:openApp("Zoom.us") },
 	{ "App: Excel", WM.meh, "x", WM:openApp("Microsoft Excel") },
-	{ "App: Slack", WM.meh, "c", WM:openApp("Slack") },
-	{ "App: Messages", WM.hyper, "c", WM:openApp("Messages") },
-	{ "App: Obsidian", WM.meh, "d", WM:openApp("Obsidian") },
-	{ "App: Notes", WM.hyper, "d", WM:openApp("Notes") },
+	{ "App: Messages", WM.meh, "c", WM:openApp("Messages") },
+	{ "App: WhatsApp", WM.hyper, "c", WM:openApp("WhatsApp") },
+	{ "App: Discord", WM.hyper, "d", WM:openApp("Discord") },
 	-- { "App: VSCode", WM.hyper, "v", WM:openApp("Visual Studio Code") },
 
 	-- ============= RIGHT hand ============
