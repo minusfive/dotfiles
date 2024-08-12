@@ -108,7 +108,6 @@ plugins=(
     colored-man-pages
     docker
     fast-syntax-highlighting
-    fd
     git
     mise
     terraform
