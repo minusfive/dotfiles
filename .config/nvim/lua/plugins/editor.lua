@@ -5,7 +5,7 @@ return {
     optional = true,
     event = "VeryLazy",
     opts = {
-      defaults = {
+      spec = {
         ["<leader>n"] = { name = "+new" },
       },
       plugins = {
