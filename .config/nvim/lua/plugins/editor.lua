@@ -5,6 +5,7 @@ return {
     optional = true,
     event = "VeryLazy",
     opts = {
+      preset = "helix",
       spec = {
         ["<leader>n"] = { name = "+new" },
       },
