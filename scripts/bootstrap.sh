@@ -8,7 +8,7 @@ local BREW_BUNDLE_PATH="$SCRIPT_PATH/Brewfile"
 local DOTFILES_PATH="$SCRIPT_PATH/.."
 local GITIGNORE_PATH="$DOTFILES_PATH/.gitignore"
 
-# Install or update Homebrew
+# Install Homebrew
 if [[ $(command -v brew) != "" ]]; then
     echo "- Homebrew installed at $(which brew)"
 else
@@ -23,7 +23,7 @@ else
 fi
 
 
-# Upgrade Homebrew and install of upgrade packages and apps
+# Install/Upgrade Homebrew, packages and apps
 if [[ $(command -v brew) != "" ]]; then
     # Install desired tools, apps, etc.
     if [[ ! -f $BREW_BUNDLE_PATH ]]; then
