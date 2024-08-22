@@ -6,32 +6,16 @@ XDG_CACHE_HOME="$HOME/.cache"
 
 # wezterm shell integration
 TERMINFO_DIRS="$XDG_CONFIG_HOME/wezterm/terminfo"
-[[ -f $XDG_CONFIG_HOME/wezterm/shell-integration.sh ]] && source $XDG_CONFIG_HOME/wezterm/shell-integration.sh
+if [[ -f $XDG_CONFIG_HOME/wezterm/shell-integration.sh ]]; then
+  source $XDG_CONFIG_HOME/wezterm/shell-integration.sh
+fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+if [[ -r "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-### Homebrew completion
-if type brew &>/dev/null; then
-    BREW_PREFIX=$(brew --prefix)
-    FPATH=$BREW_PREFIX/share/zsh/site-functions:$FPATH
-    PATH=$BREW_PREFIX/opt/coreutils/libexec/gnubin:$BREW_PREFIX/bin:$BREW_PREFIX/sbin:/usr/bin:$PATH
-    MANPATH=$BREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH
-
-    if [ -d "$BREW_PREFIX/opt/ruby/bin" ]; then
-        export PATH=$BREW_PREFIX/opt/ruby/bin:$PATH
-        export PATH=`gem environment gemdir`/bin:$PATH
-    fi
-fi
-
-# Python
-# export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -116,6 +100,7 @@ plugins=(
     zoxide
     zsh-autosuggestions
     fzf
+    ohmyzsh-full-autoupdate
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -127,10 +112,13 @@ bindkey -v
 # Remove ESC delay
 KEYTIMEOUT=1
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+
+# Use deduplicated (unique) path entries to maintain performance
+typeset -U path
+typeset -U fpath
+typeset -U manpath
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -142,34 +130,64 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+# Homebrew completion
+if type brew &>/dev/null; then
+    BREW_PREFIX=$(brew --prefix)
+    fpath=($BREW_PREFIX/share/zsh/site-functions $fpath)
+    path=($BREW_PREFIX/opt/coreutils/libexec/gnubin
+          $BREW_PREFIX/bin
+          $BREW_PREFIX/sbin
+          /usr/bin
+          $path)
+    manpath=($BREW_PREFIX/opt/coreutils/libexec/gnuman $manpath)
+
+    if [ -d "$BREW_PREFIX/opt/ruby/bin" ]; then
+        path=($BREW_PREFIX/opt/ruby/bin
+              `gem environment gemdir`/bin
+              $path)
+    fi
+fi
+
+# Python
+path=(/usr/local/bin
+      /usr/local/sbin
+      $path)
+
+# Yarn
+path=($HOME/.yarn/bin
+      $XDG_CONFIG_HOME/yarn/global/node_modules/.bin
+      $path)
+
+export PATH
+export FPATH
+export MANPATH
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-# =====================
-# = Load Aliases File =
-# =====================
-[[ -f ~/.aliases ]] && source ~/.aliases
 
-export PATH="$HOME/.yarn/bin:$XDG_CONFIG_HOME/yarn/global/node_modules/.bin:$PATH"
+# Load Aliases File
+if [[ -f ~/.aliases ]]; then
+  source ~/.aliases
+fi
+
 
 [[ -f $HOME/.docker/init-zsh.sh ]] && source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
 
-# Created by `pipx` on 2023-07-01 00:49:16
-export PATH="$PATH:$HOME/.local/bin"
-
+# Configure Powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if [[ -f ~/.p10k.zsh ]]; then
+  source ~/.p10k.zsh
+fi
+
+# Wezterm CLI auto-complete
+if [[ -f $XDG_CONFIG_HOME/wezterm/shell-completion.zsh ]]; then
+  source $XDG_CONFIG_HOME/wezterm/shell-completion.zsh
+fi
 
 # Multiplexers
 ZELLIJ_CONFIG_DIR="$XDG_CONFIG_HOME/zellij"
-
-# Wezterm CLI auto-complete
-[[ -f $XDG_CONFIG_HOME/wezterm/shell-completion.zsh ]] && source $XDG_CONFIG_HOME/wezterm/shell-completion.zsh
 
 # Lazygit
 # LG_CONFIG_FILE="$XDG_CONFIG_HOME/lazygit/config.yml,$XDG_CONFIG_HOME/lazygit/theme.yml"
