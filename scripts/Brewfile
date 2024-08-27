@@ -27,5 +27,6 @@ cask 'obsidian'
 cask 'monitorcontrol'
 cask 'imageoptim'
 cask 'discord'
+cask 'gpg-suite'
 
 mas 'WhatsApp Messenger', id: 310_633_997
