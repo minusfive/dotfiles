@@ -1,265 +1,167 @@
 -- Load type annotations and docs for LSP
 hs.loadSpoon("EmmyLua")
+hs.loadSpoon("ReloadConfiguration")
 
--- Window Manager and App Launcher
-local WM = {}
-WM.meh = { "ctrl", "alt", "shift" }
-WM.hyp = { "ctrl", "alt", "shift", "cmd" }
-
--- Move window to specified rect coordinates
-function WM:move(unit)
-	return function()
-		hs.window.focusedWindow():move(unit, nil, true)
-	end
-end
-
--- Set default window resize animation duration
-hs.window.animationDuration = 0
--- Bind hotkeys help modal
-hs.hotkey.showHotkeys(WM.meh, "k")
--- Disable hotkey alerts
--- hs.hotkey.alertDuration = 0
-
--- Default Alert style
+-- Set default settings
+hs.window.animationDuration = 0.066
+hs.hotkey.alertDuration = 0.5
 hs.alert.defaultStyle = {
 	strokeWidth = 0,
 	strokeColor = { white = 0, alpha = 0 },
-	fillColor = { white = 0, alpha = 0.5 },
+	fillColor = { white = 0.05, alpha = 0.8 },
 	textColor = { white = 1, alpha = 1 },
 	textFont = ".AppleSystemUIFont",
 	textStyle = { paragraphStyle = { lineSpacing = 10 } },
-	textSize = 16,
+	textSize = 18,
 	radius = 6,
-	atScreenEdge = 2,
-	fadeInDuration = 0.1,
-	fadeOutDuration = 0.1,
-	padding = nil,
+	atScreenEdge = 1,
+	fadeInDuration = 0.05,
+	fadeOutDuration = 0.05,
+	padding = 18,
 }
 
---- Quickly open and/or focus applications
-function WM:openApp(name)
-	return function()
-		hs.application.launchOrFocus(name)
-		if name == "Finder" then
-			hs.appfinder.appFromName(name):activate()
-		end
-	end
-end
+-- Keep all modules in a common table
+local m = {
+	appLauncher = require("modules.appLauncher"),
+	hotkeys = require("modules.hotkeys"),
+	windowManager = require("modules.windowManager"),
+}
 
--- Maximize window
-function WM:maximize()
-	hs.window.focusedWindow():maximize()
-end
+-- Base hotkeys
+-- These are the most used / useful shortcuts, available through a single combination
+---@type hs.hotkey.KeySpec[]
+local baseSpecs = {
+	-- Apps
+	{ m.hotkeys.mods.meh, "f", "Finder", m.appLauncher:openApp("Finder") },
+	{ m.hotkeys.mods.meh, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
+	{ m.hotkeys.mods.meh, "m", "Messages", m.appLauncher:openApp("Messages") },
+	{ m.hotkeys.mods.meh, "n", "Obsidian", m.appLauncher:openApp("Obsidian") },
+	{ m.hotkeys.mods.meh, "o", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") },
+	{ m.hotkeys.mods.meh, "p", "1Password", m.appLauncher:openApp("1Password") },
+	{ m.hotkeys.mods.meh, "s", "Safari", m.appLauncher:openApp("Safari") },
+	{ m.hotkeys.mods.meh, "t", "WezTerm", m.appLauncher:openApp("WezTerm") },
 
--- Toggle window "Full Screen" state
-function WM:toggleFullScreen()
-	hs.window.focusedWindow():toggleFullScreen()
-end
+	-- Window Layouts
+	-- Top Row
+	{ m.hotkeys.mods.meh, "2", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },
+	{ m.hotkeys.mods.meh, "3", "1/3 Center", m.windowManager:move(m.windowManager.layout.center33) },
+	{ m.hotkeys.mods.meh, "4", "1/3 Right", m.windowManager:move(m.windowManager.layout.right33) },
 
--- Toggle window Zoom
-function WM:toggleZoom()
-	hs.window.focusedWindow():toggleZoom()
-end
+	-- Middle Row
+	{ m.hotkeys.mods.meh, "6", "1/4 1", m.windowManager:move(m.windowManager.layout.first25) },
+	{ m.hotkeys.mods.meh, "7", "1/2 Left", m.windowManager:move(m.windowManager.layout.left50) },
+	{ m.hotkeys.mods.hyper, "7", "1/4 2", m.windowManager:move(m.windowManager.layout.second25) },
+	{ m.hotkeys.mods.meh, "8", "1/2 Center", m.windowManager:move(m.windowManager.layout.center50) },
+	{ m.hotkeys.mods.meh, "9", "1/2 Right", m.windowManager:move(m.windowManager.layout.right50) },
+	{ m.hotkeys.mods.hyper, "9", "1/4 3", m.windowManager:move(m.windowManager.layout.third25) },
+	{ m.hotkeys.mods.meh, "0", "1/4 4", m.windowManager:move(m.windowManager.layout.fourth25) },
+}
 
--- Center window on screen
-function WM:center()
-	hs.window.focusedWindow():centerOnScreen(nil, true, 0)
-end
+-- Modal hotkeys
 
--- Move window to next screen
-function WM:screenNext()
-	hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(), false, true)
-end
+-- Common modal specs
+---@type hs.hotkey.KeySpec[]
+local commonModalSpecs = {
+	-- Uniform ways of exiting modal environments
+	{ {}, "escape", nil, m.hotkeys.activeModeExit },
+	{ {}, "q", nil, m.hotkeys.activeModeExit },
+	{ {}, "space", nil, m.hotkeys.activeModeExit },
+}
 
--- Move window to previous screen
-function WM:screenPrev()
-	hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(), false, true)
-end
-
--- Cycle window position to the right
-function WM:cycleXR()
-	local screen = hs.window.focusedWindow():screen():frame()
-	local window = hs.window.focusedWindow():frame()
-	local x = window.x
-	local w = window.w
-	local sw = screen.w
-
-	local newX = (x + w) / sw
-	newX = newX < 0.99 and newX or 0
-
-	WM:move({ x = newX, y = 0.00, w = math.abs(w / sw), h = 1.00 })()
-end
-
--- Cycle window position to the left
-function WM:cycleXL()
-	local screen = hs.window.focusedWindow():screen():frame()
-	local window = hs.window.focusedWindow():frame()
-	local x = window.x
-	local w = window.w
-	local sw = screen.w
-
-	local newX = x - w
-	newX = (newX < 0 and sw - w or newX) / sw
-
-	WM:move({ x = newX, y = 0.00, w = math.abs(w / sw), h = 1.00 })()
-end
-
--- Increase or decrease window size in steps
-function WM:resizeWindowInSteps(increment)
-	local screen = hs.window.focusedWindow():screen():frame()
-	local window = hs.window.focusedWindow():frame()
-	local wStep = math.floor(screen.w / 48)
-	local hStep = math.floor(screen.h / 48)
-	local x = window.x
-	local y = window.y
-	local w = window.w
-	local h = window.h
-
-	if increment then
-		local xu = math.max(screen.x, x - wStep)
-		local yu = math.max(screen.y, y - hStep)
-		w = w + (x - xu)
-		x = xu
-		h = h + (y - yu)
-		y = yu
-		w = math.min(screen.w - x + screen.x, w + wStep)
-		h = math.min(screen.h - y + screen.y, h + hStep)
-	else
-		local noChange = true
-		local notMinWidth = w > wStep * 3
-		local notMinHeight = h > hStep * 3
-
-		local snapLeft = x <= screen.x
-		local snapTop = y <= screen.y
-		-- add one pixel in case of odd number of pixels
-		local snapRight = (x + w + 1) >= (screen.x + screen.w)
-		local snapBottom = (y + h + 1) >= (screen.y + screen.h)
-
-		local b2n = { [true] = 1, [false] = 0 }
-		local totalSnaps = b2n[snapLeft] + b2n[snapRight] + b2n[snapTop] + b2n[snapBottom]
-
-		if notMinWidth and (totalSnaps <= 1 or not snapLeft) then
-			x = x + wStep
-			w = w - wStep
-			noChange = false
-		end
-
-		if notMinHeight and (totalSnaps <= 1 or not snapTop) then
-			y = y + hStep
-			h = h - hStep
-			noChange = false
-		end
-
-		if notMinWidth and (totalSnaps <= 1 or not snapRight) then
-			w = w - wStep
-			noChange = false
-		end
-
-		if notMinHeight and (totalSnaps <= 1 or not snapBottom) then
-			h = h - hStep
-			noChange = false
-		end
-
-		if noChange then
-			x = notMinWidth and x + wStep or x
-			y = notMinHeight and y + hStep or y
-			w = notMinWidth and w - wStep * 2 or w
-			h = notMinHeight and h - hStep * 2 or h
-		end
-	end
-
-	WM:move({ x = x, y = y, w = w, h = h })()
-end
-
-function WM:resizeIn()
-	WM:resizeWindowInSteps(false)
-end
-
-function WM:resizeOut()
-	WM:resizeWindowInSteps(true)
-end
-
-function WM:bindHotkeys()
-	if self.hotkeys.reload then
-		local k = self.hotkeys.reload
-		hs.hotkey.bind(k[1], k[2], "Reload Configuration", hs.reload)
-	end
-
-	for _, v in pairs(self.hotkeys.appLauncher) do
-		hs.hotkey.bind(v[1], v[2], "App: " .. v[3], self:openApp(v[3]))
-	end
-
-	for _, v in pairs(self.hotkeys.windowManager) do
-		hs.hotkey.bind(v[1], v[2], "WM: " .. v[3], v[4])
-	end
-end
-
--- Optimized for @minusfive/zmk-config Colemak-DH
-WM.hotkeys = {
-	reload = { WM.hyp, "7" },
-
-	appLauncher = {
-		-- ============= LEFT hand =============
-		-- TOP row
-		{ WM.meh, "1", "1Password" },
-		{ WM.meh, "w", "Obsidian" },
-		{ WM.hyp, "w", "Notes" },
-		{ WM.meh, "f", "Finder" },
-
-		-- MIDDLE row
-		{ WM.meh, "a", "Insomnia" },
-		{ WM.meh, "r", "Microsoft Outlook" },
-		{ WM.hyp, "r", "Reminders" },
-		{ WM.meh, "s", "Safari" },
-		{ WM.hyp, "s", "Slack" },
-		{ WM.meh, "t", "WezTerm" },
-		{ WM.meh, "g", "Google Chrome" },
-
-		-- BOTTOM row
-		{ WM.meh, "z", "Zoom.us" },
-		{ WM.meh, "x", "Microsoft Excel" },
-		{ WM.meh, "c", "Messages" },
-		{ WM.hyp, "c", "WhatsApp" },
-		{ WM.hyp, "d", "Discord" },
-	},
-
-	windowManager = {
-		-- ============= RIGHT hand ============
-		{ WM.hyp, "e", "Center", WM.center },
-
-		{ WM.meh, "]", "Cycle R", WM.cycleXR },
-		{ WM.meh, "[", "Cycle L", WM.cycleXL },
-
-		{ WM.hyp, "]", "Next Screen", WM.screenNext },
-		{ WM.hyp, "[", "Prev Screen", WM.screenPrev },
-
-		{ WM.meh, "-", "ResizeIn", WM.resizeIn },
-		{ WM.meh, "=", "ResizeOut", WM.resizeOut },
-
-		{ WM.meh, "m", "Maximize", WM.maximize },
-		{ WM.hyp, "m", "Full Screen", WM.toggleFullScreen },
-
-		{ WM.hyp, "up", "1/2 Top", WM:move({ x = 0.00, y = 0.00, w = 1.00, h = 0.50 }) },
-		{ WM.hyp, "down", "1/2 Bottom", WM:move({ x = 0.00, y = 0.50, w = 1.00, h = 0.50 }) },
-
-		{ WM.meh, "n", "1/2 Left", WM:move({ x = 0.00, y = 0.00, w = 0.50, h = 1.00 }) },
-		{ WM.meh, "e", "1/2 Center", WM:move({ x = 0.25, y = 0.00, w = 0.50, h = 1.00 }) },
-		{ WM.meh, "i", "1/2 Right", WM:move({ x = 0.50, y = 0.00, w = 0.50, h = 1.00 }) },
-
-		{ WM.meh, "h", "1/3 Left", WM:move({ x = 0.0000, y = 0.00, w = 0.3333, h = 1.00 }) },
-		{ WM.meh, ",", "1/3 Center", WM:move({ x = 0.3333, y = 0.00, w = 0.3333, h = 1.00 }) },
-		{ WM.meh, ".", "1/3 Right", WM:move({ x = 0.6666, y = 0.00, w = 0.3333, h = 1.00 }) },
-
-		{ WM.meh, "l", "1/4 1", WM:move({ x = 0.00, y = 0.00, w = 0.25, h = 1.00 }) },
-		{ WM.meh, "u", "1/4 2", WM:move({ x = 0.25, y = 0.00, w = 0.25, h = 1.00 }) },
-		{ WM.meh, "y", "1/4 3", WM:move({ x = 0.50, y = 0.00, w = 0.25, h = 1.00 }) },
-		{ WM.meh, "'", "1/4 4", WM:move({ x = 0.75, y = 0.00, w = 0.25, h = 1.00 }) },
-
-		{ WM.hyp, "j", "1/4 Top/Left", WM:move({ x = 0.00, y = 0.00, w = 0.50, h = 0.50 }) },
-		{ WM.hyp, "'", "1/4 ↗", WM:move({ x = 0.50, y = 0.00, w = 0.50, h = 0.50 }) },
-		{ WM.hyp, "k", "1/4 ↙", WM:move({ x = 0.00, y = 0.50, w = 0.50, h = 0.50 }) },
-		{ WM.hyp, "/", "1/4 ↘", WM:move({ x = 0.50, y = 0.50, w = 0.50, h = 0.50 }) },
+-- System manipulation mode
+---@type Hotkeys.ModalSpec
+local modeSystem = {
+	trigger = { m.hotkeys.mods.hyper, "s", "System" },
+	specs = {
+		{ {}, "r", "Reload Config", hs.reload },
 	},
 }
 
-WM:bindHotkeys()
+-- Application launcher mode
+---@type Hotkeys.ModalSpec
+local modeAppLauncher = {
+	trigger = { m.hotkeys.mods.meh, "a", "App Launcher" },
+	specs = {
+		{ {}, "d", "Discord", m.appLauncher:openApp("Discord") },
+		{ {}, "f", "Finder", m.appLauncher:openApp("Finder") },
+		{ {}, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
+		{ {}, "i", "Insomnia", m.appLauncher:openApp("Insomnia") },
+		{ {}, "m", "Messages", m.appLauncher:openApp("Messages") },
+		{ {}, "n", "Obsidian", m.appLauncher:openApp("Obsidian") },
+		{ { "shift" }, "n", "Notes", m.appLauncher:openApp("Notes") },
+		{ {}, "o", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") },
+		{ {}, "p", "1Password", m.appLauncher:openApp("1Password") },
+		{ {}, "r", "Reminders", m.appLauncher:openApp("Reminders") },
+		{ {}, "s", "Safari", m.appLauncher:openApp("Safari") },
+		{ { "shift" }, "s", "Slack", m.appLauncher:openApp("Slack") },
+		{ {}, "t", "WezTerm", m.appLauncher:openApp("WezTerm") },
+		{ {}, "w", "WhatsApp", m.appLauncher:openApp("WhatsApp") },
+		{ {}, "x", "Microsoft Excel", m.appLauncher:openApp("Microsoft Excel") },
+		{ {}, "z", "Zoom.us", m.appLauncher:openApp("Zoom.us") },
+	},
+}
+
+-- Window manager mode
+---@type Hotkeys.ModalSpec
+local modeWindowManager = {
+	trigger = { m.hotkeys.mods.meh, "w", "Window Manager" },
+	specs = {
+		-- Top Row - Thirds [||]
+		{ { "shift" }, "2", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },
+		{ { "shift" }, "3", "1/3 Center", m.windowManager:move(m.windowManager.layout.center33) },
+		{ { "shift" }, "4", "1/3 Right", m.windowManager:move(m.windowManager.layout.right33) },
+
+		-- Middle Row - Halves [|] and Quarters [|||]
+		{ { "shift" }, "6", "1/4 1", m.windowManager:move(m.windowManager.layout.first25) },
+		{ { "shift" }, "7", "1/2 Left", m.windowManager:move(m.windowManager.layout.left50) },
+		{ { "cmd", "shift" }, "7", "1/4 2", m.windowManager:move(m.windowManager.layout.second25) },
+		{ { "shift" }, "8", "1/2 Center", m.windowManager:move(m.windowManager.layout.center50) },
+		{ { "shift" }, "9", "1/2 Right", m.windowManager:move(m.windowManager.layout.right50) },
+		{ { "cmd", "shift" }, "9", "1/4 3", m.windowManager:move(m.windowManager.layout.third25) },
+		{ { "shift" }, "0", "1/4 4", m.windowManager:move(m.windowManager.layout.fourth25) },
+
+		{ {}, "up", "1/2 Top", m.windowManager:move(m.windowManager.layout.top50) },
+		{ {}, "down", "1/2 Bottom", m.windowManager:move(m.windowManager.layout.bottom50) },
+
+		-- Corners
+		{ {}, "1", "1/4 Top-Left", m.windowManager:move(m.windowManager.layout.topLeft25) },
+		{ {}, "5", "1/4 Top-Right", m.windowManager:move(m.windowManager.layout.topRigh25) },
+		{ {}, "6", "1/4 Bottom-Left", m.windowManager:move(m.windowManager.layout.bottomLeft25) },
+		{ {}, "0", "1/4 Bottom-Right", m.windowManager:move(m.windowManager.layout.bottomRigh25) },
+
+		-- Move
+		{ {}, "[", "Move Left", m.windowManager.moveL },
+		{ {}, "]", "Move Right", m.windowManager.moveR },
+		{ { "shift" }, "[", "Prev Screen", m.windowManager.screenPrev },
+		{ { "shift" }, "]", "Next Screen", m.windowManager.screenNext },
+
+		{ {}, "c", "Center", m.windowManager.center },
+
+		-- Resize
+		{ {}, "=", "Grow Width", m.windowManager.growX },
+		{ {}, "-", "Shrink Width", m.windowManager.shrinkX },
+		{ { "shift" }, "=", "Grow Height", m.windowManager.growY },
+		{ { "shift" }, "-", "Shrink Height", m.windowManager.shrinkY },
+
+		{ {}, "m", "Maximize", m.windowManager.maximixe },
+		{ {}, "f", "Full Screen", m.windowManager.toggleFullScreen },
+	},
+}
+
+-- Append commonModalSpecs to each modal's specs
+hs.fnutils.each({ modeSystem, modeAppLauncher, modeWindowManager }, function(modalSpec)
+	modalSpec.specs = hs.fnutils.concat(modalSpec.specs, commonModalSpecs)
+end)
+
+m.hotkeys:bindHotkeys({
+	specs = baseSpecs,
+	modes = {
+		modeSystem,
+		modeAppLauncher,
+		modeWindowManager,
+	},
+})
+
+-- Start watching config changes to reload
+spoon.ReloadConfiguration:start()
+hs.alert.show("Hammerspoon Configuration Reloaded")
