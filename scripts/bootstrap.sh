@@ -98,3 +98,11 @@ fi
 
 # Update OhMyZsh, plugins and themes
 zsh $HOME/.oh-my-zsh/tools/upgrade.sh
+
+# Symlink dotfiles
+if [[ $(command -v stow) != "" ]]; then
+  echo "- GNU Stow found, symlinking dotfiles"
+  stow -vR .
+else
+  echo "- GNU Stow not found."
+fi

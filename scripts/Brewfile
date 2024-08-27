@@ -30,3 +30,4 @@ cask 'discord'
 cask 'gpg-suite'
 
 mas 'WhatsApp Messenger', id: 310_633_997
+mas '1Password for Safari', id: 1_569_813_296

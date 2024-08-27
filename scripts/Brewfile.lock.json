@@ -860,14 +860,18 @@
       }
     },
     "mas": {
-      "WhatsApp Messenger": null
+      "WhatsApp Messenger": null,
+      "1Password for Safari": {
+        "id": "1569813296",
+        "version": "2.27.1"
+      }
     }
   },
   "system": {
     "macos": {
       "sonoma": {
         "HOMEBREW_VERSION": "4.3.18",
-        "HOMEBREW_PREFIX": "/usr/local",
+        "HOMEBREW_PREFIX": "/opt/homebrew",
         "Homebrew/homebrew-core": "api",
         "CLT": "15.3.0.0.1.1708646388",
         "Xcode": "15.4",

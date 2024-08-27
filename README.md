@@ -34,8 +34,6 @@ git clone git@github.com:minusfive/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 # run bootstrap script to install core tools / apps
 ./scripts/bootstrap.sh
-# run stow to symlink all configuration files
-stow -vR .
 ```
 
 ## To Do
