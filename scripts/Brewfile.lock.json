@@ -834,12 +834,6 @@
           "full_name": "1password"
         }
       },
-      "monitorcontrol": {
-        "version": "4.2.0",
-        "options": {
-          "full_name": "monitorcontrol"
-        }
-      },
       "imageoptim": {
         "version": "1.9.3",
         "options": {
@@ -856,6 +850,12 @@
         "version": "2023.3",
         "options": {
           "full_name": "gpg-suite"
+        }
+      },
+      "betterdisplay": {
+        "version": "3.0.4",
+        "options": {
+          "full_name": "betterdisplay"
         }
       }
     },
