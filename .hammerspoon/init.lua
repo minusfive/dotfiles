@@ -163,5 +163,6 @@ m.hotkeys:bindHotkeys({
 })
 
 -- Start watching config changes to reload
+-- table.insert(spoon.ReloadConfiguration.watch_paths, hs.configdir .. "/modules")
 spoon.ReloadConfiguration:start()
 hs.alert.show("Hammerspoon Configuration Reloaded")
