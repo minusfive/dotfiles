@@ -30,3 +30,4 @@ _darcs
 ^/assets
 ^/scripts
 \.luarc.json
+\.ruby-lsp
