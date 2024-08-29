@@ -28,6 +28,7 @@ cask 'betterdisplay'
 cask 'imageoptim'
 cask 'discord'
 cask 'gpg-suite'
+cask 'google-chrome'
 
 mas 'WhatsApp Messenger', id: 310_633_997
 mas '1Password for Safari', id: 1_569_813_296
