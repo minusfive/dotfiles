@@ -77,6 +77,7 @@ local modeSystem = {
 		{ {}, "m", "Activity Monitor", m.appLauncher:openApp("Activity Monitor") },
 		{ {}, "p", "System Preferences", m.appLauncher:openApp("System Preferences") },
 		{ {}, "r", "Reload Config", hs.reload },
+		{ {}, "s", "Sleep", hs.caffeinate.systemSleep },
 	},
 }
 
