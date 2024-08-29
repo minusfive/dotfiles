@@ -177,6 +177,18 @@ end
 local weztermWindowFilter = hs.window.filter.new({ "Terminal", "WezTerm" })
 weztermWindowFilter:subscribe(hs.window.filter.windowCreated, weztermNewWindowWatcher)
 
+-- Ensure all browser windows open on specific positions depending on screen size
+---@param window hs.window
+local function browserNewWindowWatcher(window)
+	local desiredPosition = m.windowManager.layout.left50
+	if window:screen():fullFrame().w >= 5120 then
+		desiredPosition = m.windowManager.layout.left33
+	end
+	window:moveToUnit(desiredPosition, 0)
+end
+local browserWindowFilter = hs.window.filter.new({ "Safari", "Google Chrome", "Firefox", "Brave" })
+browserWindowFilter:subscribe(hs.window.filter.windowCreated, browserNewWindowWatcher)
+
 -- Start watching config changes to reload
 spoon.ReloadConfiguration:start()
 hs.alert.show("Hammerspoon Configuration Reloaded")
