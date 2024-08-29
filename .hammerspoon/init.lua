@@ -73,6 +73,9 @@ local commonModalSpecs = {
 local modeSystem = {
 	trigger = { m.hotkeys.mods.hyper, "s", "System" },
 	specs = {
+		{ {}, "h", "Hammerspoon", m.appLauncher:openApp("Hammerspoon") },
+		{ {}, "m", "Activity Monitor", m.appLauncher:openApp("Activity Monitor") },
+		{ {}, "p", "System Preferences", m.appLauncher:openApp("System Preferences") },
 		{ {}, "r", "Reload Config", hs.reload },
 	},
 }
@@ -163,6 +166,5 @@ m.hotkeys:bindHotkeys({
 })
 
 -- Start watching config changes to reload
--- table.insert(spoon.ReloadConfiguration.watch_paths, hs.configdir .. "/modules")
 spoon.ReloadConfiguration:start()
 hs.alert.show("Hammerspoon Configuration Reloaded")
