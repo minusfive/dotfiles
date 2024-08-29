@@ -165,6 +165,18 @@ m.hotkeys:bindHotkeys({
 	},
 })
 
+-- Ensure all terminal windows open on specific positions depending on screen size
+---@param window hs.window
+local function weztermNewWindowWatcher(window)
+	local desiredPosition = m.windowManager.layout.right50
+	if window:screen():fullFrame().w >= 5120 then
+		desiredPosition = m.windowManager.layout.center33
+	end
+	window:moveToUnit(desiredPosition, 0)
+end
+local weztermWindowFilter = hs.window.filter.new({ "Terminal", "WezTerm" })
+weztermWindowFilter:subscribe(hs.window.filter.windowCreated, weztermNewWindowWatcher)
+
 -- Start watching config changes to reload
 spoon.ReloadConfiguration:start()
 hs.alert.show("Hammerspoon Configuration Reloaded")
