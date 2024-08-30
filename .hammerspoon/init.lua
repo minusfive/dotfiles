@@ -23,6 +23,7 @@ hs.alert.defaultStyle = {
 -- Keep all modules in a common table
 local m = {
 	appLauncher = require("modules.appLauncher"),
+	caffeine = require("modules.caffeine"),
 	hotkeys = require("modules.hotkeys"),
 	windowManager = require("modules.windowManager"),
 }
@@ -73,11 +74,12 @@ local commonModalSpecs = {
 local modeSystem = {
 	trigger = { m.hotkeys.mods.hyper, "s", "System" },
 	specs = {
+		{ {}, "c", "Caffeine", m.caffeine.toggle },
 		{ {}, "h", "Hammerspoon", m.appLauncher:openApp("Hammerspoon") },
 		{ {}, "m", "Activity Monitor", m.appLauncher:openApp("Activity Monitor") },
 		{ {}, "p", "System Preferences", m.appLauncher:openApp("System Preferences") },
 		{ {}, "r", "Reload Config", hs.reload },
-		{ {}, "s", "Sleep", hs.caffeinate.systemSleep },
+		{ m.hotkeys.mods.meh, "s", "Sleep", hs.caffeinate.systemSleep },
 	},
 }
 
@@ -189,6 +191,9 @@ local function browserNewWindowWatcher(window)
 end
 local browserWindowFilter = hs.window.filter.new({ "Safari", "Google Chrome", "Firefox", "Brave" })
 browserWindowFilter:subscribe(hs.window.filter.windowCreated, browserNewWindowWatcher)
+
+-- Start caffeine
+m.caffeine.start()
 
 -- Start watching config changes to reload
 spoon.ReloadConfiguration:start()
