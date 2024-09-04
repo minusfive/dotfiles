@@ -33,6 +33,7 @@ local m = {
 ---@type hs.hotkey.KeySpec[]
 local baseSpecs = {
 	-- Apps
+	{ m.hotkeys.mods.meh, "c", "Slack", m.appLauncher:openApp("Slack") },
 	{ m.hotkeys.mods.meh, "f", "Finder", m.appLauncher:openApp("Finder") },
 	{ m.hotkeys.mods.meh, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
 	{ m.hotkeys.mods.meh, "m", "Messages", m.appLauncher:openApp("Messages") },
@@ -41,6 +42,7 @@ local baseSpecs = {
 	{ m.hotkeys.mods.meh, "p", "1Password", m.appLauncher:openApp("1Password") },
 	{ m.hotkeys.mods.meh, "s", "Safari", m.appLauncher:openApp("Safari") },
 	{ m.hotkeys.mods.meh, "t", "WezTerm", m.appLauncher:openApp("WezTerm") },
+	{ m.hotkeys.mods.meh, "z", "Zoom.us", m.appLauncher:openApp("Zoom.us") },
 
 	-- Window Layouts
 	-- Top Row
@@ -88,6 +90,7 @@ local modeSystem = {
 local modeAppLauncher = {
 	trigger = { m.hotkeys.mods.meh, "a", "App Launcher" },
 	specs = {
+		{ {}, "c", "Slack", m.appLauncher:openApp("Slack") },
 		{ {}, "d", "Discord", m.appLauncher:openApp("Discord") },
 		{ {}, "f", "Finder", m.appLauncher:openApp("Finder") },
 		{ {}, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
@@ -99,7 +102,6 @@ local modeAppLauncher = {
 		{ {}, "p", "1Password", m.appLauncher:openApp("1Password") },
 		{ {}, "r", "Reminders", m.appLauncher:openApp("Reminders") },
 		{ {}, "s", "Safari", m.appLauncher:openApp("Safari") },
-		{ { "shift" }, "s", "Slack", m.appLauncher:openApp("Slack") },
 		{ {}, "t", "WezTerm", m.appLauncher:openApp("WezTerm") },
 		{ {}, "w", "WhatsApp", m.appLauncher:openApp("WhatsApp") },
 		{ {}, "x", "Microsoft Excel", m.appLauncher:openApp("Microsoft Excel") },
