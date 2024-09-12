@@ -5,7 +5,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 # wezterm shell integration
-export TERMINFO_DIRS="$XDG_CONFIG_HOME/wezterm/terminfo"
+TERMINFO_DIRS="$XDG_CONFIG_HOME/wezterm/terminfo"
 if [[ -f $XDG_CONFIG_HOME/wezterm/shell-integration.sh ]]; then
   source $XDG_CONFIG_HOME/wezterm/shell-integration.sh
 fi
@@ -96,7 +96,7 @@ plugins=(
     mise
     terraform
     virtualenv
-    yarn
+    # yarn
     zoxide
     zsh-autosuggestions
     fzf
@@ -197,3 +197,13 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/.ripgreprc"
 
 # FZF
 source <(fzf --zsh)
+
+# Yazi - Change directory when exiting
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp" > /dev/null
+}
