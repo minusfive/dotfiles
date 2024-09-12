@@ -29,9 +29,10 @@ alias q=exit
 # Shortcut to print current directory
 alias .="echo $PWD"
 
-# Correct common misspellings
-alias cd..="cd .."
-alias ..="cd .."
+# Use Zoxide instead of cd
+alias cd="z"
+alias cd..="z .."
+alias ..="z .."
 # alias c="clear"
 # alias e="exit"
 # alias ssh="ssh -X"
