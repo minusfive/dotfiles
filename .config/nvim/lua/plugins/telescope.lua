@@ -107,12 +107,12 @@ return {
       lsp_workspace_symbols = { path_display = { "shorten" } },
       -- lsp_code_actions = {},
       -- current_buffer_fuzzy_find = {},
-      grep_string = {
-        additional_args = { "--hidden" },
-      },
-      live_grep = {
-        additional_args = { "--hidden" },
-      },
+      -- grep_string = {
+      --   additional_args = {},
+      -- },
+      -- live_grep = {
+      --   additional_args = {},
+      -- },
     },
     extensions = {
       file_browser = {

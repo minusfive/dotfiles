@@ -1,0 +1,9 @@
+# Include hidden files and directories
+--hidden
+
+# Ignore .git directory
+--glob=!.git/*
+
+# Automatically determine case-sensitivity
+--smart-case
+
