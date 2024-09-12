@@ -39,3 +39,6 @@ env
 Async
 async
 asyncio
+Brewfile
+Homebrew
+macOS
