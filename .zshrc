@@ -1,11 +1,11 @@
 # use standard XDG directories
-XDG_CONFIG_HOME="$HOME/.config"
-XDG_DATA_HOME="$HOME/.local/share"
-XDG_STATE_HOME="$HOME/.local/state"
-XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"
 
 # wezterm shell integration
-TERMINFO_DIRS="$XDG_CONFIG_HOME/wezterm/terminfo"
+export TERMINFO_DIRS="$XDG_CONFIG_HOME/wezterm/terminfo"
 if [[ -f $XDG_CONFIG_HOME/wezterm/shell-integration.sh ]]; then
   source $XDG_CONFIG_HOME/wezterm/shell-integration.sh
 fi
@@ -187,7 +187,7 @@ if [[ -f $XDG_CONFIG_HOME/wezterm/shell-completion.zsh ]]; then
 fi
 
 # Multiplexers
-ZELLIJ_CONFIG_DIR="$XDG_CONFIG_HOME/zellij"
+export ZELLIJ_CONFIG_DIR="$XDG_CONFIG_HOME/zellij"
 
 # Lazygit
 # LG_CONFIG_FILE="$XDG_CONFIG_HOME/lazygit/config.yml,$XDG_CONFIG_HOME/lazygit/theme.yml"
