@@ -36,8 +36,8 @@ alias ..="cd .."
 # alias e="exit"
 # alias ssh="ssh -X"
 
-# Colorize Grep
-alias grep='grep --color=always'
+# Use ripgrep instead of grep
+alias grep='rg'
 
 # Keep bunzip2 decompressed files
 alias bunzip2='bunzip2 -k'
@@ -57,8 +57,3 @@ alias dev='cd ~/dev'
 alias cat='bat'
 alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
 
-
-# =======
-# = Hub =
-# =======
-# alias git=hub
