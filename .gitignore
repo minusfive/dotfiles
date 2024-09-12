@@ -50,6 +50,7 @@ Vagrantfile
 # Vim #
 #######
 .vim/bundle/*
+.lazy.lua
 
 # Sublime #
 ###########
