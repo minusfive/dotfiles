@@ -1,3 +1,7 @@
+# Include line numbers in output by default
+# This can be overridden using the `-N`, `--no-line-number` flag
+--line-number
+
 # Include hidden files and directories
 --hidden
 
