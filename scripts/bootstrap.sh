@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 # Exit immediately if a command fails and treat unset vars as error
 set -eu
@@ -10,13 +10,13 @@ local GITIGNORE_PATH="$DOTFILES_PATH/.gitignore"
 
 # Install Homebrew
 if [[ $(command -v brew) != "" ]]; then
-    echo "- Homebrew installed at $(which brew)"
+    echo "\n- Homebrew installed at $(which brew)"
 else
-    echo "- Homebrew not installed. Attempting install..."
+    echo "\n- Homebrew not installed. Attempting install..."
     /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     if [[ $? == 0 ]]; then
-      echo "- Homebrew installed, adding to path..."
+      echo "\n- Homebrew installed, adding to path..."
       (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> $HOME/.zprofile
       eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
@@ -27,40 +27,40 @@ fi
 if [[ $(command -v brew) != "" ]]; then
     # Install desired tools, apps, etc.
     if [[ ! -f $BREW_BUNDLE_PATH ]]; then
-        echo "- Brewfile not found"
+        echo "\n- Brewfile not found"
     else
-        echo "- Installing Homebrew bundle"
+        echo "\n- Installing Homebrew bundle"
         brew bundle -v --file $BREW_BUNDLE_PATH
     fi
 
     if [[ $(brew commands -q | grep cu -c) == 1 ]]; then
-      echo "brew-cask-upgrade found; attempting to upgrade Homebrew, packages and apps..."
+      echo "\nbrew-cask-upgrade found; attempting to upgrade Homebrew, packages and apps..."
       brew cu -a
     else
-      echo "brew-cask-upgrade not found; attempting to upgrade Homebrew and packages..."
+      echo "\nbrew-cask-upgrade not found; attempting to upgrade Homebrew and packages..."
       brew upgrade
     fi
 
     if [[ $? == 0 ]]; then
-      echo "- Everything up to date"
+      echo "\n- Everything up to date"
     fi
 fi
 
 
 # Install OhMyZsh
 if [[ -d ${ZSH:-$HOME/.oh-my-zsh} ]]; then
-    echo "- OhMyZsh already installed"
+    echo "\n- OhMyZsh already installed"
 else
-    echo "- Installing OhMyZsh"
+    echo "\n- Installing OhMyZsh"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
 
 # Install PowerLevel10K
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k ]]; then
-    echo "- PowerLevel10K already installed"
+    echo "\n- PowerLevel10K already installed"
 else
-    echo "- Installing PowerLevel10K"
+    echo "\n- Installing PowerLevel10K"
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
       ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 fi
@@ -68,9 +68,9 @@ fi
 
 # Install fast-syntax-highlighting
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting ]]; then
-    echo "- fast-syntax-highlighting already installed"
+    echo "\n- fast-syntax-highlighting already installed"
 else
-    echo "- Installing fast-syntax-highlighting"
+    echo "\n- Installing fast-syntax-highlighting"
     git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
       ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 fi
@@ -78,9 +78,9 @@ fi
 
 # Install zsh-autosuggestions
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
-    echo "- zsh-autosuggestions already installed"
+    echo "\n- zsh-autosuggestions already installed"
 else
-    echo "- Installing zsh-autosuggestions"
+    echo "\n- Installing zsh-autosuggestions"
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions \
       ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
@@ -88,9 +88,9 @@ fi
 
 # Install OhMyZsh Full-autoupdate
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate ]]; then
-    echo "- OhMyZsh Full-autoupdate already installed"
+    echo "\n- OhMyZsh Full-autoupdate already installed"
 else
-    echo "- Installing OhMyZsh Full-autoupdate"
+    echo "\n- Installing OhMyZsh Full-autoupdate"
     git clone https://github.com/Pilaton/OhMyZsh-full-autoupdate.git \
       ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
 fi

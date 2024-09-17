@@ -1,19 +1,22 @@
-# Clanup zsh completion and reload oh-my-zsh
-brew cleanup && rm -f "$ZSH_COMPDUMP" && omz reload
+#!/usr/bin/env zsh
 
 # Update OhMyZsh, plugins and themes
-zsh "$HOME/.oh-my-zsh/tools/upgrade.sh"
+zsh "$ZSH/tools/upgrade.sh"
 
 # Rebuild bat cache
 if [[ $(command -v bat) != "" ]]; then
-  echo "- Rebuilding bat cache"
+  echo "\n- Rebuilding bat cache"
   bat cache --build
 fi
 
 # Symlink dotfiles
 if [[ $(command -v stow) != "" ]]; then
-  echo "- GNU Stow found, symlinking dotfiles"
+  echo "\n- GNU Stow found, symlinking dotfiles"
   stow -vR .
 else
-  echo "- GNU Stow not found."
+  echo "\n- GNU Stow not found."
 fi
+
+# Clanup zsh completion and reload zsh
+echo "\n- Cleaning up zsh completion and reloading zsh session"
+brew cleanup && rm -f "$ZSH_COMPDUMP" && source "$HOME/.zshrc"
