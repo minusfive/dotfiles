@@ -2,33 +2,34 @@
 
 tap 'buo/cask-upgrade'
 
-brew 'mas'
+brew 'mas' # Mac App Store
 brew 'zsh'
+brew 'eza' # `ls` replacement
 brew 'git'
-brew 'lazygit'
-brew 'coreutils'
-brew 'neovim'
-brew 'stow'
-brew 'fzf'
-brew 'fd'
-brew 'bat'
-brew 'ripgrep'
-brew 'zoxide'
+brew 'lazygit' # Git Terminal UI
+brew 'coreutils' # GNU core utilities
+brew 'neovim' # Preferred text editor
+brew 'stow' # Symlink manager
+brew 'fzf' # Fuzzy finder
+brew 'fd' # `find` replacement
+brew 'bat' # `cat` replacement
+brew 'ripgrep' # `grep` replacement
+brew 'zoxide' # `cd` replacement
 brew 'node'
 brew 'go'
 brew 'ruby'
 brew 'wget'
-brew 'htop'
-brew 'yazi'
+brew 'htop' # `top` replacement
+brew 'yazi' # File manager in terminal
 
-cask '1password'
-cask 'hammerspoon'
-cask 'wezterm'
-cask 'obsidian'
-cask 'betterdisplay'
-cask 'imageoptim'
-cask 'discord'
-cask 'gpg-suite'
+cask '1password' # Password manager
+cask 'hammerspoon' # macOS automation
+cask 'wezterm' # Terminal emulator
+cask 'obsidian' # Note-taking
+cask 'betterdisplay' # Display configuration manager
+cask 'imageoptim' # Image optimizer
+cask 'discord' # Chat app
+cask 'gpg-suite' # GPG keychain
 cask 'google-chrome'
 
 mas 'WhatsApp Messenger', id: 310_633_997
