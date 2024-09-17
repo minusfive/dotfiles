@@ -202,6 +202,9 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/.ripgreprc"
 # FZF
 source <(fzf --zsh)
 
+# Colorize LS
+export LS_COLORS="$(vivid generate catppuccin-mocha)"
+
 # Yazi - Change directory when exiting
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"

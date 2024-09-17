@@ -5,6 +5,7 @@ tap 'buo/cask-upgrade'
 brew 'mas' # Mac App Store
 brew 'zsh'
 brew 'eza' # `ls` replacement
+brew 'vivid' # `LS_COLORS` generator
 brew 'git'
 brew 'lazygit' # Git Terminal UI
 brew 'coreutils' # GNU core utilities
