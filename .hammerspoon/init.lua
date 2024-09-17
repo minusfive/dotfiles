@@ -34,14 +34,20 @@ local m = {
 local baseSpecs = {
 	-- Apps
 	{ m.hotkeys.mods.meh, "c", "Slack", m.appLauncher:openApp("Slack") },
+	{ m.hotkeys.mods.meh, "d", "Discord", m.appLauncher:openApp("Discord") },
 	{ m.hotkeys.mods.meh, "f", "Finder", m.appLauncher:openApp("Finder") },
 	{ m.hotkeys.mods.meh, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
+	{ m.hotkeys.mods.meh, "i", "Insomnia", m.appLauncher:openApp("Insomnia") },
 	{ m.hotkeys.mods.meh, "m", "Messages", m.appLauncher:openApp("Messages") },
 	{ m.hotkeys.mods.meh, "n", "Obsidian", m.appLauncher:openApp("Obsidian") },
+	{ m.hotkeys.mods.hyper, "n", "Notes", m.appLauncher:openApp("Notes") },
 	{ m.hotkeys.mods.meh, "o", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") },
 	{ m.hotkeys.mods.meh, "p", "1Password", m.appLauncher:openApp("1Password") },
+	{ m.hotkeys.mods.meh, "r", "Reminders", m.appLauncher:openApp("Reminders") },
 	{ m.hotkeys.mods.meh, "s", "Safari", m.appLauncher:openApp("Safari") },
 	{ m.hotkeys.mods.meh, "t", "WezTerm", m.appLauncher:openApp("WezTerm") },
+	{ m.hotkeys.mods.meh, "w", "WhatsApp", m.appLauncher:openApp("WhatsApp") },
+	{ m.hotkeys.mods.meh, "x", "Microsoft Excel", m.appLauncher:openApp("Microsoft Excel") },
 	{ m.hotkeys.mods.meh, "z", "Zoom.us", m.appLauncher:openApp("Zoom.us") },
 
 	-- Window Layouts
@@ -67,8 +73,6 @@ local baseSpecs = {
 local commonModalSpecs = {
 	-- Uniform ways of exiting modal environments
 	{ {}, "escape", nil, m.hotkeys.activeModeExit },
-	{ {}, "q", nil, m.hotkeys.activeModeExit },
-	{ {}, "space", nil, m.hotkeys.activeModeExit },
 }
 
 -- System manipulation mode
@@ -81,38 +85,13 @@ local modeSystem = {
 		{ {}, "m", "Activity Monitor", m.appLauncher:openApp("Activity Monitor") },
 		{ {}, "p", "System Preferences", m.appLauncher:openApp("System Preferences") },
 		{ {}, "r", "Reload Config", hs.reload },
-		{ m.hotkeys.mods.meh, "s", "Sleep", hs.caffeinate.systemSleep },
-	},
-}
-
--- Application launcher mode
----@type Hotkeys.ModalSpec
-local modeAppLauncher = {
-	trigger = { m.hotkeys.mods.meh, "a", "App Launcher" },
-	specs = {
-		{ {}, "c", "Slack", m.appLauncher:openApp("Slack") },
-		{ {}, "d", "Discord", m.appLauncher:openApp("Discord") },
-		{ {}, "f", "Finder", m.appLauncher:openApp("Finder") },
-		{ {}, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
-		{ {}, "i", "Insomnia", m.appLauncher:openApp("Insomnia") },
-		{ {}, "m", "Messages", m.appLauncher:openApp("Messages") },
-		{ {}, "n", "Obsidian", m.appLauncher:openApp("Obsidian") },
-		{ { "shift" }, "n", "Notes", m.appLauncher:openApp("Notes") },
-		{ {}, "o", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") },
-		{ {}, "p", "1Password", m.appLauncher:openApp("1Password") },
-		{ {}, "r", "Reminders", m.appLauncher:openApp("Reminders") },
-		{ {}, "s", "Safari", m.appLauncher:openApp("Safari") },
-		{ {}, "t", "WezTerm", m.appLauncher:openApp("WezTerm") },
-		{ {}, "w", "WhatsApp", m.appLauncher:openApp("WhatsApp") },
-		{ {}, "x", "Microsoft Excel", m.appLauncher:openApp("Microsoft Excel") },
-		{ {}, "z", "Zoom.us", m.appLauncher:openApp("Zoom.us") },
 	},
 }
 
 -- Window manager mode
 ---@type Hotkeys.ModalSpec
 local modeWindowManager = {
-	trigger = { m.hotkeys.mods.meh, "w", "Window Manager" },
+	trigger = { m.hotkeys.mods.hyper, "w", "Window Manager" },
 	specs = {
 		-- Top Row - Thirds [||]
 		{ { "shift" }, "2", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },
@@ -132,10 +111,10 @@ local modeWindowManager = {
 		{ {}, "down", "1/2 Bottom", m.windowManager:move(m.windowManager.layout.bottom50) },
 
 		-- Corners
-		{ {}, "1", "1/4 Top-Left", m.windowManager:move(m.windowManager.layout.topLeft25) },
-		{ {}, "5", "1/4 Top-Right", m.windowManager:move(m.windowManager.layout.topRigh25) },
-		{ {}, "6", "1/4 Bottom-Left", m.windowManager:move(m.windowManager.layout.bottomLeft25) },
-		{ {}, "0", "1/4 Bottom-Right", m.windowManager:move(m.windowManager.layout.bottomRigh25) },
+		{ {}, "q", "1/4 Top-Left", m.windowManager:move(m.windowManager.layout.topLeft25) },
+		{ {}, "b", "1/4 Top-Right", m.windowManager:move(m.windowManager.layout.topRigh25) },
+		{ {}, "z", "1/4 Bottom-Left", m.windowManager:move(m.windowManager.layout.bottomLeft25) },
+		{ {}, "v", "1/4 Bottom-Right", m.windowManager:move(m.windowManager.layout.bottomRigh25) },
 
 		-- Move
 		{ {}, "[", "Move Left", m.windowManager.moveL },
@@ -157,7 +136,7 @@ local modeWindowManager = {
 }
 
 -- Append commonModalSpecs to each modal's specs
-hs.fnutils.each({ modeSystem, modeAppLauncher, modeWindowManager }, function(modalSpec)
+hs.fnutils.each({ modeSystem, modeWindowManager }, function(modalSpec)
 	modalSpec.specs = hs.fnutils.concat(modalSpec.specs, commonModalSpecs)
 end)
 
@@ -165,7 +144,6 @@ m.hotkeys:bindHotkeys({
 	specs = baseSpecs,
 	modes = {
 		modeSystem,
-		modeAppLauncher,
 		modeWindowManager,
 	},
 })
