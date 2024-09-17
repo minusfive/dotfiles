@@ -79,6 +79,7 @@ local commonModalSpecs = {
 ---@type Hotkeys.ModalSpec
 local modeSystem = {
 	trigger = { m.hotkeys.mods.hyper, "s", "System" },
+	isOneShot = true,
 	specs = {
 		{ {}, "c", "Caffeine", m.caffeine.toggle },
 		{ {}, "h", "Hammerspoon", m.appLauncher:openApp("Hammerspoon") },
@@ -92,6 +93,7 @@ local modeSystem = {
 ---@type Hotkeys.ModalSpec
 local modeWindowManager = {
 	trigger = { m.hotkeys.mods.hyper, "w", "Window Manager" },
+	isOneShot = true,
 	specs = {
 		-- Top Row - Thirds [||]
 		{ { "shift" }, "2", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },

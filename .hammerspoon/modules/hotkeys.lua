@@ -2,33 +2,42 @@
 
 ---@alias hs.hotkey.KeySpec [string[], string, string, function?, function?, function?]
 
+---@class Hotkeys.ActiveMode
+---@field modal? hs.hotkey.modal
+---@field specs? hs.hotkey.KeySpec[]
+---@field triggerSpec? hs.hotkey.KeySpec
+---@field isOneShot? boolean
+
+---@class Hotkeys.ModalSpec
+---@field trigger hs.hotkey.KeySpec
+---@field specs hs.hotkey.KeySpec[]
+---@field isOneShot? boolean
+
 ---@class Hotkeys
 ---@field mods {meh: string[], hyper: string[]}
----@field activeMode hs.hotkey.modal | nil
----@field activeModeSpecs hs.hotkey.KeySpec[] | nil
----@field keyListener hs.eventtap | nil
----@field menuBarItem hs.menubar | nil
+---@field activeMode? Hotkeys.ActiveMode
+---@field keyListener? hs.eventtap
+---@field menuBarItem? hs.menubar
 local Hotkeys = {
 	mods = {
 		meh = { "ctrl", "alt", "shift" },
 		hyper = { "ctrl", "alt", "shift", "cmd" },
 	},
 	activeMode = nil,
-	activeModeSpecs = nil,
 	keyListener = nil,
 	menuBarItem = nil,
 }
 
----@class Hotkeys.ModalSpec
----@field trigger [string[], string, string]
----@field specs? hs.hotkey.KeySpec[]
-
 -- Setup modal hotkeys environments
 ---@param modalSpec Hotkeys.ModalSpec
----@return hs.hotkey.modal
+---@return nil
 local function configureModal(modalSpec)
+	if not modalSpec.specs or not #modalSpec.specs then
+		return
+	end
+
 	local modal = hs.hotkey.modal.new(table.unpack(modalSpec.trigger))
-	local specs = modalSpec.specs or {}
+	local specs = modalSpec.specs
 
 	-- Bind all specs
 	for _, spec in ipairs(specs) do
@@ -37,8 +46,12 @@ local function configureModal(modalSpec)
 
 	---@diagnostic disable-next-line: duplicate-set-field
 	function modal:entered()
-		Hotkeys.activeMode = modal
-		Hotkeys.activeModeSpecs = specs
+		Hotkeys.activeMode = {
+			modal = modal,
+			specs = specs,
+			triggerSpec = modalSpec.trigger,
+			isOneShot = modalSpec.isOneShot,
+		}
 
 		if Hotkeys.keyListener then
 			Hotkeys.keyListener:start()
@@ -55,7 +68,6 @@ local function configureModal(modalSpec)
 	---@diagnostic disable-next-line: duplicate-set-field
 	function modal:exited()
 		Hotkeys.activeMode = nil
-		Hotkeys.activeModeSpecs = nil
 
 		if Hotkeys.keyListener then
 			Hotkeys.keyListener:stop()
@@ -67,16 +79,14 @@ local function configureModal(modalSpec)
 
 		hs.alert('Exited "' .. modalSpec.trigger[3] .. '" mode')
 	end
-
-	return modal
 end
 
 -- EventTap handler which blocks any key events not found in a mode's specs
 ---@param event hs.eventtap.event
 local function keyListenerFn(event)
 	-- Noop if no active mode specs found
-	if not Hotkeys.activeModeSpecs then
-		return
+	if not Hotkeys.activeMode or not Hotkeys.activeMode.specs or not #Hotkeys.activeMode.specs then
+		return false
 	end
 
 	local eventMods = event:getFlags()
@@ -84,8 +94,18 @@ local function keyListenerFn(event)
 	eventKey = type(eventKey) == "string" and string.lower(eventKey)
 
 	-- Allow key event if it's found in active mode hotkeys specs
-	for _, spec in ipairs(Hotkeys.activeModeSpecs) do
+	for _, spec in ipairs(Hotkeys.activeMode.specs) do
 		if eventKey == string.lower(spec[2]) and type(eventMods) == "table" and eventMods:containExactly(spec[1]) then
+			-- If it's a one-shot mode, execute the action and exit
+			if Hotkeys.activeMode.isOneShot then
+				Hotkeys.activeMode.modal:exit()
+				if type(spec[4]) == "function" then
+					spec[4]()
+				end
+				-- Block the event so it doesn't propagate to the application
+				return true
+			end
+			-- otherwise just rely on modal handling
 			return
 		end
 	end
@@ -97,7 +117,7 @@ end
 -- Allows exiting the currently active modal state
 function Hotkeys:activeModeExit()
 	if Hotkeys.activeMode then
-		Hotkeys.activeMode:exit()
+		Hotkeys.activeMode.modal:exit()
 	end
 end
 
