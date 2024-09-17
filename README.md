@@ -49,6 +49,7 @@ Alternatively, if you only want to refresh the configuration files, run:
   - [htop](https://github.com/htop-dev/htop) - Better `top`
   - [Oh My Zsh](https://ohmyz.sh/) - Zsh Configuration Manager
   - [Powerlevel10k](https://github.com/romkatv/powerlevel10k) - Zsh Theme
+  - [eza](https://github.com/eza-community/eza) - Better `ls`
   - See [the Brewfile](./scripts/Brewfile) and [the bootstrap script](./scripts/bootstrap.sh) for the full list of installed tools, apps, themes, plugins, etc.
 - [Neovim](https://neovim.io/) - Text Editor / IDE
   - [LazyVim](https://www.lazyvim.org/) - Neovim Plugin and Configuration Manager
