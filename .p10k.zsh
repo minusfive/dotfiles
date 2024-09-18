@@ -32,17 +32,18 @@
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
     # os_icon                 # os identifier
-    vpn_ip                  # virtual private network indicator
+    vi_mode                 # VI mode
     virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
+    status                  # exit code of the last command
     command_execution_time  # duration of the last command
-    time                    # current time
-    vcs                     # git status
     dir                     # current directory
-    per_directory_history   # Oh My Zsh per-directory-history local/global indicator
+    # vpn_ip                  # virtual private network indicator
+    # separator_space         # space
+    vcs                     # git status
+    # per_directory_history   # Oh My Zsh per-directory-history local/global indicator
     # =========================[ Line #2 ]=========================
     newline                 # \n
-    vi_mode                 # VI mode
-    # prompt_char_joined             # prompt symbol
+    prompt_char             # prompt symbol
   )
 
   # The list of segments shown on the right. Fill it with less important segments.
@@ -198,7 +199,7 @@
   # typeset -g POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR='\uE0B3'
   # Separator between different-color segments on the left.
   # typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='\uE0B0'
-  typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=
+  typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=' '
   # Separator between different-color segments on the right.
   typeset -g POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=
   # To remove a separator between two segments, add "_joined" to the second segment name.
@@ -1707,6 +1708,11 @@
     # instant_prompt_example. This will give us the same `example` prompt segment in the instant
     # and regular prompts.
     prompt_example
+  }
+
+  # Separator space
+  function prompt_separator_space() {
+    p10k segment -e -t $'\u2009'
   }
 
   # User-defined prompt segments can be customized the same way as built-in segments.
