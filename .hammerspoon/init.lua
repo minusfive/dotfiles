@@ -165,9 +165,21 @@ weztermWindowFilter:subscribe(hs.window.filter.windowCreated, weztermNewWindowWa
 -- Ensure all browser windows open on specific positions depending on screen size
 ---@param window hs.window
 local function browserNewWindowWatcher(window)
-	local desiredPosition = m.windowManager.layout.left50
+	---@type hs.application | nil
+	local app = window:application()
+	app = app and app:name()
+
+	---@class Position
+	---@field default string
+	local pos = { default = m.windowManager.layout.right50, above5125 = m.windowManager.layout.right33 }
+
+	if app == "Safari" then
+		pos = { default = m.windowManager.layout.left50, above5125 = m.windowManager.layout.left33 }
+	end
+
+	local desiredPosition = pos.default
 	if window:screen():fullFrame().w >= 5120 then
-		desiredPosition = m.windowManager.layout.left33
+		desiredPosition = pos.above5125
 	end
 	window:moveToUnit(desiredPosition, 0)
 end
