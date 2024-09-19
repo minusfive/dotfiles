@@ -85,13 +85,21 @@ else
       ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
+# Install fzf-tab
+if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab ]]; then
+    echo "\n- fzf-tab already installed"
+else
+    echo "\n- Installing fzf-tab"
+    git clone --depth=1 https://github.com/Aloxaf/fzf-tab \
+      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
+fi
 
 # Install OhMyZsh Full-autoupdate
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate ]]; then
     echo "\n- OhMyZsh Full-autoupdate already installed"
 else
     echo "\n- Installing OhMyZsh Full-autoupdate"
-    git clone https://github.com/Pilaton/OhMyZsh-full-autoupdate.git \
+    git clone --depth=1 https://github.com/Pilaton/OhMyZsh-full-autoupdate.git \
       ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
 fi
 
