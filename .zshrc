@@ -92,7 +92,6 @@ HIST_STAMPS="yyyy-mm-dd"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=( 
     # other plugins...
-    # zsh-autocomplete
     colored-man-pages
     docker
     fast-syntax-highlighting
@@ -100,10 +99,12 @@ plugins=(
     mise
     terraform
     virtualenv
-    # yarn
+    # yarn # Keyboard commands conflict with Yazi's CLI
     zoxide
+    # zsh-autocomplete # Too noisy
     zsh-autosuggestions
     fzf
+    # per-directory-history # Not used to this yet
     ohmyzsh-full-autoupdate
 )
 
@@ -214,3 +215,9 @@ function y() {
 	fi
 	rm -f -- "$tmp" > /dev/null
 }
+
+# zsh-autosuggestions
+# Use history first, then completion
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+# Fix https://github.com/romkatv/powerlevel10k/issues/1554
+unset ZSH_AUTOSUGGEST_USE_ASYNC
