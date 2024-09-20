@@ -52,3 +52,4 @@ cd ~/.dotfiles
 - [zoxide](https://github.com/ajeetdsouza/zoxide) - Better `cd`
 - [htop](https://github.com/htop-dev/htop) - Better `top`
 - [eza](https://github.com/eza-community/eza) - Better `ls`
+- [Catppuccin](https://catppuccin.com/) - Color scheme for everything
