@@ -55,6 +55,10 @@ local baseSpecs = {
 	{ m.hotkeys.mods.meh, "2", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },
 	{ m.hotkeys.mods.meh, "3", "1/3 Center", m.windowManager:move(m.windowManager.layout.center33) },
 	{ m.hotkeys.mods.meh, "4", "1/3 Right", m.windowManager:move(m.windowManager.layout.right33) },
+	{ m.hotkeys.mods.meh, "=", "Grow Width", m.windowManager.growX },
+	{ m.hotkeys.mods.meh, "-", "Shrink Width", m.windowManager.shrinkX },
+	{ m.hotkeys.mods.hyper, "=", "Grow Height", m.windowManager.growY },
+	{ m.hotkeys.mods.hyper, "-", "Shrink Height", m.windowManager.shrinkY },
 
 	-- Middle Row
 	{ m.hotkeys.mods.meh, "6", "1/4 1", m.windowManager:move(m.windowManager.layout.first25) },
