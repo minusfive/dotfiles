@@ -34,7 +34,7 @@ cd ~/.dotfiles
 - [Neovim](https://neovim.io/) - Text Editor / IDE
   - [LazyVim](https://www.lazyvim.org/) - Neovim Plugin and Configuration Manager
   - See [the Neovim configuration](./.config/nvim) for the full list of installed plugins and settings.
-- [Hammerspoon](https://www.hammerspoon.org/) - macOS Automation Tool (app launcher, window manager, caffeinator, etc.)
+- [Hammerspoon](https://www.hammerspoon.org/) - macOS Automation (app launcher, window manager, caffeinator, etc.)
 - [WezTerm](https://wezfurlong.org/wezterm/) - Terminal Emulator
 - [Homebrew](https://brew.sh) - macOS Package Manager
   - See [the Brewfile](./scripts/Brewfile) and [the bootstrap script](./scripts/bootstrap.sh) for the full list of installed tools, apps, themes, plugins, etc.
