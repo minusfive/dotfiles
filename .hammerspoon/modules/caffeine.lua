@@ -9,10 +9,15 @@ local Caffeine = {}
 local function toggleMenuBarItem()
 	if not Caffeine.menuBarItem then
 		Caffeine.menuBarItem = hs.menubar.new(true, "hs.minusfive.caffeine")
+		Caffeine.menuBarItem:setClickCallback(Caffeine.toggle)
 	end
 
-	local menuIcon = hs.caffeinate.get("displayIdle") and "0.0" or "-.-"
+	local isActive = hs.caffeinate.get("displayIdle")
+	local menuIcon = isActive and "0.0" or "-.-"
+	local tooltip = isActive and "Insomniac" or "Sleepy"
+
 	Caffeine.menuBarItem:setTitle(menuIcon)
+	Caffeine.menuBarItem:setTooltip(tooltip)
 end
 
 -- Toggles system caffeination
