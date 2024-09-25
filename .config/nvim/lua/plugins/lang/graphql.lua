@@ -1,13 +1,11 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      table.insert(opts.ensure_installed, "graphql")
-    end,
+    opts = { ensure_installed = { "graphql" } },
   },
   {
     "neovim/nvim-lspconfig",
-    --@class PluginLspOpts
+    ---@class PluginLspOpts
     opts = {
       servers = { graphql = {} },
     },

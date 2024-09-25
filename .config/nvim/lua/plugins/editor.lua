@@ -1,5 +1,10 @@
--- keybindings
 return {
+  -- Text manipulation
+  {
+    "tpope/vim-abolish",
+    event = "VeryLazy",
+  },
+  -- Keybindings help menu
   {
     "folke/which-key.nvim",
     optional = true,
@@ -19,6 +24,8 @@ return {
       },
     },
   },
+
+  -- File explorer
   {
     "nvim-neo-tree/neo-tree.nvim",
     optional = true,

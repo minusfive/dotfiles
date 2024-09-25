@@ -178,8 +178,8 @@ return {
       opts.sections.lualine_y = { "branch" }
       opts.sections.lualine_z = {}
 
-      table.insert(opts.options.disabled_filetypes.statusline, "neo-tree")
-      table.insert(opts.options.disabled_filetypes.statusline, "edgy")
+      vim.list_extend(opts.options.disabled_filetypes.statusline, { "neo-tree" })
+      vim.list_extend(opts.options.disabled_filetypes.statusline, { "edgy" })
       opts.options.disabled_filetypes.winbar = vim.deepcopy(opts.options.disabled_filetypes.statusline)
 
       opts.winbar = {

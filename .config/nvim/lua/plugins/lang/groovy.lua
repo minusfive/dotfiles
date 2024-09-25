@@ -1,7 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    --@class PluginLspOpts
+    ---@class PluginLspOpts
     opts = {
       servers = { groovyls = {} },
     },
