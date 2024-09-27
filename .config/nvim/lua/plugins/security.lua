@@ -9,9 +9,10 @@ return {
   },
   {
     "laytan/cloak.nvim",
+    event = "VeryLazy",
     keys = {
       { "<leader>hs", "<cmd>CloakToggle<cr>", desc = "Secrets (Toggle)" },
     },
-    opts = { enabled = true },
+    config = true,
   },
 }
