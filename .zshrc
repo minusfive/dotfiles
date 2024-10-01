@@ -237,3 +237,19 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
 enable-fzf-tab
+
+# Autoload python venv
+python_venv() {
+  local __dir_venv=./.venv
+  if [[ -d $__dir_venv ]]; then
+    # when you cd into a folder that contains $__dir_venv
+    source $__dir_venv/bin/activate > /dev/null 2>&1
+  else
+    # when you cd into a folder that doesn't
+    deactivate > /dev/null 2>&1
+  fi
+}
+autoload -U add-zsh-hook
+add-zsh-hook chpwd python_venv
+
+python_venv
