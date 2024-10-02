@@ -61,3 +61,12 @@ vim.diagnostic.open_float = (function(original_fn)
     return original_fn(opts)
   end
 end)(vim.diagnostic.open_float)
+
+-- Disable diagnostics on .env files
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = { "*.env", "*.env.*" },
+  desc = "Disable diagnostics on .env files",
+  callback = function(ev)
+    vim.diagnostic.enable(false, { bufnr = ev.buf })
+  end,
+})

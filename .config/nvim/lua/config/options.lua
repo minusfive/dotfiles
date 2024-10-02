@@ -45,13 +45,7 @@ vim.g.minipairs_disable = true
 
 -- additional filetypes
 vim.filetype.add({
-  extension = {
-    env = "conf",
-  },
   filename = {
     Brewfile = "ruby",
-  },
-  pattern = {
-    ["%.env%.[%w_.-]+"] = "conf",
   },
 })
