@@ -40,6 +40,8 @@ alias ..="z .."
 
 # Use ripgrep instead of grep
 alias grep='rg'
+# Cleanup ripgrep output for piping
+alias rgc='rg --color=never --no-heading --no-line-number --no-filename'
 
 # Keep bunzip2 decompressed files
 alias bunzip2='bunzip2 -k'
