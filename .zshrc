@@ -157,6 +157,7 @@ fi
 # Python
 path=(/usr/local/bin
       /usr/local/sbin
+      $HOME/.local/bin
       $path)
 
 # Yarn
