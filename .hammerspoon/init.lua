@@ -35,13 +35,13 @@ local baseSpecs = {
 	-- Apps
 	{ m.hotkeys.mods.meh, "c", "Slack", m.appLauncher:openApp("Slack") },
 	{ m.hotkeys.mods.meh, "d", "Discord", m.appLauncher:openApp("Discord") },
+	{ m.hotkeys.mods.meh, "e", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") },
 	{ m.hotkeys.mods.meh, "f", "Finder", m.appLauncher:openApp("Finder") },
 	{ m.hotkeys.mods.meh, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
 	{ m.hotkeys.mods.meh, "i", "Insomnia", m.appLauncher:openApp("Insomnia") },
 	{ m.hotkeys.mods.meh, "m", "Messages", m.appLauncher:openApp("Messages") },
-	{ m.hotkeys.mods.meh, "n", "Obsidian", m.appLauncher:openApp("Obsidian") },
-	{ m.hotkeys.mods.hyper, "n", "Notes", m.appLauncher:openApp("Notes") },
-	{ m.hotkeys.mods.meh, "o", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") },
+	{ m.hotkeys.mods.meh, "n", "Notes", m.appLauncher:openApp("Notes") },
+	{ m.hotkeys.mods.meh, "o", "Obsidian", m.appLauncher:openApp("Obsidian") },
 	{ m.hotkeys.mods.meh, "p", "1Password", m.appLauncher:openApp("1Password") },
 	{ m.hotkeys.mods.meh, "r", "Reminders", m.appLauncher:openApp("Reminders") },
 	{ m.hotkeys.mods.meh, "s", "Safari", m.appLauncher:openApp("Safari") },
@@ -52,22 +52,22 @@ local baseSpecs = {
 
 	-- Window Layouts
 	-- Top Row
-	{ m.hotkeys.mods.meh, "2", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },
-	{ m.hotkeys.mods.meh, "3", "1/3 Center", m.windowManager:move(m.windowManager.layout.center33) },
-	{ m.hotkeys.mods.meh, "4", "1/3 Right", m.windowManager:move(m.windowManager.layout.right33) },
-	{ m.hotkeys.mods.meh, "=", "Grow Width", m.windowManager.growX },
-	{ m.hotkeys.mods.meh, "-", "Shrink Width", m.windowManager.shrinkX },
-	{ m.hotkeys.mods.hyper, "=", "Grow Height", m.windowManager.growY },
-	{ m.hotkeys.mods.hyper, "-", "Shrink Height", m.windowManager.shrinkY },
+	-- { m.hotkeys.mods.meh, "2", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },
+	-- { m.hotkeys.mods.meh, "3", "1/3 Center", m.windowManager:move(m.windowManager.layout.center33) },
+	-- { m.hotkeys.mods.meh, "4", "1/3 Right", m.windowManager:move(m.windowManager.layout.right33) },
+	-- { m.hotkeys.mods.meh, "=", "Grow Width", m.windowManager.growX },
+	-- { m.hotkeys.mods.meh, "-", "Shrink Width", m.windowManager.shrinkX },
+	-- { m.hotkeys.mods.hyper, "=", "Grow Height", m.windowManager.growY },
+	-- { m.hotkeys.mods.hyper, "-", "Shrink Height", m.windowManager.shrinkY },
 
 	-- Middle Row
-	{ m.hotkeys.mods.meh, "6", "1/4 1", m.windowManager:move(m.windowManager.layout.first25) },
-	{ m.hotkeys.mods.meh, "7", "1/2 Left", m.windowManager:move(m.windowManager.layout.left50) },
-	{ m.hotkeys.mods.hyper, "7", "1/4 2", m.windowManager:move(m.windowManager.layout.second25) },
-	{ m.hotkeys.mods.meh, "8", "1/2 Center", m.windowManager:move(m.windowManager.layout.center50) },
-	{ m.hotkeys.mods.meh, "9", "1/2 Right", m.windowManager:move(m.windowManager.layout.right50) },
-	{ m.hotkeys.mods.hyper, "9", "1/4 3", m.windowManager:move(m.windowManager.layout.third25) },
-	{ m.hotkeys.mods.meh, "0", "1/4 4", m.windowManager:move(m.windowManager.layout.fourth25) },
+	-- { m.hotkeys.mods.meh, "6", "1/4 1", m.windowManager:move(m.windowManager.layout.first25) },
+	-- { m.hotkeys.mods.meh, "7", "1/2 Left", m.windowManager:move(m.windowManager.layout.left50) },
+	-- { m.hotkeys.mods.hyper, "7", "1/4 2", m.windowManager:move(m.windowManager.layout.second25) },
+	-- { m.hotkeys.mods.meh, "8", "1/2 Center", m.windowManager:move(m.windowManager.layout.center50) },
+	-- { m.hotkeys.mods.meh, "9", "1/2 Right", m.windowManager:move(m.windowManager.layout.right50) },
+	-- { m.hotkeys.mods.hyper, "9", "1/4 3", m.windowManager:move(m.windowManager.layout.third25) },
+	-- { m.hotkeys.mods.meh, "0", "1/4 4", m.windowManager:move(m.windowManager.layout.fourth25) },
 }
 
 -- Modal hotkeys
@@ -82,7 +82,7 @@ local commonModalSpecs = {
 -- System manipulation mode
 ---@type Hotkeys.ModalSpec
 local modeSystem = {
-	trigger = { m.hotkeys.mods.hyper, "s", "System" },
+	trigger = { m.hotkeys.mods.hyper, "space", "System" },
 	isOneShot = true,
 	specs = {
 		{ {}, "c", "Caffeine", m.caffeine.toggle },
@@ -93,56 +93,56 @@ local modeSystem = {
 	},
 }
 
--- Window manager mode
----@type Hotkeys.ModalSpec
-local modeWindowManager = {
-	trigger = { m.hotkeys.mods.hyper, "w", "Window Manager" },
-	isOneShot = true,
-	specs = {
-		-- Top Row - Thirds [||]
-		{ { "shift" }, "2", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },
-		{ { "shift" }, "3", "1/3 Center", m.windowManager:move(m.windowManager.layout.center33) },
-		{ { "shift" }, "4", "1/3 Right", m.windowManager:move(m.windowManager.layout.right33) },
-
-		-- Middle Row - Halves [|] and Quarters [|||]
-		{ { "shift" }, "6", "1/4 1", m.windowManager:move(m.windowManager.layout.first25) },
-		{ { "shift" }, "7", "1/2 Left", m.windowManager:move(m.windowManager.layout.left50) },
-		{ { "cmd", "shift" }, "7", "1/4 2", m.windowManager:move(m.windowManager.layout.second25) },
-		{ { "shift" }, "8", "1/2 Center", m.windowManager:move(m.windowManager.layout.center50) },
-		{ { "shift" }, "9", "1/2 Right", m.windowManager:move(m.windowManager.layout.right50) },
-		{ { "cmd", "shift" }, "9", "1/4 3", m.windowManager:move(m.windowManager.layout.third25) },
-		{ { "shift" }, "0", "1/4 4", m.windowManager:move(m.windowManager.layout.fourth25) },
-
-		{ {}, "up", "1/2 Top", m.windowManager:move(m.windowManager.layout.top50) },
-		{ {}, "down", "1/2 Bottom", m.windowManager:move(m.windowManager.layout.bottom50) },
-
-		-- Corners
-		{ {}, "q", "1/4 Top-Left", m.windowManager:move(m.windowManager.layout.topLeft25) },
-		{ {}, "b", "1/4 Top-Right", m.windowManager:move(m.windowManager.layout.topRigh25) },
-		{ {}, "z", "1/4 Bottom-Left", m.windowManager:move(m.windowManager.layout.bottomLeft25) },
-		{ {}, "v", "1/4 Bottom-Right", m.windowManager:move(m.windowManager.layout.bottomRigh25) },
-
-		-- Move
-		{ {}, "[", "Move Left", m.windowManager.moveL },
-		{ {}, "]", "Move Right", m.windowManager.moveR },
-		{ { "shift" }, "[", "Prev Screen", m.windowManager.screenPrev },
-		{ { "shift" }, "]", "Next Screen", m.windowManager.screenNext },
-
-		{ {}, "c", "Center", m.windowManager.center },
-
-		-- Resize
-		{ {}, "=", "Grow Width", m.windowManager.growX },
-		{ {}, "-", "Shrink Width", m.windowManager.shrinkX },
-		{ { "shift" }, "=", "Grow Height", m.windowManager.growY },
-		{ { "shift" }, "-", "Shrink Height", m.windowManager.shrinkY },
-
-		{ {}, "m", "Maximize", m.windowManager.maximixe },
-		{ {}, "f", "Full Screen", m.windowManager.toggleFullScreen },
-	},
-}
+-- -- Window manager mode
+-- ---@type Hotkeys.ModalSpec
+-- local modeWindowManager = {
+-- 	trigger = { m.hotkeys.mods.hyper, "w", "Window Manager" },
+-- 	isOneShot = true,
+-- 	specs = {
+-- 		-- Top Row - Thirds [||]
+-- 		{ { "shift" }, "2", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },
+-- 		{ { "shift" }, "3", "1/3 Center", m.windowManager:move(m.windowManager.layout.center33) },
+-- 		{ { "shift" }, "4", "1/3 Right", m.windowManager:move(m.windowManager.layout.right33) },
+--
+-- 		-- Middle Row - Halves [|] and Quarters [|||]
+-- 		{ { "shift" }, "6", "1/4 1", m.windowManager:move(m.windowManager.layout.first25) },
+-- 		{ { "shift" }, "7", "1/2 Left", m.windowManager:move(m.windowManager.layout.left50) },
+-- 		{ { "cmd", "shift" }, "7", "1/4 2", m.windowManager:move(m.windowManager.layout.second25) },
+-- 		{ { "shift" }, "8", "1/2 Center", m.windowManager:move(m.windowManager.layout.center50) },
+-- 		{ { "shift" }, "9", "1/2 Right", m.windowManager:move(m.windowManager.layout.right50) },
+-- 		{ { "cmd", "shift" }, "9", "1/4 3", m.windowManager:move(m.windowManager.layout.third25) },
+-- 		{ { "shift" }, "0", "1/4 4", m.windowManager:move(m.windowManager.layout.fourth25) },
+--
+-- 		{ {}, "up", "1/2 Top", m.windowManager:move(m.windowManager.layout.top50) },
+-- 		{ {}, "down", "1/2 Bottom", m.windowManager:move(m.windowManager.layout.bottom50) },
+--
+-- 		-- Corners
+-- 		{ {}, "q", "1/4 Top-Left", m.windowManager:move(m.windowManager.layout.topLeft25) },
+-- 		{ {}, "b", "1/4 Top-Right", m.windowManager:move(m.windowManager.layout.topRigh25) },
+-- 		{ {}, "z", "1/4 Bottom-Left", m.windowManager:move(m.windowManager.layout.bottomLeft25) },
+-- 		{ {}, "v", "1/4 Bottom-Right", m.windowManager:move(m.windowManager.layout.bottomRigh25) },
+--
+-- 		-- Move
+-- 		{ {}, "[", "Move Left", m.windowManager.moveL },
+-- 		{ {}, "]", "Move Right", m.windowManager.moveR },
+-- 		{ { "shift" }, "[", "Prev Screen", m.windowManager.screenPrev },
+-- 		{ { "shift" }, "]", "Next Screen", m.windowManager.screenNext },
+--
+-- 		{ {}, "c", "Center", m.windowManager.center },
+--
+-- 		-- Resize
+-- 		{ {}, "=", "Grow Width", m.windowManager.growX },
+-- 		{ {}, "-", "Shrink Width", m.windowManager.shrinkX },
+-- 		{ { "shift" }, "=", "Grow Height", m.windowManager.growY },
+-- 		{ { "shift" }, "-", "Shrink Height", m.windowManager.shrinkY },
+--
+-- 		{ {}, "m", "Maximize", m.windowManager.maximixe },
+-- 		{ {}, "f", "Full Screen", m.windowManager.toggleFullScreen },
+-- 	},
+-- }
 
 -- Append commonModalSpecs to each modal's specs
-hs.fnutils.each({ modeSystem, modeWindowManager }, function(modalSpec)
+hs.fnutils.each({ modeSystem }, function(modalSpec)
 	modalSpec.specs = hs.fnutils.concat(modalSpec.specs, commonModalSpecs)
 end)
 
@@ -150,7 +150,6 @@ m.hotkeys:bindHotkeys({
 	specs = baseSpecs,
 	modes = {
 		modeSystem,
-		modeWindowManager,
 	},
 })
 

@@ -1143,6 +1143,12 @@
         "options": {
           "full_name": "google-chrome"
         }
+      },
+      "aerospace": {
+        "version": "0.14.2-Beta",
+        "options": {
+          "full_name": "nikitabobko/tap/aerospace"
+        }
       }
     },
     "mas": {

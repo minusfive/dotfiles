@@ -59,8 +59,8 @@ local function configureModal(modalSpec)
 
 		if Hotkeys.menuBarItem then
 			Hotkeys.menuBarItem:returnToMenuBar()
-			Hotkeys.menuBarItem:setTitle(hs.styledtext(modalSpec.trigger[2], {
-				font = { size = 18 },
+			Hotkeys.menuBarItem:setTitle(hs.styledtext(string.sub(modalSpec.trigger[3], 1, 3), {
+				font = { size = 12 },
 			}):upper())
 		end
 	end
