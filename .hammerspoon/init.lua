@@ -33,16 +33,16 @@ local m = {
 ---@type hs.hotkey.KeySpec[]
 local baseSpecs = {
 	-- Apps
-	{ m.hotkeys.mods.meh, "c", "Slack", m.appLauncher:openApp("Slack") },
+	{ m.hotkeys.mods.meh, "1", "1Password", m.appLauncher:openApp("1Password") },
+	{ m.hotkeys.mods.meh, "c", "Slack", m.appLauncher:openApp("Slack") }, -- Chat
 	{ m.hotkeys.mods.meh, "d", "Discord", m.appLauncher:openApp("Discord") },
+	{ m.hotkeys.mods.meh, "e", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") }, -- Email
 	{ m.hotkeys.mods.meh, "f", "Finder", m.appLauncher:openApp("Finder") },
 	{ m.hotkeys.mods.meh, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
 	{ m.hotkeys.mods.meh, "i", "Insomnia", m.appLauncher:openApp("Insomnia") },
-	{ m.hotkeys.mods.meh, "m", "Messages", m.appLauncher:openApp("Messages") },
-	{ m.hotkeys.mods.meh, "n", "Obsidian", m.appLauncher:openApp("Obsidian") },
-	{ m.hotkeys.mods.hyper, "n", "Notes", m.appLauncher:openApp("Notes") },
-	{ m.hotkeys.mods.meh, "o", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") },
-	{ m.hotkeys.mods.meh, "p", "1Password", m.appLauncher:openApp("1Password") },
+	{ m.hotkeys.mods.meh, "n", "Notes", m.appLauncher:openApp("Notes") },
+	{ m.hotkeys.mods.meh, "o", "Obsidian", m.appLauncher:openApp("Obsidian") },
+	{ m.hotkeys.mods.meh, "p", "Messages", m.appLauncher:openApp("Messages") }, -- Personal
 	{ m.hotkeys.mods.meh, "r", "Reminders", m.appLauncher:openApp("Reminders") },
 	{ m.hotkeys.mods.meh, "s", "Safari", m.appLauncher:openApp("Safari") },
 	{ m.hotkeys.mods.meh, "t", "WezTerm", m.appLauncher:openApp("WezTerm") },
