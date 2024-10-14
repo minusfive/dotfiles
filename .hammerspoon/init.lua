@@ -193,6 +193,31 @@ end
 local browserWindowFilter = hs.window.filter.new({ "Safari", "Google Chrome", "Firefox", "Brave" })
 browserWindowFilter:subscribe(hs.window.filter.windowCreated, browserNewWindowWatcher)
 
+-- Position mouse in center of focused windows whenever focus changes
+---@param window hs.window
+local function mouseFollowsFocus(window)
+	-- Only update mouse if mouse buttons are not pressed (e.g. focus wasn't changed by mouse)
+	if #hs.mouse.getButtons() ~= 0 then
+		return
+	end
+
+	-- Position mouse in center of focused window if it's not already within its frame
+	local currentMousePosition = hs.geometry(hs.mouse.absolutePosition())
+	local frame = window:frame()
+	if not currentMousePosition:inside(frame) then
+		hs.mouse.absolutePosition(frame.center)
+	end
+end
+
+-- Watch for focused window changes and trigger some actions
+---@param window hs.window
+local function focusedWindowWatcher(window)
+	mouseFollowsFocus(window)
+end
+local focusedWindowFilter =
+	hs.window.filter.new():setOverrideFilter({ visible = true, focused = true, activeApplication = true })
+focusedWindowFilter:subscribe(hs.window.filter.windowFocused, focusedWindowWatcher)
+
 -- Start caffeine
 m.caffeine.start()
 
