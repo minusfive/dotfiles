@@ -38,7 +38,7 @@ local baseSpecs = {
 	{ m.hotkeys.mods.meh, "e", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") }, -- Email
 	{ m.hotkeys.mods.meh, "f", "Finder", m.appLauncher:openApp("Finder") },
 	{ m.hotkeys.mods.meh, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
-	{ m.hotkeys.mods.meh, "i", "Insomnia", m.appLauncher:openApp("Insomnia") },
+	{ m.hotkeys.mods.meh, "h", "Insomnia", m.appLauncher:openApp("Insomnia") }, -- HTTP client
 	{ m.hotkeys.mods.meh, "m", "Messages", m.appLauncher:openApp("Messages") },
 	{ m.hotkeys.mods.meh, "n", "Notes", m.appLauncher:openApp("Notes") },
 	{ m.hotkeys.mods.meh, "o", "Obsidian", m.appLauncher:openApp("Obsidian") },
