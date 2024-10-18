@@ -9,40 +9,27 @@ local DOTFILES_PATH="$SCRIPT_PATH/.."
 local GITIGNORE_PATH="$DOTFILES_PATH/.gitignore"
 
 # Install Homebrew
-if [[ $(command -v brew) != "" ]]; then
-    echo "\n- Homebrew installed at $(which brew)"
-else
+if [[ $(command -v brew) == "" ]]; then
     echo "\n- Homebrew not installed. Attempting install..."
     /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     if [[ $? == 0 ]]; then
-      echo "\n- Homebrew installed, adding to path..."
-      (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> $HOME/.zprofile
-      eval "$(/opt/homebrew/bin/brew shellenv)"
+        echo "\n- Homebrew installed, adding to path..."
+        (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> $HOME/.zprofile
+        eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
 fi
 
-
-# Install/Upgrade Homebrew, packages and apps
+# Install Homebrew packages and apps
 if [[ $(command -v brew) != "" ]]; then
+    echo "\n- Homebrew installed at $(which brew)"
+
     # Install desired tools, apps, etc.
     if [[ ! -f $BREW_BUNDLE_PATH ]]; then
         echo "\n- Brewfile not found"
     else
         echo "\n- Installing Homebrew bundle"
         brew bundle -v --file $BREW_BUNDLE_PATH
-    fi
-
-    if [[ $(brew commands -q | grep cu -c) == 1 ]]; then
-      echo "\nbrew-cask-upgrade found; attempting to upgrade Homebrew, packages and apps..."
-      brew cu -a
-    else
-      echo "\nbrew-cask-upgrade not found; attempting to upgrade Homebrew and packages..."
-      brew upgrade
-    fi
-
-    if [[ $? == 0 ]]; then
-      echo "\n- Everything up to date"
     fi
 fi
 
@@ -103,30 +90,4 @@ else
       ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
 fi
 
-
-# Update OhMyZsh, plugins and themes
-zsh "$ZSH/tools/upgrade.sh"
-
-# Rebuild bat cache
-if [[ $(command -v bat) != "" ]]; then
-  echo "\n- Rebuilding bat cache"
-  bat cache --build
-fi
-
-# Symlink dotfiles
-if [[ $(command -v stow) != "" ]]; then
-  echo "\n- GNU Stow found, symlinking dotfiles"
-  stow -vR .
-else
-  echo "\n- GNU Stow not found."
-fi
-
-# Update Yazi packages
-if [[ $(command -v ya) != "" ]]; then
-  echo "\n- Updating Yazi packages"
-  ya pack -u
-fi
-
-# Cleanup zsh completion and reload zsh
-echo "\n- Cleaning up zsh completion and reloading zsh session"
-brew cleanup && rm -f "$ZSH_COMPDUMP" && source "$HOME/.zshrc"
+source "$SCRIPT_PATH/update.zsh"

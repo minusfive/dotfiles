@@ -7,26 +7,26 @@
 
 ## Bootstrap
 
-To setup a new machine (or refresh/reset an existing one), run the following script:
+To setup a new machine run [the bootstrap script](./scripts/bootstrap.zsh):
 
 ```sh
 git clone git@github.com:minusfive/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-./scripts/bootstrap.sh
+source ./scripts/bootstrap.zsh
 ```
 
-Read [the script](./scripts/bootstrap.sh) to understand what it does, and [the Brewfile](./scripts/Brewfile) to see what apps it installs.
+Read [the bootstrap script](./scripts/bootstrap.sh) to understand what it does, and [the Brewfile](./scripts/Brewfile) to see what apps it installs.
 
 ## Update
 
 > [!IMPORTANT]
 > You should grant `Wezterm` "Application Management" access in `System Preferences > Security & Privacy > Application Management` so this script is allowed to update all managed applications.
 
-To update the configuration and all installed tools/apps, simply run the same script:
+To update the configuration and all installed tools/apps, run [the update script](./scripts/update.zsh):
 
 ```sh
 cd ~/.dotfiles
-./scripts/bootstrap.sh
+source ./scripts/update.zsh
 ```
 
 ## Tools
@@ -34,7 +34,7 @@ cd ~/.dotfiles
 - [Neovim](https://neovim.io/) - Text Editor / IDE
   - [LazyVim](https://www.lazyvim.org/) - Neovim Plugin and Configuration Manager
   - See [the Neovim configuration](./.config/nvim) for the full list of installed plugins and settings.
-- [Hammerspoon](https://www.hammerspoon.org/) - macOS Automation (app launcher, window manager, caffeinator, etc.)
+- [Hammerspoon](https://www.hammerspoon.org/) - macOS Automation (app launcher, window / system manager, etc.)
 - [WezTerm](https://wezfurlong.org/wezterm/) - Terminal Emulator
 - [Homebrew](https://brew.sh) - macOS Package Manager
   - See [the Brewfile](./scripts/Brewfile) and [the bootstrap script](./scripts/bootstrap.sh) for the full list of installed tools, apps, themes, plugins, etc.
