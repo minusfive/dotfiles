@@ -27,7 +27,7 @@ brew 'jq' # JSON processor
 
 cask '1password' # Password manager
 cask 'hammerspoon' # macOS automation
-cask 'wezterm' # Terminal emulator
+cask 'wezterm@nightly' # Terminal emulator
 cask 'obsidian' # Note-taking
 cask 'betterdisplay' # Display configuration manager
 cask 'imageoptim' # Image optimizer
