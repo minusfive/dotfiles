@@ -75,15 +75,17 @@ config.cursor_blink_rate = 333
 config.default_cursor_style = "BlinkingBlock"
 
 -- Fonts
+-- config.font = wezterm.font({
+-- 	family = "JetBrains Mono",
+-- 	harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
+-- })
+-- config.font = wezterm.font("Berkeley Mono")
 config.font_size = 18.0
 config.line_height = 1.25
 config.adjust_window_size_when_changing_font_size = false
-config.font = wezterm.font({
-	family = "JetBrains Mono",
-	harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
-})
 config.custom_block_glyphs = true
 config.anti_alias_custom_block_glyphs = true
+config.bold_brightens_ansi_colors = true
 
 -- Keys
 config.enable_kitty_keyboard = true
