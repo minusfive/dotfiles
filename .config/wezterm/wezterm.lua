@@ -82,6 +82,8 @@ config.font = wezterm.font({
 	family = "JetBrains Mono",
 	harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
 })
+config.custom_block_glyphs = true
+config.anti_alias_custom_block_glyphs = true
 
 -- Keys
 config.enable_kitty_keyboard = true
