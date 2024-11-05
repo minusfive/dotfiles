@@ -252,4 +252,27 @@ return {
     --   opts.options.tab_size = 20
     -- end,
   },
+
+  -- Hide Secrets
+  {
+    "laytan/cloak.nvim",
+    event = "VeryLazy",
+    config = true,
+    keys = {
+      { "<leader>u*l", "<cmd>CloakPreviewLine<cr>", desc = "Secrets Cloak (Line)" },
+    },
+    opts = function()
+      LazyVim.toggle.map("<leader>u*f", {
+        name = "Secrets Cloak (File)",
+        get = function()
+          return vim.b.cloak_enabled ~= false
+        end,
+        set = function(state)
+          vim.cmd("Cloak" .. (state and "Enable" or "Disable"))
+        end,
+      })
+
+      return {}
+    end,
+  },
 }
