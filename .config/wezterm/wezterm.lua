@@ -75,10 +75,10 @@ config.cursor_blink_rate = 333
 config.default_cursor_style = "BlinkingBlock"
 
 -- Fonts
--- config.font = wezterm.font({
--- 	family = "JetBrains Mono",
--- 	harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
--- })
+config.font = wezterm.font({
+	family = "JetBrains Mono",
+	harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
+})
 -- config.font = wezterm.font("Berkeley Mono")
 config.font_size = 18.0
 config.line_height = 1.25
