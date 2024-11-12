@@ -97,21 +97,48 @@ return {
   {
     "folke/zen-mode.nvim",
     event = "VeryLazy",
-    dependencies = { "folke/twilight.nvim", opts = { context = 15 } },
-    opts = {
-      backdrop = 0,
-      optionns = {
-        laststatus = 0,
-      },
-      plugins = {
-        twilight = { enabled = false },
-        wezterm = { enabled = true, font = "+2" },
-      },
+    dependencies = {
+      "folke/twilight.nvim",
+      opts = function(_, opts)
+        opts.context = 5
+
+        Snacks.toggle({
+          name = "Twilight",
+          get = function()
+            return require("twilight.view").enabled
+          end,
+          set = function()
+            require("twilight").toggle()
+          end,
+        }):map("<leader>ut")
+      end,
     },
-    keys = {
-      { "<leader>zz", "<cmd>ZenMode<cr>", desc = "Zen Mode" },
-      { "<leader>zt", "<cmd>Twilight<cr>", desc = "Twilight" },
-    },
+    opts = function(_, opts)
+      opts.window = opts.window or {}
+      opts.window.backdrop = 1
+
+      opts.plugins = opts.plugins or {}
+
+      opts.plugins.options = opts.plugins.options or {}
+      opts.plugins.options.laststatus = 0
+
+      opts.plugins.twilight = opts.plugins.twilight or {}
+      opts.plugins.twilight.enabled = false
+
+      opts.plugins.wezterm = opts.plugins.wezterm or {}
+      opts.plugins.wezterm.enabled = true
+      opts.plugins.wezterm.font = "+2"
+
+      Snacks.toggle({
+        name = "Zen Mode",
+        get = function()
+          return require("zen-mode.view").is_open()
+        end,
+        set = function()
+          require("zen-mode").toggle()
+        end,
+      }):map("<leader>uz")
+    end,
   },
 
   -- Animation enhancements
