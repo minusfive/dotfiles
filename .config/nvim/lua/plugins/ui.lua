@@ -262,7 +262,7 @@ return {
       { "<leader>u*l", "<cmd>CloakPreviewLine<cr>", desc = "Secrets Cloak (Line)" },
     },
     opts = function()
-      LazyVim.toggle.map("<leader>u*f", {
+      Snacks.toggle({
         name = "Secrets Cloak (File)",
         get = function()
           return vim.b.cloak_enabled ~= false
@@ -270,7 +270,7 @@ return {
         set = function(state)
           vim.cmd("Cloak" .. (state and "Enable" or "Disable"))
         end,
-      })
+      }):map("<leader>u*f")
 
       return {}
     end,
