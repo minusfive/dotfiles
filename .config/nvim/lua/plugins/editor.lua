@@ -13,7 +13,6 @@ return {
       preset = "helix",
       spec = {
         { "<leader>n", group = "new", icon = LazyVim.config.icons.git.added },
-        { "<leader>u*", group = "cloak", icon = LazyVim.config.icons.misc.dots },
       },
       plugins = {
         marks = true,

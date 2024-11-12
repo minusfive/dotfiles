@@ -258,21 +258,24 @@ return {
     "laytan/cloak.nvim",
     event = "VeryLazy",
     config = true,
-    keys = {
-      { "<leader>u*l", "<cmd>CloakPreviewLine<cr>", desc = "Secrets Cloak (Line)" },
-    },
-    opts = function()
+    opts = function(_, opts)
+      opts.cloak_length = 5
+      opts.cloak_on_leave = true
+
+      require("which-key").add({
+        { "<leader>u*", group = "Cloak", icon = LazyVim.config.icons.misc.dots },
+        { "<leader>u*l", "<cmd>CloakPreviewLine<cr>", desc = "Uncloak Line" },
+      })
+
       Snacks.toggle({
-        name = "Secrets Cloak (File)",
+        name = "Cloak",
         get = function()
           return vim.b.cloak_enabled ~= false
         end,
-        set = function(state)
-          vim.cmd("Cloak" .. (state and "Enable" or "Disable"))
+        set = function()
+          require("cloak").toggle()
         end,
-      }):map("<leader>u*f")
-
-      return {}
+      }):map("<leader>u**")
     end,
   },
 }
