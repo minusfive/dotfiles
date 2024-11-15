@@ -91,6 +91,11 @@ config.bold_brightens_ansi_colors = true
 config.enable_kitty_keyboard = true
 config.enable_csi_u_key_encoding = false
 
+-- Show active workspace in the status area
+wezterm.on("update-right-status", function(window, pane)
+	window:set_right_status(window:active_workspace())
+end)
+
 -- Show which key table is active in the status area
 -- wezterm.on("update-right-status", function(window, pane)
 -- 	local name = window:active_key_table()
@@ -106,6 +111,10 @@ config.leader = {
 }
 
 config.keys = {
+	-- Workspaces
+	-- { key = "n", mods = "CTRL", action = act.SwitchWorkspaceRelative(1) },
+	-- { key = "p", mods = "CTRL", action = act.SwitchWorkspaceRelative(-1) },
+
 	-- Split pane
 	{
 		key = "d",
@@ -153,6 +162,12 @@ config.keys = {
 		key = "w",
 		mods = "CMD|SHIFT",
 		action = act.CloseCurrentTab({ confirm = true }),
+	},
+
+	{
+		key = "w",
+		mods = "CMD|ALT",
+		action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }),
 	},
 
 	{
