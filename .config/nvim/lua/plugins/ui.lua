@@ -1,4 +1,5 @@
-local logo = string.rep("\n", 8) .. require("config.logos").v
+---@type Logos
+local Logos = require("config.logos")
 
 -- Notifications, command pop-ups, etc.
 local nui_options = {
@@ -9,32 +10,44 @@ local nui_options = {
   },
 }
 
-return {
-  -- loading screen
-  {
-    "nvimdev/dashboard-nvim",
-    opts = function(_, opts)
-      -- opts.theme = "hyper"
-      opts.config.header = vim.split(logo, "\n")
-      opts.config.center[1].action = "Telescope file_browser"
-      opts.config.footer = function()
-        local stats = require("lazy").stats()
-        local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-        return { "Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
-      end
-      return opts
-    end,
-  },
+--- Add the startup section
+---@return snacks.dashboard.Section?
+local function dashboardStartup()
+  local D = Snacks.dashboard
+  D.lazy_stats = D.lazy_stats and D.lazy_stats.startuptime > 0 and D.lazy_stats or require("lazy.stats").stats()
+  local ms = (math.floor(D.lazy_stats.startuptime * 100 + 0.5) / 100)
+  return {
+    align = "center",
+    padding = { 0, 1 },
+    text = {
+      { D.lazy_stats.loaded .. "/" .. D.lazy_stats.count, hl = "special" },
+      { " plugins loaded in ", hl = "footer" },
+      { ms .. "ms", hl = "special" },
+    },
+  }
+end
 
-  -- Notification messages
+return {
+  -- Dashboard
   {
-    "rcarriga/nvim-notify",
-    optional = true,
+    "folke/snacks.nvim",
+    ---@type snacks.dashboard.Opts
     opts = {
-      fps = 120,
-      stages = "slide",
-      render = "wrapped-compact",
-      top_down = false,
+      dashboard = {
+        preset = {
+          header = Logos.v,
+        },
+        sections = {
+          { section = "header", padding = 0 },
+          { title = "Shortcuts", padding = 1, align = "center" },
+          { section = "keys", padding = { 1, 0 } },
+          { title = "Recent Files", padding = 1, align = "center" },
+          { section = "recent_files", padding = 1 },
+          { title = "Projects", padding = 1, align = "center" },
+          { section = "projects", padding = 1 },
+          dashboardStartup,
+        },
+      },
     },
   },
 

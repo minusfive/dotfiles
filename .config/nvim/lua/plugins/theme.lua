@@ -29,8 +29,17 @@ return {
             MCursorReplace = { bg = colors.red, fg = colors.mantle },
             MCursorCommand = search,
 
+            -- Dashboard
+            SnacksDashboardDesc = { fg = colors.text },
+            SnacksDashboardFile = { fg = colors.text },
+            SnacksDashboardFooter = { fg = colors.surface2 },
+            SnacksDashboardHeader = { fg = colors.sapphire },
+            SnacksDashboardIcon = { fg = colors.mauve },
+            SnacksDashboardKey = { fg = colors.green },
+            SnacksDashboardSpecial = { fg = colors.overlay1 },
+            SnacksDashboardTitle = { fg = colors.overlay0, style = { "underline" } },
+
             -- Make some elements more subtle
-            DashboardFooter = { fg = colors.surface2 },
             MiniIndentscopeSymbol = { fg = colors.surface2 },
 
             -- Command utils themed with command mode colors (orange-ish)
