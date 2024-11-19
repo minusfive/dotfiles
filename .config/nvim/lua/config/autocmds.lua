@@ -67,6 +67,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = { "*.env", "*.env.*" },
   desc = "Disable diagnostics on .env files",
   callback = function(ev)
-    vim.diagnostic.enable(false, { bufnr = ev.buf })
+    if vim.bo.filetype == "sh" then
+      vim.diagnostic.enable(false, { bufnr = ev.buf })
+    end
   end,
 })
