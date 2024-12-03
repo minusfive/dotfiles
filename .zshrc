@@ -254,3 +254,7 @@ autoload -U add-zsh-hook
 add-zsh-hook chpwd python_venv
 
 python_venv
+
+# Disable Next.js telemetry
+# https://nextjs.org/telemetry
+export NEXT_TELEMETRY_DISABLED=1
