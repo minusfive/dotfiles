@@ -14,6 +14,7 @@ end
 -- This is where you actually apply your config choices
 -- Performance
 config.front_end = "WebGpu"
+config.animation_fps = 60
 
 -- Enable advanced features
 config.set_environment_variables = {
@@ -39,7 +40,6 @@ config.default_cwd = wezterm.home_dir .. "/dev"
 -- tokyo_night_mod.tab_bar.active_tab.bg_color = tokyo_night_mod.background
 -- tokyo_night_mod.tab_bar.inactive_tab.bg_color = tokyo_night_mod.tab_bar.background
 
-config.animation_fps = 60
 config.color_scheme = "Catppuccin Mocha"
 -- config.color_schemes = { ["tokyonight_mod"] = tokyo_night_mod }
 -- config.command_palette_bg_color = tokyo_night_mod.background
