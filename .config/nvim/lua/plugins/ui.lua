@@ -156,25 +156,14 @@ return {
 
   -- Animation enhancements
   {
-    "echasnovski/mini.animate",
-    enabled = false,
+    "sphamba/smear-cursor.nvim",
     optional = true,
-    event = "VeryLazy",
-    opts = function(_, opts)
-      local animate = require("mini.animate")
-
-      opts.cursor = {
-        enable = false,
-        timing = animate.gen_timing.quadratic({ duration = 150, unit = "total" }),
-      }
-
-      opts.open = { enable = false }
-      opts.close = { enable = false }
-
-      opts.scroll.timing = animate.gen_timing.quadratic({ duration = 60, unit = "total" })
-
-      return opts
-    end,
+    opts = {
+      stiffness = 0.8,
+      trailing_stiffness = 0.5,
+      distance_stop_animating = 0.3,
+      legacy_computing_symbols_support = true,
+    },
   },
 
   -- Indentation scope line
@@ -268,29 +257,7 @@ return {
   -- Bufferline (buffer tabs)
   {
     "akinsho/bufferline.nvim",
-    -- optional = true,
     enabled = false,
-    -- opts = function(_, opts)
-    --   local bufferline = require("bufferline")
-    --   opts.options.always_show_bufferline = true
-    --   opts.options.buffer_close_icon = "✕"
-    --   opts.options.close_icon = opts.options.buffer_close_icon
-    --   opts.options.hover = {
-    --     enabled = true,
-    --     delay = 200,
-    --     reveal = { "close", "buffer_close" },
-    --   }
-    --   opts.options.indicator = {
-    --     icon = "",
-    --     style = "underline",
-    --   }
-    --   opts.options.separator_style = { "", "" }
-    --   opts.options.show_close_icon = true
-    --   opts.options.show_buffer_close_icons = true
-    --   opts.options.show_duplicate_prefix = true
-    --   opts.options.style_preset = bufferline.style_preset.minimal
-    --   opts.options.tab_size = 20
-    -- end,
   },
 
   -- Hide Secrets
