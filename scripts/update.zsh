@@ -9,21 +9,9 @@ else
     exit 1
 fi
 
+
 # Update OhMyZsh, plugins and themes
 zsh "$ZSH/tools/upgrade.sh"
-
-
-# Rebuild bat cache
-if [[ $(command -v bat) != "" ]]; then
-    echo "\n- Rebuilding bat cache"
-    bat cache --build
-fi
-
-# Update Yazi packages
-if [[ $(command -v ya) != "" ]]; then
-    echo "\n- Updating Yazi packages"
-    ya pack -u
-fi
 
 # Upgrade Homebrew, packages and apps
 if [[ $(command -v brew) != "" ]]; then
@@ -46,6 +34,29 @@ if [[ $(command -v brew) != "" ]]; then
     brew cleanup
 fi
 
+
+# Rebuild bat cache
+if [[ $(command -v bat) != "" ]]; then
+    echo "\n- Rebuilding bat cache"
+    bat cache --build
+fi
+
+
+# Update Yazi packages
+if [[ $(command -v ya) != "" ]]; then
+    echo "\n- Updating Yazi packages"
+    ya pack -u
+fi
+
+
+# Update NPM packages
+if [[ $(command -v npm) != "" ]]; then
+    echo "\n- Install + update NPM packages"
+    npm install -g npm@latest neovim
+fi
+
 # Cleanup zsh completion and reload zsh
 echo "\n- Cleaning up zsh completion and reloading zsh session"
 rm -f "$ZSH_COMPDUMP" && source "$HOME/.zshrc"
+
+echo "\n- Update complete!"
