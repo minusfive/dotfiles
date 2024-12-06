@@ -166,6 +166,21 @@ return {
     },
   },
 
+  {
+    "echasnovski/mini.animate",
+    optional = true,
+    opts = {
+      cursor = { enable = false },
+      scroll = {
+        timing = require("mini.animate").gen_timing.quadratic({
+          duration = 50,
+          easing = "in-out",
+          unit = "total",
+        }),
+      },
+    },
+  },
+
   -- Indentation scope line
   {
     "echasnovski/mini.indentscope",
