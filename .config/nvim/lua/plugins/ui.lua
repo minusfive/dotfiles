@@ -11,7 +11,7 @@ local nui_options = {
 }
 
 --- Add the startup section
----@return snacks.dashboard.Section?
+---@return snacks.dashboard.Section
 local function dashboardStartup()
   local D = Snacks.dashboard
   D.lazy_stats = D.lazy_stats and D.lazy_stats.startuptime > 0 and D.lazy_stats or require("lazy.stats").stats()
@@ -31,11 +31,11 @@ return {
   -- Dashboard
   {
     "folke/snacks.nvim",
-    ---@type snacks.dashboard.Opts
+    ---@type snacks.Config
     opts = {
       dashboard = {
         preset = {
-          header = Logos.v,
+          header = Logos.v2,
         },
         sections = {
           { section = "header", padding = 0 },

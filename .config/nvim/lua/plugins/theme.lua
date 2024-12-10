@@ -33,7 +33,7 @@ return {
             SnacksDashboardDesc = { fg = colors.text },
             SnacksDashboardFile = { fg = colors.text },
             SnacksDashboardFooter = { fg = colors.surface2 },
-            SnacksDashboardHeader = { fg = colors.sapphire },
+            SnacksDashboardHeader = { fg = colors.blue },
             SnacksDashboardIcon = { fg = colors.mauve },
             SnacksDashboardKey = { fg = colors.green },
             SnacksDashboardSpecial = { fg = colors.overlay1 },
