@@ -1,6 +1,3 @@
----@type Logos
-local Logos = require("config.logos")
-
 -- Notifications, command pop-ups, etc.
 local nui_options = {
   popup = {
@@ -10,47 +7,7 @@ local nui_options = {
   },
 }
 
---- Add the startup section
----@return snacks.dashboard.Section
-local function dashboardStartup()
-  local D = Snacks.dashboard
-  D.lazy_stats = D.lazy_stats and D.lazy_stats.startuptime > 0 and D.lazy_stats or require("lazy.stats").stats()
-  local ms = (math.floor(D.lazy_stats.startuptime * 100 + 0.5) / 100)
-  return {
-    align = "center",
-    padding = { 0, 1 },
-    text = {
-      { D.lazy_stats.loaded .. "/" .. D.lazy_stats.count, hl = "special" },
-      { " plugins loaded in ", hl = "footer" },
-      { ms .. "ms", hl = "special" },
-    },
-  }
-end
-
 return {
-  -- Dashboard
-  {
-    "folke/snacks.nvim",
-    ---@type snacks.Config
-    opts = {
-      dashboard = {
-        preset = {
-          header = Logos.v2,
-        },
-        sections = {
-          { section = "header", padding = 0 },
-          { title = "Shortcuts", padding = 1, align = "center" },
-          { section = "keys", padding = { 1, 0 } },
-          { title = "Recent Files", padding = 1, align = "center" },
-          { section = "recent_files", padding = 1 },
-          { title = "Projects", padding = 1, align = "center" },
-          { section = "projects", padding = 1 },
-          dashboardStartup,
-        },
-      },
-    },
-  },
-
   -- Window enhancements
   {
     "folke/edgy.nvim",
@@ -104,54 +61,6 @@ return {
         popupmenu = nui_options.popup,
       },
     },
-  },
-
-  -- Focus mode
-  {
-    "folke/zen-mode.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "folke/twilight.nvim",
-      opts = function(_, opts)
-        opts.context = 5
-
-        Snacks.toggle({
-          name = "Twilight",
-          get = function()
-            return require("twilight.view").enabled
-          end,
-          set = function()
-            require("twilight").toggle()
-          end,
-        }):map("<leader>ut")
-      end,
-    },
-    opts = function(_, opts)
-      opts.window = opts.window or {}
-      opts.window.backdrop = 1
-
-      opts.plugins = opts.plugins or {}
-
-      opts.plugins.options = opts.plugins.options or {}
-      opts.plugins.options.laststatus = 0
-
-      opts.plugins.twilight = opts.plugins.twilight or {}
-      opts.plugins.twilight.enabled = false
-
-      opts.plugins.wezterm = opts.plugins.wezterm or {}
-      opts.plugins.wezterm.enabled = true
-      opts.plugins.wezterm.font = "+2"
-
-      Snacks.toggle({
-        name = "Zen Mode",
-        get = function()
-          return require("zen-mode.view").is_open()
-        end,
-        set = function()
-          require("zen-mode").toggle()
-        end,
-      }):map("<leader>uz")
-    end,
   },
 
   -- Animation enhancements
