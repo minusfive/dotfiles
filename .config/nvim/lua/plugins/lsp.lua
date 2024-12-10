@@ -39,18 +39,19 @@ return {
     opts = {
       inlay_hints = { enabled = false },
       servers = {
-        harper_ls = {},
+        harper_ls = {
+          autostart = false,
+          settings = {
+            ["harper-ls"] = {
+              userDictPath = "~/.config/harper/dictionaries/user.txt",
+              fileDictPath = "~/.config/harper/dictionaries/files/",
+              codeActions = { forceStable = true },
+            },
+          },
+        },
       },
       setup = {
-        harper_ls = function(_, opts)
-          opts.autostart = false -- Don't autostart grammar checks
-          opts.settings = opts.settings or {}
-          opts.settings["harper-ls"] = opts.settings["harper-ls"] or {}
-          opts.settings["harper-ls"].userDictPath = "~/.config/harper/dictionaries/user.txt"
-          opts.settings["harper-ls"].fileDictPath = "~/.config/harper/dictionaries/files/"
-          opts.settings["harper-ls"].codeActions = opts.settings["harper-ls"].codeActions or {}
-          opts.settings["harper-ls"].codeActions.forceStable = true
-
+        harper_ls = function()
           Snacks.toggle({
             name = "Grammar Checker",
             get = function()
