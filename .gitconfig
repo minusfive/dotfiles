@@ -40,7 +40,7 @@
   local = cyan
   remote = blue
 [color "diff"]
-  commit = yellow reverse
+  commit = yellow
   meta = normal
   frag = cyan
   func = white bold
