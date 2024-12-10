@@ -1,17 +1,18 @@
 #!/usr/bin/env zsh
 
+# Exit immediately if a command fails and treat unset vars as error
+set -eu
+
+local SCRIPT_PATH="$(dirname "$(realpath $0)")"
+
+
 # Symlink dotfiles
-if [[ $(command -v stow) != "" ]]; then
-    echo "\n- GNU Stow found, symlinking dotfiles"
-    stow -vR .
-else
-    echo "\n- GNU Stow not found, run the bootstrap script first."
-    exit 1
-fi
+source "$SCRIPT_PATH/link.zsh"
 
 
 # Update OhMyZsh, plugins and themes
 zsh "$ZSH/tools/upgrade.sh"
+
 
 # Upgrade Homebrew, packages and apps
 if [[ $(command -v brew) != "" ]]; then
@@ -55,8 +56,11 @@ if [[ $(command -v npm) != "" ]]; then
     npm install -g npm@latest neovim
 fi
 
+
 # Cleanup zsh completion and reload zsh
 echo "\n- Cleaning up zsh completion and reloading zsh session"
 rm -f "$ZSH_COMPDUMP" && source "$HOME/.zshrc"
 
+
 echo "\n- Update complete!"
+

@@ -20,6 +20,7 @@ if [[ $(command -v brew) == "" ]]; then
     fi
 fi
 
+
 # Install Homebrew packages and apps
 if [[ $(command -v brew) != "" ]]; then
     echo "\n- Homebrew installed at $(which brew)"
@@ -72,6 +73,7 @@ else
       ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
+
 # Install fzf-tab
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab ]]; then
     echo "\n- fzf-tab already installed"
@@ -81,6 +83,7 @@ else
       ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 fi
 
+
 # Install OhMyZsh Full-autoupdate
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate ]]; then
     echo "\n- OhMyZsh Full-autoupdate already installed"
@@ -89,5 +92,6 @@ else
     git clone --depth=1 https://github.com/Pilaton/OhMyZsh-full-autoupdate.git \
       ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
 fi
+
 
 source "$SCRIPT_PATH/update.zsh"

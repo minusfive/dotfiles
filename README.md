@@ -19,15 +19,29 @@ Read [the bootstrap script](./scripts/bootstrap.sh) to understand what it does, 
 
 ## Update
 
-> [!IMPORTANT]
-> You should grant `Wezterm` "Application Management" access in `System Preferences > Security & Privacy > Application Management` so this script is allowed to update all managed applications.
+> [!IMPORTANT] > `Wezterm` must be granted "Application Management" access (`System Preferences > Security & Privacy > Application Management`) so this script is allowed to update all managed applications.
 
-To update the configuration and all installed tools/apps, run [the update script](./scripts/update.zsh):
+To update an already bootstrapped system (i.e. all installed tools/apps), run [the update script](./scripts/update.zsh):
 
 ```sh
 cd ~/.dotfiles
 source ./scripts/update.zsh
 ```
+
+> [!NOTE]
+> The [bootstrap](#bootstrap) script will run this script at the end of its execution, so no need to run it separately after bootstrapping.
+
+## Link
+
+To only link the configuration files (i.e. without installing any tools/apps), run [the link script](./scripts/link.zsh):
+
+```sh
+cd ~/.dotfiles
+./scripts/link.zsh
+```
+
+> [!NOTE]
+> The [bootstrap](#bootstrap) and [update](#update) scripts will run this script, so no need to run it separately after bootstrapping or updating.
 
 ## Tools
 
