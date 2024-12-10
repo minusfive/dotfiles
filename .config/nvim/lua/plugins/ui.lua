@@ -75,31 +75,6 @@ return {
     },
   },
 
-  {
-    "echasnovski/mini.animate",
-    optional = true,
-    opts = {
-      cursor = { enable = false },
-      scroll = {
-        timing = require("mini.animate").gen_timing.quadratic({
-          duration = 50,
-          easing = "in-out",
-          unit = "total",
-        }),
-      },
-    },
-  },
-
-  -- Indentation scope line
-  {
-    "echasnovski/mini.indentscope",
-    optional = true,
-    opts = function(_, opts)
-      opts.draw = opts.draw or {}
-      opts.draw.animation = require("mini.indentscope").gen_animation.none()
-    end,
-  },
-
   -- Statusline, Winbar and Bufferline (buffer tabs) configuration
   {
     "nvim-lualine/lualine.nvim",

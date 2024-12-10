@@ -18,8 +18,7 @@ local function dashboardStartup()
   }
 end
 
----@param opts snacks.toggle.Config?
-local function zen_toggle(opts)
+local function zen_toggle()
   ---@type snacks.win?
   local zen_win = nil
 
@@ -32,7 +31,7 @@ local function zen_toggle(opts)
     set = function()
       zen_win = Snacks.zen()
     end,
-  }, opts)
+  })
 end
 
 return {
@@ -43,8 +42,6 @@ return {
     opts = function(_, opts)
       ---@type snacks.Config
       local snacksConfig = {
-
-        -- Dashboard
         dashboard = {
           preset = {
             header = Logos.v2,
@@ -61,10 +58,26 @@ return {
           },
         },
 
-        -- Focus mode
-        zen = {
+        -- Indentation guides
+        indent = {
           enabled = true,
+          indent = {
+            only_scope = true,
+            only_current = true,
+          },
         },
+
+        -- Animate scroll
+        scroll = {
+          enabled = true,
+          animate = {
+            duration = { total = 150 },
+            easing = "inOutCubic",
+          },
+        },
+
+        -- Focus mode
+        zen = { enabled = true },
       }
 
       LazyVim.merge(opts, snacksConfig)
@@ -73,7 +86,7 @@ return {
         { "<leader>uz", group = "Zen Mode" },
       })
 
-      zen_toggle():map("<leader>uzm")
+      zen_toggle():map("<leader>uzz")
       Snacks.toggle.dim():map("<leader>uzd")
     end,
   },
