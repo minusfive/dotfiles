@@ -24,6 +24,7 @@ brew 'htop' # `top` replacement
 brew 'yazi' # File manager in terminal
 brew 'gum' # Go based interactive shell script generator
 brew 'jq' # JSON processor
+brew 'pipx' # Python apps installer
 
 cask '1password' # Password manager
 cask 'hammerspoon' # macOS automation
