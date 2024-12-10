@@ -285,8 +285,8 @@ return {
       opts.cloak_on_leave = true
 
       require("which-key").add({
-        { "<leader>u*", group = "Cloak", icon = LazyVim.config.icons.misc.dots },
-        { "<leader>u*l", "<cmd>CloakPreviewLine<cr>", desc = "Uncloak Line" },
+        { "<leader>*", group = "Cloak", icon = LazyVim.config.icons.misc.dots },
+        { "<leader>*l", "<cmd>CloakPreviewLine<cr>", desc = "Uncloak Line" },
       })
 
       Snacks.toggle({
@@ -297,7 +297,7 @@ return {
         set = function()
           require("cloak").toggle()
         end,
-      }):map("<leader>u**")
+      }):map("<leader>**")
     end,
   },
 }

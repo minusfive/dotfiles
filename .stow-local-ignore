@@ -29,5 +29,6 @@ _darcs
 # Project
 ^/assets
 ^/scripts
+^/tests
 \.luarc.json
 \.ruby-lsp
