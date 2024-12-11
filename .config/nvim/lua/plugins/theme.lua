@@ -40,7 +40,9 @@ return {
             SnacksDashboardTitle = { fg = colors.overlay0, style = { "underline" } },
 
             -- Make some elements more subtle
-            MiniIndentscopeSymbol = { fg = colors.surface2 },
+            SnacksIndent = { fg = colors.surface0 },
+            SnacksIndentScope = { fg = colors.surface2 },
+            SnacksIndentChunk = { fg = colors.surface2 },
 
             -- Command utils themed with command mode colors (orange-ish)
             Command = { fg = colors.peach },

@@ -49,7 +49,9 @@ return {
       source_selector = {
         winbar = true,
       },
-      window = { width = 42 },
+      window = {
+        position = "right",
+      },
     },
   },
 }

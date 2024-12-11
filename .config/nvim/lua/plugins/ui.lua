@@ -8,24 +8,8 @@ local nui_options = {
 }
 
 return {
-  -- Window enhancements
-  {
-    "folke/edgy.nvim",
-    optional = true,
-    event = "VeryLazy",
-    opts = {
-      animate = {
-        fps = 120,
-        cps = 360,
-      },
-      left = {
-        {
-          ft = "neo-tree",
-          size = { width = 50 },
-        },
-      },
-    },
-  },
+  -- Disable defaults
+  { "lukas-reineke/indent-blankline.nvim", enabled = false }, -- Replaced by Snacks.indent
 
   -- Notification messages
   {
@@ -163,7 +147,6 @@ return {
   {
     "laytan/cloak.nvim",
     event = "VeryLazy",
-    config = true,
     opts = function(_, opts)
       opts.cloak_length = 5
       opts.cloak_on_leave = true

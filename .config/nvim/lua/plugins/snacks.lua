@@ -4,34 +4,19 @@ local Logos = require("config.logos")
 --- Add the startup section
 ---@return snacks.dashboard.Section
 local function dashboardStartup()
-  local D = Snacks.dashboard
-  D.lazy_stats = D.lazy_stats and D.lazy_stats.startuptime > 0 and D.lazy_stats or require("lazy.stats").stats()
-  local ms = (math.floor(D.lazy_stats.startuptime * 100 + 0.5) / 100)
+  local stats = Snacks.dashboard.lazy_stats
+  stats = stats and stats.startuptime > 0 and stats or require("lazy.stats").stats()
+  local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+
   return {
     align = "center",
     padding = { 0, 1 },
     text = {
-      { D.lazy_stats.loaded .. "/" .. D.lazy_stats.count, hl = "special" },
+      { stats.loaded .. "/" .. stats.count, hl = "special" },
       { " plugins loaded in ", hl = "footer" },
       { ms .. "ms", hl = "special" },
     },
   }
-end
-
-local function zen_toggle()
-  ---@type snacks.win?
-  local zen_win = nil
-
-  return Snacks.toggle({
-    id = "zen",
-    name = "Zen Mode",
-    get = function()
-      return zen_win and zen_win:valid() or false
-    end,
-    set = function()
-      zen_win = Snacks.zen()
-    end,
-  })
 end
 
 return {
@@ -42,6 +27,14 @@ return {
     opts = function(_, opts)
       ---@type snacks.Config
       local snacksConfig = {
+        -- Animation
+        ---@type snacks.animate.Config
+        animate = {
+          easing = "inQuad",
+        },
+
+        -- Dashboard
+        ---@type snacks.dashboard.Config
         dashboard = {
           preset = {
             header = Logos.v2,
@@ -59,24 +52,37 @@ return {
         },
 
         -- Indentation guides
+        ---@type snacks.indent.Config
         indent = {
-          enabled = true,
           indent = {
-            only_scope = true,
+            enabled = true,
+            only_scope = false,
             only_current = true,
+          },
+          scope = {
+            enabled = true,
+            only_current = true,
+            animate = {
+              enabled = true,
+              duration = { total = 250 },
+            },
+          },
+          chunk = {
+            enabled = false,
           },
         },
 
         -- Animate scroll
+        ---@type snacks.scroll.Config
         scroll = {
           enabled = true,
           animate = {
-            duration = { total = 150 },
-            easing = "inOutCubic",
+            duration = { total = 100 },
           },
         },
 
         -- Focus mode
+        ---@type snacks.zen.Config
         zen = { enabled = true },
       }
 
@@ -86,7 +92,7 @@ return {
         { "<leader>uz", group = "Zen Mode" },
       })
 
-      zen_toggle():map("<leader>uzz")
+      Snacks.toggle.zen():map("<leader>uzz")
       Snacks.toggle.dim():map("<leader>uzd")
     end,
   },
