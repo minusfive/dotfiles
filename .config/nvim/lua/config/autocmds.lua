@@ -2,42 +2,51 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
--- Use absolute numbers in `insert` mode and hide cursorline on leave
+local buftypes_non_file = { "terminal", "quickfix", "nofile", "prompt", "help" }
+
+---@param ev vim.api.create_autocmd.callback.args
+---@return boolean
+local function is_non_file_buffer(ev)
+  return vim.list_contains(buftypes_non_file, vim.bo[ev.buf].buftype)
+end
+
+local acg_user = vim.api.nvim_create_augroup("User", { clear = true })
+
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
-  callback = function()
-    vim.opt.relativenumber = true
-    local ok, cl = pcall(vim.api.nvim_win_get_var, 0, "auto-cursorline")
-    if ok and cl then
-      vim.wo.cursorline = true
-      vim.api.nvim_win_del_var(0, "auto-cursorline")
+  desc = "Use relative numbers",
+  group = acg_user,
+  callback = function(ev)
+    if is_non_file_buffer(ev) then
+      return
     end
-  end,
-})
-vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
-  callback = function()
-    vim.opt.relativenumber = false
-    local cl = vim.wo.cursorline
-    if cl then
-      vim.api.nvim_win_set_var(0, "auto-cursorline", cl)
-      vim.wo.cursorline = false
-    end
+
+    vim.wo.relativenumber = true
   end,
 })
 
--- Open diagnostics on cursor hold
--- vim.api.nvim_create_autocmd("CursorHold", {
---   callback = function()
---     local opts = {
---       focusable = false,
---       close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
---       border = "rounded",
---       source = "always",
---       prefix = " ",
---       scope = "cursor",
---     }
---     vim.diagnostic.open_float(nil, opts)
---   end,
--- })
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
+  desc = "Use absolute numbers",
+  group = acg_user,
+  callback = function(ev)
+    if is_non_file_buffer(ev) then
+      return
+    end
+
+    vim.wo.relativenumber = false
+  end,
+})
+
+-- Disable diagnostics on .env files
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = { "*.env", "*.env.*" },
+  desc = "Disable diagnostics on .env files",
+  group = acg_user,
+  callback = function(ev)
+    if vim.bo.filetype == "sh" then
+      vim.diagnostic.enable(false, { bufnr = ev.buf })
+    end
+  end,
+})
 
 -- To instead override globally
 -- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
@@ -61,14 +70,3 @@ vim.diagnostic.open_float = (function(original_fn)
     return original_fn(opts)
   end
 end)(vim.diagnostic.open_float)
-
--- Disable diagnostics on .env files
-vim.api.nvim_create_autocmd("BufReadPost", {
-  pattern = { "*.env", "*.env.*" },
-  desc = "Disable diagnostics on .env files",
-  callback = function(ev)
-    if vim.bo.filetype == "sh" then
-      vim.diagnostic.enable(false, { bufnr = ev.buf })
-    end
-  end,
-})
