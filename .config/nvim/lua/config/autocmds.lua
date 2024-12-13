@@ -10,11 +10,11 @@ local function is_non_file_buffer(ev)
   return vim.list_contains(buftypes_non_file, vim.bo[ev.buf].buftype)
 end
 
-local acg_user = vim.api.nvim_create_augroup("User", { clear = true })
+local aug_minusfive = vim.api.nvim_create_augroup("minusfive", { clear = true })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
   desc = "Use relative numbers",
-  group = acg_user,
+  group = aug_minusfive,
   callback = function(ev)
     if is_non_file_buffer(ev) then
       return
@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnte
 
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
   desc = "Use absolute numbers",
-  group = acg_user,
+  group = aug_minusfive,
   callback = function(ev)
     if is_non_file_buffer(ev) then
       return
@@ -40,7 +40,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
 vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = { "*.env", "*.env.*" },
   desc = "Disable diagnostics on .env files",
-  group = acg_user,
+  group = aug_minusfive,
   callback = function(ev)
     if vim.bo.filetype == "sh" then
       vim.diagnostic.enable(false, { bufnr = ev.buf })
