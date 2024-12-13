@@ -3,7 +3,7 @@
 -- Add any additional options here
 
 -- mouse
-vim.opt.mousemoveevent = true
+-- vim.opt.mousemoveevent = true
 
 -- blinking cursor
 vim.opt.guicursor = {
@@ -33,7 +33,7 @@ vim.opt.breakindentopt:append({
 })
 -- vim.opt.cpoptions:append("n")
 
--- keep cursorline in the middle
+-- lines to keep at top / bottom
 vim.opt.scrolloff = 16
 
 -- python

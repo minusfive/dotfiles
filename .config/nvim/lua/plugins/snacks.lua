@@ -23,77 +23,59 @@ return {
   {
     "folke/snacks.nvim",
 
-    ---@param opts snacks.Config
-    opts = function(_, opts)
-      ---@type snacks.Config
-      local snacksConfig = {
-        -- Animation
-        ---@type snacks.animate.Config
-        animate = {
-          easing = "inQuad",
-        },
+    ---@type snacks.Config
+    opts = {
+      -- Animation
+      ---@type snacks.animate.Config
+      animate = {
+        easing = "inQuad",
+        duration = { total = 100 },
+      },
 
-        -- Dashboard
-        ---@type snacks.dashboard.Config
-        dashboard = {
-          preset = {
-            header = Logos.v2,
-          },
-          sections = {
-            { section = "header", padding = 0 },
-            { title = "Shortcuts", padding = 1, align = "center" },
-            { section = "keys", padding = { 1, 0 } },
-            { title = "Recent Files", padding = 1, align = "center" },
-            { section = "recent_files", padding = 1 },
-            { title = "Projects", padding = 1, align = "center" },
-            { section = "projects", padding = 1 },
-            dashboardStartup,
-          },
+      -- Dashboard
+      ---@type snacks.dashboard.Config
+      dashboard = {
+        preset = {
+          header = Logos.v2,
         },
+        sections = {
+          { section = "header", padding = 0 },
+          { title = "Shortcuts", padding = 1, align = "center" },
+          { section = "keys", padding = { 1, 0 } },
+          { title = "Recent Files", padding = 1, align = "center" },
+          { section = "recent_files", padding = 1 },
+          { title = "Projects", padding = 1, align = "center" },
+          { section = "projects", padding = 1 },
+          dashboardStartup,
+        },
+      },
 
-        -- Indentation guides
-        ---@type snacks.indent.Config
+      -- Indentation guides
+      ---@type snacks.indent.Config
+      indent = {
         indent = {
-          indent = {
-            enabled = true,
-            only_scope = false,
-            only_current = true,
-          },
-          scope = {
-            enabled = true,
-            only_current = true,
-            animate = {
-              enabled = true,
-              duration = { total = 250 },
-            },
-          },
-          chunk = {
-            enabled = false,
-          },
+          only_current = true,
+          only_scope = true,
         },
-
-        -- Animate scroll
-        ---@type snacks.scroll.Config
-        scroll = {
-          enabled = true,
-          animate = {
-            duration = { total = 100 },
-          },
+        scope = {
+          only_current = true,
         },
+      },
 
-        -- Focus mode
-        ---@type snacks.zen.Config
-        zen = { enabled = true },
-      }
+      -- Scroll Animation
+      ---@type snacks.scroll.Config
+      scroll = {
+        animate = {
+          duration = { total = 100 },
+        },
+      },
 
-      LazyVim.merge(opts, snacksConfig)
-
-      require("which-key").add({
-        { "<leader>uz", group = "Zen Mode" },
-      })
-
-      Snacks.toggle.zen():map("<leader>uzz")
-      Snacks.toggle.dim():map("<leader>uzd")
-    end,
+      -- Status Column
+      ---@type snacks.statuscolumn.Config
+      statuscolumn = {
+        left = { "sign", "git" },
+        right = { "mark", "fold" },
+      },
+    },
   },
 }

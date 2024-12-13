@@ -1,10 +1,6 @@
 return {
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "catppuccin",
-    },
-  },
+  { "LazyVim/LazyVim", opts = { colorscheme = "catppuccin" } },
+
   {
     "catppuccin/nvim",
     -- optional = true,
@@ -64,7 +60,17 @@ return {
             VisualNOS = visual,
 
             -- Floating Windows
-            FloatBorder = { fg = colors.surface2 },
+            FloatBorder = { fg = colors.surface1 },
+            FzfLuaBorder = { fg = colors.base, bg = colors.base },
+            FzfLuaNormal = { bg = colors.base },
+            FzfLuaTitle = { fg = colors.crust, bg = colors.red },
+            FzfLuaPreviewNormal = { bg = colors.mantle },
+            FzfLuaPreviewTitle = { fg = colors.crust, bg = colors.sapphire },
+
+            -- Cursorline
+            CursorLine = { bg = colors.mantle },
+            CursorLineNr = { fg = colors.text, bg = colors.mantle, style = { "bold" } },
+            CursorLineSign = { fg = colors.text, bg = colors.mantle },
           }
         end,
       },
