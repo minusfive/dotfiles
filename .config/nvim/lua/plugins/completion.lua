@@ -11,7 +11,27 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      signature = { enabled = true },
+      appearance = {
+        kind_icons = {
+          Color = "󰝤",
+        },
+      },
+
+      -- Force enable commandline completion
+      sources = {
+        cmdline = function()
+          local type = vim.fn.getcmdtype()
+          -- Search forward and backward
+          if type == "/" or type == "?" then
+            return { "buffer" }
+          end
+          -- Commands
+          if type == ":" then
+            return { "cmdline" }
+          end
+          return {}
+        end,
+      },
 
       completion = {
         list = {
@@ -26,6 +46,8 @@ return {
           },
         },
       },
+
+      signature = { enabled = true },
     },
   },
 
