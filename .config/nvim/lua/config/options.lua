@@ -49,3 +49,6 @@ vim.filetype.add({
     Brewfile = "ruby",
   },
 })
+
+-- Use latest blink.cmp
+vim.g.lazyvim_blink_main = true

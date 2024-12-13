@@ -5,6 +5,30 @@ local cmp_window_options = {
 }
 
 return {
+  {
+    "saghen/blink.cmp",
+    optional = true,
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      signature = { enabled = true },
+
+      completion = {
+        list = {
+          selection = "manual",
+        },
+
+        menu = {
+          max_height = 15,
+
+          draw = {
+            treesitter = true,
+          },
+        },
+      },
+    },
+  },
+
   -- Use <tab> for completion and snippets (supertab)
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
@@ -15,9 +39,9 @@ return {
     end,
   },
 
-  -- then: setup supertab in cmp
   {
     "hrsh7th/nvim-cmp",
+    optional = true,
     event = { "InsertEnter", "TextChanged" },
     dependencies = {
       "hrsh7th/cmp-emoji",
