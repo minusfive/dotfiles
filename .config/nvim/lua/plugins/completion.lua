@@ -44,7 +44,6 @@ return {
     optional = true,
     event = { "InsertEnter", "TextChanged" },
     dependencies = {
-      "hrsh7th/cmp-emoji",
       "hrsh7th/cmp-cmdline",
     },
     ---@param opts cmp.ConfigSchema
@@ -57,9 +56,6 @@ return {
 
       -- local luasnip = require("luasnip")
       local cmp = require("cmp")
-
-      -- sources
-      table.insert(opts.sources, { name = "emoji" })
 
       -- Lower copilot priority
       if opts.sources[1].name == "copilot" then
