@@ -19,6 +19,7 @@ brew 'zoxide' # `cd` replacement
 brew 'node'
 brew 'go'
 brew 'ruby'
+brew 'rustup', link: true
 brew 'wget'
 brew 'htop' # `top` replacement
 brew 'yazi' # File manager in terminal
