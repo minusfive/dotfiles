@@ -15,9 +15,21 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  dev = {
+    path = "~/dev/nvim-plugins",
+  },
   spec = {
     -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    {
+      "LazyVim/LazyVim",
+      import = "lazyvim.plugins",
+      -- Track main
+      -- version = false,
+      -- Use local
+      -- dev = true,
+      -- branch = "blink-disable-icons",
+    },
+
     -- import/override with your plugins
     { import = "plugins" },
   },

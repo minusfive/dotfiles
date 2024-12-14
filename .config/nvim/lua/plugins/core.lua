@@ -1,3 +1,0 @@
-return {
-  { "LazyVim", version = false },
-}
