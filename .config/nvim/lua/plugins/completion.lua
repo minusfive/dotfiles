@@ -11,11 +11,26 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      appearance = {
-        kind_icons = {
-          Color = "󰝤",
+
+      completion = {
+        list = {
+          selection = "manual",
+        },
+
+        menu = {
+          max_height = 15,
+
+          draw = {
+            treesitter = { "lsp" },
+          },
         },
       },
+
+      keymap = {
+        -- cmdline = { preset = "super-tab" },
+      },
+
+      signature = { enabled = true },
 
       -- Force enable commandline completion
       sources = {
@@ -32,22 +47,6 @@ return {
           return {}
         end,
       },
-
-      completion = {
-        list = {
-          selection = "manual",
-        },
-
-        menu = {
-          max_height = 15,
-
-          draw = {
-            treesitter = true,
-          },
-        },
-      },
-
-      signature = { enabled = true },
     },
   },
 
