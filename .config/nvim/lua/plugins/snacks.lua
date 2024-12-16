@@ -26,14 +26,12 @@ return {
     ---@type snacks.Config
     opts = {
       -- Animation
-      ---@type snacks.animate.Config
       animate = {
         easing = "inQuad",
         duration = { total = 100 },
       },
 
       -- Dashboard
-      ---@type snacks.dashboard.Config
       dashboard = {
         preset = {
           header = Logos.v2,
@@ -51,7 +49,6 @@ return {
       },
 
       -- Indentation guides
-      ---@type snacks.indent.Config
       indent = {
         indent = {
           only_current = true,
@@ -63,15 +60,14 @@ return {
       },
 
       -- Scroll Animation
-      ---@type snacks.scroll.Config
       scroll = {
+        -- TODO: Nested animation configs should be partial as well
         animate = {
           duration = { total = 100 },
         },
       },
 
       -- Status Column
-      ---@type snacks.statuscolumn.Config
       statuscolumn = {
         left = { "sign", "git" },
         right = { "mark", "fold" },
