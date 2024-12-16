@@ -8,14 +8,15 @@ return {
   {
     "saghen/blink.cmp",
     optional = true,
+
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-
       completion = {
-        list = {
-          selection = "manual",
-        },
+        -- TODO: LazyVim keymap <TAB> override doesn't respect manual
+        -- list = {
+        --   selection = "manual",
+        -- },
 
         menu = {
           max_height = 15,
@@ -27,25 +28,16 @@ return {
       },
 
       keymap = {
-        -- cmdline = { preset = "super-tab" },
+        preset = "super-tab",
+        cmdline = { preset = "super-tab" },
       },
 
       signature = { enabled = true },
 
-      -- Force enable commandline completion
       sources = {
-        cmdline = function()
-          local type = vim.fn.getcmdtype()
-          -- Search forward and backward
-          if type == "/" or type == "?" then
-            return { "buffer" }
-          end
-          -- Commands
-          if type == ":" then
-            return { "cmdline" }
-          end
-          return {}
-        end,
+        -- TODO: Explore other ways of reverting overrides?
+        -- Force enable commandline completion
+        cmdline = require("blink.cmp.config.sources").default.cmdline,
       },
     },
   },
@@ -67,6 +59,7 @@ return {
     dependencies = {
       "hrsh7th/cmp-cmdline",
     },
+
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       local has_words_before = function()
