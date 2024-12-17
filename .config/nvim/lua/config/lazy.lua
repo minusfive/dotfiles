@@ -23,11 +23,8 @@ require("lazy").setup({
     {
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
-      -- Track main
-      -- version = false,
       -- Use local
       -- dev = true,
-      -- branch = "blink-disable-icons",
     },
 
     -- import/override with your plugins
