@@ -8,28 +8,89 @@ return {
   {
     "saghen/blink.cmp",
     optional = true,
+    -- dev = true,
 
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       completion = {
         -- TODO: LazyVim keymap <TAB> override doesn't respect manual
-        -- list = {
-        --   selection = "manual",
-        -- },
+        list = {
+          -- selection = "auto_insert",
+        },
 
         menu = {
           max_height = 15,
 
           draw = {
             treesitter = { "lsp" },
+            columns = { { "item_idx" }, { "kind_icon" }, { "label", "label_description", gap = 1 } },
+            components = {
+              item_idx = {
+                text = function(ctx)
+                  return tostring(ctx.idx)
+                end,
+                highlight = "BlinkCmpItemIdx",
+              },
+            },
           },
         },
       },
 
       keymap = {
-        preset = "super-tab",
-        cmdline = { preset = "super-tab" },
+        -- preset = "default",
+        -- cmdline = { preset = "super-tab" },
+
+        ["<M-1>"] = {
+          function(cmp)
+            cmp.accept({ index = 1 })
+          end,
+        },
+        ["<M-2>"] = {
+          function(cmp)
+            cmp.accept({ index = 2 })
+          end,
+        },
+        ["<M-3>"] = {
+          function(cmp)
+            cmp.accept({ index = 3 })
+          end,
+        },
+        ["<M-4>"] = {
+          function(cmp)
+            cmp.accept({ index = 4 })
+          end,
+        },
+        ["<M-5>"] = {
+          function(cmp)
+            cmp.accept({ index = 5 })
+          end,
+        },
+        ["<M-6>"] = {
+          function(cmp)
+            cmp.accept({ index = 6 })
+          end,
+        },
+        ["<M-7>"] = {
+          function(cmp)
+            cmp.accept({ index = 7 })
+          end,
+        },
+        ["<M-8>"] = {
+          function(cmp)
+            cmp.accept({ index = 8 })
+          end,
+        },
+        ["<M-9>"] = {
+          function(cmp)
+            cmp.accept({ index = 9 })
+          end,
+        },
+        ["<M-0>"] = {
+          function(cmp)
+            cmp.accept({ index = 10 })
+          end,
+        },
       },
 
       signature = { enabled = true },
