@@ -179,8 +179,6 @@ local function browserNewWindowWatcher(window)
   local app = window:application()
   app = app and app:name()
 
-  ---@class Position
-  ---@field default string
   local pos = { default = m.windowManager.layout.right50, above5125 = m.windowManager.layout.right33 }
 
   if app == "Safari" then
