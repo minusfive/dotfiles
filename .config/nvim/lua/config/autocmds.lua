@@ -10,11 +10,14 @@ local function is_non_file_buffer(ev)
   return vim.list_contains(buftypes_non_file, vim.bo[ev.buf].buftype)
 end
 
-local aug_minusfive = vim.api.nvim_create_augroup("minusfive", { clear = true })
+---@param name string
+local function augroup(name)
+  return vim.api.nvim_create_augroup("minusfive_" .. name, { clear = true })
+end
 
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
   desc = "Use relative numbers",
-  group = aug_minusfive,
+  group = augroup("relative_numbers"),
   callback = function(ev)
     if is_non_file_buffer(ev) then
       return
@@ -26,7 +29,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnte
 
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
   desc = "Use absolute numbers",
-  group = aug_minusfive,
+  group = augroup("absolute_numbers"),
   callback = function(ev)
     if is_non_file_buffer(ev) then
       return
@@ -40,33 +43,10 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
 vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = { "*.env", "*.env.*" },
   desc = "Disable diagnostics on .env files",
-  group = aug_minusfive,
+  group = augroup("disable_diagnostics_on_env"),
   callback = function(ev)
     if vim.bo.filetype == "sh" then
       vim.diagnostic.enable(false, { bufnr = ev.buf })
     end
   end,
 })
-
--- To instead override globally
--- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
--- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
---   opts = opts or {}
---   opts.border = opts.border or "rounded"
---   return orig_util_open_floating_preview(contents, syntax, opts, ...)
--- end
-vim.diagnostic.open_float = (function(original_fn)
-  return function(opts)
-    opts = opts or {}
-    opts.border = opts.border or "rounded"
-    -- local opts = {
-    --   focusable = false,
-    --   close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-    --   border = "rounded",
-    --   source = "always",
-    --   prefix = " ",
-    --   scope = "cursor",
-    -- }
-    return original_fn(opts)
-  end
-end)(vim.diagnostic.open_float)
