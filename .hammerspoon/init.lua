@@ -1,6 +1,5 @@
 -- Load type annotations and docs for LSP
 hs.loadSpoon("EmmyLua")
-hs.loadSpoon("ReloadConfiguration")
 
 -- Set default settings
 hs.window.animationDuration = 0.066
@@ -225,6 +224,5 @@ focusedWindowFilter:subscribe(hs.window.filter.windowFocused, focusedWindowWatch
 -- Start caffeine
 m.caffeine.start()
 
--- Start watching config changes to reload
-spoon.ReloadConfiguration:start()
-hs.alert.show("Hammerspoon Configuration Reloaded")
+-- Notify on config [re]load
+hs.alert.show("Hammerspoon configuration loaded")
