@@ -2,8 +2,10 @@ return {
   -- Text manipulation
   {
     "tpope/vim-abolish",
+    enabled = false,
     event = "VeryLazy",
   },
+
   -- Keybindings help menu
   {
     "folke/which-key.nvim",
@@ -51,6 +53,25 @@ return {
       },
       window = {
         position = "right",
+      },
+    },
+  },
+
+  -- Fuzzy Finder
+  {
+    "ibhagwan/fzf-lua",
+    optional = true,
+    opts = {
+      winopts = {
+        border = "none",
+        height = 0.5,
+        width = 1,
+        row = 1,
+        col = 0,
+      },
+      grep = {
+        RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH,
+        rg_glob = true,
       },
     },
   },

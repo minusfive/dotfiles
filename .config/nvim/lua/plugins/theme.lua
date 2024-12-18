@@ -5,25 +5,32 @@ return {
     "catppuccin/nvim",
     -- optional = true,
     name = "catppuccin",
+    ---@module 'catppuccin'
+    ---@type CatppuccinOptions
     opts = {
-      -- transparent_background = true,
+      transparent_background = true,
       dim_inactive = {
         enabled = true,
       },
 
       highlight_overrides = {
         all = function(colors)
-          local search = { bg = colors.peach, fg = colors.mantle }
-          local search_selection = { bg = colors.rosewater, fg = colors.base, style = { "bold" } }
-          local visual = { bg = colors.mauve, fg = colors.mantle, style = { "bold" } }
-
+          local search_hl = { bg = colors.peach, fg = colors.mantle }
           return {
+            -- Flash / search matching Noice colors
+            Search = search_hl,
+            IncSearch = { link = "Search" },
+            CurSearch = { bg = colors.rosewater, fg = colors.base, style = { "bold" } },
+            SearchCount = { fg = colors.peach },
+            FlashMatch = { link = "Search" },
+            FlashLabel = { link = "CurSearch" },
+
             -- Custom cursor colors per mode
             MCursorInsert = { bg = colors.green, fg = colors.mantle },
             MCursorNormal = { bg = colors.text, fg = colors.mantle },
             MCursorVisual = { bg = colors.text, fg = colors.mauve },
             MCursorReplace = { bg = colors.red, fg = colors.mantle },
-            MCursorCommand = search,
+            MCursorCommand = { link = "Search" },
 
             -- Dashboard
             SnacksDashboardDesc = { fg = colors.text },
@@ -42,35 +49,35 @@ return {
 
             -- Command utils themed with command mode colors (orange-ish)
             Command = { fg = colors.peach },
-            NoiceCmdlineIcon = search,
-            NoiceCmdlineIconSearch = search,
+            NoiceCmdlineIcon = search_hl,
+            NoiceCmdlineIconSearch = search_hl,
             NoiceCmdlinePopupBorder = { fg = colors.peach },
             NoiceCmdlinePopupTitle = { fg = colors.peach },
 
-            -- Flash / search matching Noice colors
-            FlashLabel = search_selection,
-            FlashMatch = search,
-            Search = search,
-            IncSearch = search,
-            CurSearch = search_selection,
-            SearchCount = { fg = colors.peach },
-
             -- Visual selections with inverted colors matching lualine mode bg
-            Visual = visual,
-            VisualNOS = visual,
+            Visual = { bg = colors.mauve, fg = colors.mantle, style = { "bold" } },
+            VisualNOS = { link = "Visual" },
 
             -- Floating Windows
             FloatBorder = { fg = colors.surface1 },
-            FzfLuaBorder = { fg = colors.base, bg = colors.base },
-            FzfLuaNormal = { bg = colors.base },
+
+            -- Fuzzy Finder
+            FzfLuaBorder = { link = "FloatBorder" },
+            -- FzfLuaNormal = { bg = colors.base },
             FzfLuaTitle = { fg = colors.crust, bg = colors.red },
             FzfLuaPreviewNormal = { bg = colors.mantle },
-            FzfLuaPreviewTitle = { fg = colors.crust, bg = colors.sapphire },
+            FzfLuaPreviewTitle = { fg = colors.crust, bg = colors.green },
+            FzfLuaFzfPrompt = { fg = colors.peach },
+            FzfLuaFzfPointer = { fg = colors.peach },
 
             -- Cursorline
             CursorLine = { bg = colors.mantle },
-            CursorLineNr = { fg = colors.text, bg = colors.mantle, style = { "bold" } },
-            CursorLineSign = { fg = colors.text, bg = colors.mantle },
+            CursorLineNr = { link = "CursorLine", fg = colors.text, style = { "bold" } },
+            CursorLineSign = { link = "Cursorline" },
+
+            -- Completon
+            BlinkCmpItemIdx = { fg = colors.surface2 },
+            BlinkCmpMenuSelection = { bg = colors.base, style = { "bold" } },
           }
         end,
       },
