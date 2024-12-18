@@ -8,7 +8,7 @@ local config = {}
 -- In newer versions of wezterm, use the config_builder which will
 -- help provide clearer error messages
 if wezterm.config_builder then
-	config = wezterm.config_builder()
+  config = wezterm.config_builder()
 end
 
 -- This is where you actually apply your config choices
@@ -18,12 +18,12 @@ config.animation_fps = 60
 
 -- Enable advanced features
 config.set_environment_variables = {
-	XDG_CONFIG_HOME = "$HOME/.config",
-	XDG_DATA_HOME = "$HOME/.local/share",
-	XDG_STATE_HOME = "$HOME/.local/state",
-	XDG_CACHE_HOME = "$HOME/.cache",
-	TERMINFO_DIRS = "$XDG_CONFIG_HOME/wezterm/terminfo",
-	WSLENV = "TERMINFO_DIRS",
+  XDG_CONFIG_HOME = "$HOME/.config",
+  XDG_DATA_HOME = "$HOME/.local/share",
+  XDG_STATE_HOME = "$HOME/.local/state",
+  XDG_CACHE_HOME = "$HOME/.cache",
+  TERMINFO_DIRS = "$XDG_CONFIG_HOME/wezterm/terminfo",
+  WSLENV = "TERMINFO_DIRS",
 }
 config.term = "wezterm"
 
@@ -65,10 +65,10 @@ config.use_fancy_tab_bar = false
 -- config.window_background_opacity = 0.925
 config.window_decorations = "RESIZE"
 config.window_padding = {
-	bottom = 0,
-	left = 0,
-	right = 0,
-	top = 0,
+  bottom = 0,
+  left = 0,
+  right = 0,
+  top = 0,
 }
 -- Cursor
 config.cursor_blink_rate = 333
@@ -76,8 +76,8 @@ config.default_cursor_style = "BlinkingBlock"
 
 -- Fonts
 config.font = wezterm.font({
-	family = "JetBrains Mono",
-	harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
+  family = "JetBrains Mono",
+  harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
 })
 -- config.font = wezterm.font("Berkeley Mono")
 config.font_size = 18.0
@@ -92,9 +92,9 @@ config.enable_kitty_keyboard = true
 config.enable_csi_u_key_encoding = false
 
 -- Show active workspace in the status area
-wezterm.on("update-right-status", function(window, pane)
-	window:set_right_status(window:active_workspace())
-end)
+-- wezterm.on("update-right-status", function(window, pane)
+-- 	window:set_right_status(window:active_workspace())
+-- end)
 
 -- Show which key table is active in the status area
 -- wezterm.on("update-right-status", function(window, pane)
@@ -106,140 +106,140 @@ end)
 -- end)
 
 config.leader = {
-	key = "Space",
-	mods = "OPT",
+  key = "Space",
+  mods = "OPT",
 }
 
 config.keys = {
-	-- Workspaces
-	-- { key = "n", mods = "CTRL", action = act.SwitchWorkspaceRelative(1) },
-	-- { key = "p", mods = "CTRL", action = act.SwitchWorkspaceRelative(-1) },
+  -- Workspaces
+  -- { key = "n", mods = "CTRL", action = act.SwitchWorkspaceRelative(1) },
+  -- { key = "p", mods = "CTRL", action = act.SwitchWorkspaceRelative(-1) },
 
-	-- Split pane
-	{
-		key = "d",
-		mods = "CMD|SHIFT",
-		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-	},
+  -- Split pane
+  {
+    key = "d",
+    mods = "CMD|SHIFT",
+    action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+  },
 
-	{
-		key = "d",
-		mods = "CMD",
-		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
-	},
+  {
+    key = "d",
+    mods = "CMD",
+    action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
+  },
 
-	{
-		key = "p",
-		mods = "CMD",
-		action = act.PaneSelect,
-	},
+  {
+    key = "p",
+    mods = "CMD",
+    action = act.PaneSelect,
+  },
 
-	{
-		key = "p",
-		mods = "CMD|SHIFT",
-		action = act.PaneSelect({ mode = "SwapWithActive" }),
-	},
+  {
+    key = "p",
+    mods = "CMD|SHIFT",
+    action = act.PaneSelect({ mode = "SwapWithActive" }),
+  },
 
-	{
-		key = "z",
-		mods = "CMD",
-		action = act.TogglePaneZoomState,
-	},
+  {
+    key = "z",
+    mods = "CMD",
+    action = act.TogglePaneZoomState,
+  },
 
-	{
-		key = "t",
-		mods = "CMD|OPT",
-		action = act.ShowTabNavigator,
-	},
+  {
+    key = "t",
+    mods = "CMD|OPT",
+    action = act.ShowTabNavigator,
+  },
 
-	{
-		key = "w",
-		mods = "CMD",
-		action = act.CloseCurrentPane({ confirm = true }),
-	},
+  {
+    key = "w",
+    mods = "CMD",
+    action = act.CloseCurrentPane({ confirm = true }),
+  },
 
-	{
-		key = "w",
-		mods = "CMD|SHIFT",
-		action = act.CloseCurrentTab({ confirm = true }),
-	},
+  {
+    key = "w",
+    mods = "CMD|SHIFT",
+    action = act.CloseCurrentTab({ confirm = true }),
+  },
 
-	{
-		key = "w",
-		mods = "CMD|ALT",
-		action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }),
-	},
+  {
+    key = "w",
+    mods = "CMD|ALT",
+    action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }),
+  },
 
-	{
-		key = "LeftArrow",
-		mods = "CMD",
-		action = act.ActivatePaneDirection("Left"),
-	},
+  {
+    key = "LeftArrow",
+    mods = "CMD",
+    action = act.ActivatePaneDirection("Left"),
+  },
 
-	{
-		key = "RightArrow",
-		mods = "CMD",
-		action = act.ActivatePaneDirection("Right"),
-	},
+  {
+    key = "RightArrow",
+    mods = "CMD",
+    action = act.ActivatePaneDirection("Right"),
+  },
 
-	{
-		key = "UpArrow",
-		mods = "CMD",
-		action = act.ActivatePaneDirection("Up"),
-	},
+  {
+    key = "UpArrow",
+    mods = "CMD",
+    action = act.ActivatePaneDirection("Up"),
+  },
 
-	{
-		key = "DownArrow",
-		mods = "CMD",
-		action = act.ActivatePaneDirection("Down"),
-	},
-	{
-		key = "LeftArrow",
-		mods = "CMD|OPT",
-		action = act.AdjustPaneSize({ "Left", 2 }),
-	},
+  {
+    key = "DownArrow",
+    mods = "CMD",
+    action = act.ActivatePaneDirection("Down"),
+  },
+  {
+    key = "LeftArrow",
+    mods = "CMD|OPT",
+    action = act.AdjustPaneSize({ "Left", 2 }),
+  },
 
-	{
-		key = "RightArrow",
-		mods = "CMD|OPT",
-		action = act.AdjustPaneSize({ "Right", 2 }),
-	},
+  {
+    key = "RightArrow",
+    mods = "CMD|OPT",
+    action = act.AdjustPaneSize({ "Right", 2 }),
+  },
 
-	{
-		key = "UpArrow",
-		mods = "CMD|OPT",
-		action = act.AdjustPaneSize({ "Up", 2 }),
-	},
+  {
+    key = "UpArrow",
+    mods = "CMD|OPT",
+    action = act.AdjustPaneSize({ "Up", 2 }),
+  },
 
-	{
-		key = "DownArrow",
-		mods = "CMD|OPT",
-		action = act.AdjustPaneSize({ "Down", 2 }),
-	},
+  {
+    key = "DownArrow",
+    mods = "CMD|OPT",
+    action = act.AdjustPaneSize({ "Down", 2 }),
+  },
 }
 
 -- folke/zen-mode.nvim
 wezterm.on("user-var-changed", function(window, pane, name, value)
-	local overrides = window:get_config_overrides() or {}
-	if name == "ZEN_MODE" then
-		local incremental = value:find("+")
-		local number_value = tonumber(value)
-		if incremental ~= nil then
-			while number_value > 0 do
-				window:perform_action(wezterm.action.IncreaseFontSize, pane)
-				number_value = number_value - 1
-			end
-			overrides.enable_tab_bar = false
-		elseif number_value < 0 then
-			window:perform_action(wezterm.action.ResetFontSize, pane)
-			overrides.font_size = nil
-			overrides.enable_tab_bar = true
-		else
-			overrides.font_size = number_value
-			overrides.enable_tab_bar = false
-		end
-	end
-	window:set_config_overrides(overrides)
+  local overrides = window:get_config_overrides() or {}
+  if name == "ZEN_MODE" then
+    local incremental = value:find("+")
+    local number_value = tonumber(value)
+    if incremental ~= nil then
+      while number_value > 0 do
+        window:perform_action(wezterm.action.IncreaseFontSize, pane)
+        number_value = number_value - 1
+      end
+      overrides.enable_tab_bar = false
+    elseif number_value < 0 then
+      window:perform_action(wezterm.action.ResetFontSize, pane)
+      overrides.font_size = nil
+      overrides.enable_tab_bar = true
+    else
+      overrides.font_size = number_value
+      overrides.enable_tab_bar = false
+    end
+  end
+  window:set_config_overrides(overrides)
 end)
 
 -- and finally, return the configuration to wezterm
