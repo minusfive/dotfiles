@@ -4,6 +4,13 @@ local cmp_window_options = {
   winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:Search",
 }
 
+local cmp_idx_mod_key = "M"
+
+---@param idx number
+local function get_num_key_for_idx(idx)
+  return idx == 10 and 0 or idx
+end
+
 return {
   {
     "saghen/blink.cmp",
@@ -21,12 +28,19 @@ return {
 
         menu = {
           draw = {
+            align_to_component = "kind_icon",
+            padding = 0,
             treesitter = { "lsp" },
-            columns = { { "item_idx" }, { "kind_icon" }, { "label", "label_description", gap = 1 } },
+            columns = {
+              { "item_idx" },
+              { "kind_icon", "label", "label_description", gap = 1 },
+              { "source_name" },
+            },
             components = {
               item_idx = {
                 text = function(ctx)
-                  return tostring(ctx.idx)
+                  local num_key = get_num_key_for_idx(ctx.idx)
+                  return cmp_idx_mod_key .. "-" .. num_key
                 end,
                 highlight = "BlinkCmpItemIdx",
               },
@@ -46,7 +60,8 @@ return {
 
         -- Add indexed selection keymaps
         for i = 1, 10 do
-          keymap["<M-" .. i .. ">"] = {
+          local num_key = get_num_key_for_idx(i)
+          keymap["<" .. cmp_idx_mod_key .. "-" .. num_key .. ">"] = {
             function(cmp)
               cmp.accept({ index = i })
             end,
