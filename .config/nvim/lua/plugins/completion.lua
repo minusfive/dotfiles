@@ -38,8 +38,10 @@ return {
       },
 
       keymap = {
-        -- preset = "default",
+        preset = "default",
         -- cmdline = { preset = "super-tab" },
+        ["<Up>"] = require("blink.cmp.keymap.presets").enter["<Up>"],
+        ["<Down>"] = require("blink.cmp.keymap.presets").enter["<Down>"],
 
         ["<M-1>"] = {
           function(cmp)
