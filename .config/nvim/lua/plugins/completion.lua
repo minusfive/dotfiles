@@ -39,6 +39,11 @@ return {
             components = {
               item_idx = {
                 text = function(ctx)
+                  -- Only show for the first 10 as those are
+                  -- the shortcuts available
+                  if ctx.idx > 10 then
+                    return
+                  end
                   local num_key = get_num_key_for_idx(ctx.idx)
                   return cmp_idx_mod_key .. "-" .. num_key
                 end,
