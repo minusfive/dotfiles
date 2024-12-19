@@ -64,9 +64,11 @@ return {
             -- Fuzzy Finder
             FzfLuaBorder = { link = "FloatBorder" },
             -- FzfLuaNormal = { bg = colors.base },
-            FzfLuaTitle = { fg = colors.crust, bg = colors.red },
+            FzfLuaTitle = { fg = colors.crust, bg = colors.peach, style = { "bold" } },
             FzfLuaPreviewNormal = { bg = colors.mantle },
-            FzfLuaPreviewTitle = { fg = colors.crust, bg = colors.green },
+            FzfLuaPreviewTitle = { fg = colors.crust, bg = colors.blue, style = { "bold" } },
+            FzfLuaHeaderText = { fg = colors.overlay1 },
+            FzfLuaHeaderBind = { fg = colors.subtext1 },
             FzfLuaFzfPrompt = { fg = colors.peach },
             FzfLuaFzfPointer = { fg = colors.peach },
 
