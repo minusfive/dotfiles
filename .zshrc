@@ -90,7 +90,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=( 
+plugins=(
     # other plugins...
     colored-man-pages
     docker
@@ -135,24 +135,6 @@ fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
-# Homebrew completion
-if type brew &>/dev/null; then
-    BREW_PREFIX=$(brew --prefix)
-    fpath=($BREW_PREFIX/share/zsh/site-functions $fpath)
-    path=($BREW_PREFIX/opt/coreutils/libexec/gnubin
-          $BREW_PREFIX/bin
-          $BREW_PREFIX/sbin
-          /usr/bin
-          $path)
-    manpath=($BREW_PREFIX/opt/coreutils/libexec/gnuman $manpath)
-
-    if [ -d "$BREW_PREFIX/opt/ruby/bin" ]; then
-        path=($BREW_PREFIX/opt/ruby/bin
-              `gem environment gemdir`/bin
-              $path)
-    fi
-fi
 
 # Python
 path=(/usr/local/bin
