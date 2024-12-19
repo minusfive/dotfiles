@@ -80,15 +80,14 @@ return {
             -- Completon
             BlinkCmpItemIdx = { fg = colors.surface2 },
             BlinkCmpMenuSelection = { bg = colors.base, style = { "bold" } },
+            BlinkCmpDoc = { bg = colors.surface0 },
           }
         end,
       },
 
       integrations = {
-        dap = {
-          enabled = true,
-          enable_ui = true,
-        },
+        dap = true,
+        dap_ui = true,
       },
     },
   },

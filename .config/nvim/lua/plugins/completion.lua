@@ -4,11 +4,13 @@ local cmp_window_options = {
   winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:Search",
 }
 
-local cmp_idx_mod_key = "M"
-
 ---@param idx number
-local function get_num_key_for_idx(idx)
-  return idx == 10 and 0 or idx
+local function get_keymap_for_idx(idx)
+  -- Only show for the first 10 items
+  if idx > 10 then
+    return
+  end
+  return "M-" .. (idx % 10)
 end
 
 return {
@@ -29,7 +31,6 @@ return {
         menu = {
           draw = {
             align_to_component = "kind_icon",
-            padding = 0,
             treesitter = { "lsp" },
             columns = {
               { "item_idx" },
@@ -37,15 +38,10 @@ return {
               { "source_name" },
             },
             components = {
+              -- Add indexed selection keymaps hints
               item_idx = {
                 text = function(ctx)
-                  -- Only show for the first 10 as those are
-                  -- the shortcuts available
-                  if ctx.idx > 10 then
-                    return
-                  end
-                  local num_key = get_num_key_for_idx(ctx.idx)
-                  return cmp_idx_mod_key .. "-" .. num_key
+                  return get_keymap_for_idx(ctx.idx)
                 end,
                 highlight = "BlinkCmpItemIdx",
               },
@@ -58,15 +54,18 @@ return {
         ---@type blink.cmp.KeymapConfig
         local keymap = {
           preset = "default",
-          -- cmdline = { preset = "super-tab" },
           ["<Up>"] = require("blink.cmp.keymap.presets").enter["<Up>"],
           ["<Down>"] = require("blink.cmp.keymap.presets").enter["<Down>"],
         }
 
         -- Add indexed selection keymaps
         for i = 1, 10 do
-          local num_key = get_num_key_for_idx(i)
-          keymap["<" .. cmp_idx_mod_key .. "-" .. num_key .. ">"] = {
+          local idx_keymap = get_keymap_for_idx(i)
+          if not idx_keymap then
+            break
+          end
+
+          keymap["<" .. idx_keymap .. ">"] = {
             function(cmp)
               cmp.accept({ index = i })
             end,
