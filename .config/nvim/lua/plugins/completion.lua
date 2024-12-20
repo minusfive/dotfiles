@@ -23,11 +23,6 @@ return {
     ---@type blink.cmp.Config
     opts = {
       completion = {
-        -- TODO: LazyVim keymap <TAB> override doesn't respect manual
-        list = {
-          -- selection = "auto_insert",
-        },
-
         menu = {
           draw = {
             align_to_component = "kind_icon",
