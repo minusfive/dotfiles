@@ -20,7 +20,9 @@ Read [the bootstrap script](./scripts/bootstrap.sh) to understand what it does, 
 ## Update
 
 > [!IMPORTANT]\
-> `Wezterm` must be granted "Application Management" access (`System Preferences > Security & Privacy > Application Management`) so this script is allowed to update all managed applications.
+> `Wezterm` must be granted "Application Management" access so this script is allowed to update all managed applications.
+>
+> `System Preferences > Security & Privacy > Application Management`
 
 To update an already bootstrapped system (i.e. all installed tools/apps), run [the update script](./scripts/update.zsh):
 
