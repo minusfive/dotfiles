@@ -1,4 +1,8 @@
 -- Module to manage / manipulate windows
+
+-- Global settings
+hs.window.animationDuration = 0
+
 ---@alias hs.geometry.rect {x: number, y: number, w: number, h: number}
 
 ---@class WindowManager
@@ -183,5 +187,69 @@ end
 function WindowManager:growY()
   WindowManager:resizeWindowHeightInSteps("+")
 end
+
+-- Position mouse in center of focused windows whenever focus changes
+---@param window hs.window
+local function mouseFollowsFocus(window)
+  -- Only update mouse if mouse buttons are not pressed (e.g. focus wasn't changed by mouse)
+  if #hs.mouse.getButtons() ~= 0 then
+    return
+  end
+
+  -- Position mouse in center of focused window if it's not already within its frame
+  local currentMousePosition = hs.geometry(hs.mouse.absolutePosition())
+  local frame = window:frame()
+  if not currentMousePosition:inside(frame) then
+    hs.mouse.absolutePosition(frame.center)
+  end
+end
+
+hs.window.highlight.ui.overlay = true
+hs.window.highlight.ui.overlayColor = { 0, 0, 0, 0.001 }
+hs.window.highlight.ui.frameWidth = 8
+-- Watch for focused window changes and trigger some actions
+---@param window hs.window
+local function focusedWindowWatcher(window)
+  mouseFollowsFocus(window)
+  hs.window.highlight.start()
+  hs.timer.doAfter(0.3, hs.window.highlight.stop)
+end
+local focusedWindowFilter =
+  hs.window.filter.new():setOverrideFilter({ visible = true, focused = true, activeApplication = true })
+focusedWindowFilter:subscribe(hs.window.filter.windowFocused, focusedWindowWatcher)
+
+-- Ensure all terminal windows open on specific positions depending on screen size
+---@param window hs.window
+local function weztermNewWindowWatcher(window)
+  local desiredPosition = WindowManager.layout.right50
+  if window:screen():fullFrame().w >= 5120 then
+    desiredPosition = WindowManager.layout.center33
+  end
+  window:moveToUnit(desiredPosition, 0)
+end
+local weztermWindowFilter = hs.window.filter.new({ "Terminal", "WezTerm" })
+weztermWindowFilter:subscribe(hs.window.filter.windowCreated, weztermNewWindowWatcher)
+
+-- Ensure all browser windows open on specific positions depending on screen size
+---@param window hs.window
+local function browserNewWindowWatcher(window)
+  ---@type hs.application | nil
+  local app = window:application()
+  app = app and app:name()
+
+  local pos = { default = WindowManager.layout.right50, above5125 = WindowManager.layout.right33 }
+
+  if app == "Safari" then
+    pos = { default = WindowManager.layout.left50, above5125 = WindowManager.layout.left33 }
+  end
+
+  local desiredPosition = pos.default
+  if window:screen():fullFrame().w >= 5120 then
+    desiredPosition = pos.above5125
+  end
+  window:moveToUnit(desiredPosition, 0)
+end
+local browserWindowFilter = hs.window.filter.new({ "Safari", "Google Chrome", "Firefox", "Brave" })
+browserWindowFilter:subscribe(hs.window.filter.windowCreated, browserNewWindowWatcher)
 
 return WindowManager
