@@ -70,12 +70,17 @@ return {
         return keymap
       end)(),
 
-      signature = { enabled = true },
+      -- signature = { enabled = true },
 
       sources = {
         -- TODO: Explore other ways of reverting overrides?
         -- Force enable commandline completion
         cmdline = require("blink.cmp.config.sources").default.cmdline,
+        providers = {
+          copilot = {
+            score_offset = 0,
+          },
+        },
       },
     },
   },
