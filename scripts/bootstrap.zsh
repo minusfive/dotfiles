@@ -8,33 +8,31 @@ local BREW_BUNDLE_PATH="$SCRIPT_PATH/Brewfile"
 local DOTFILES_PATH="$SCRIPT_PATH/.."
 local GITIGNORE_PATH="$DOTFILES_PATH/.gitignore"
 
-# Install Homebrew
-if [[ $(command -v brew) == "" ]]; then
-    echo "\n- Homebrew not installed. Attempting install..."
-    /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Install nix
+if [[ $(command -v nix) == "" ]]; then
+    echo "\n- Nix not installed. Attempting install..."
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
 
     if [[ $? == 0 ]]; then
-        echo "\n- Homebrew installed, adding to path..."
-        (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> $HOME/.zprofile
-        eval "$(/opt/homebrew/bin/brew shellenv)"
+        echo "\n- Nix installed, starting service..."
+        # Start the nix daemon without restarting the shell
+        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     fi
 fi
 
 
-# Install Homebrew packages and apps
-if [[ $(command -v brew) != "" ]]; then
-    echo "\n- Homebrew installed at $(which brew)"
+# Install nix-darwin
+if [[ $(command -v nix) != "" && $(command -v darwin-rebuild) == "" ]]; then
+  echo "\n- nix-darwin not installed, installing..."
+  nix run nix-darwin -- switch --flake "$DOTFILES_PATH/.config/nix-darwin#macos"
 
-    # Install desired tools, apps, etc.
-    if [[ ! -f $BREW_BUNDLE_PATH ]]; then
-        echo "\n- Brewfile not found"
-    else
-        echo "\n- Installing Homebrew bundle"
-        brew bundle -v --file $BREW_BUNDLE_PATH
-    fi
+  if [[ $? == 0 ]]; then
+    echo "\n- nix-darwin installed"
+  fi
 fi
 
 
+# TODO: Move to nix
 # Install OhMyZsh
 if [[ -d ${ZSH:-$HOME/.oh-my-zsh} ]]; then
     echo "\n- OhMyZsh already installed"
@@ -44,6 +42,7 @@ else
 fi
 
 
+# TODO: Move to nix
 # Install PowerLevel10K
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k ]]; then
     echo "\n- PowerLevel10K already installed"
@@ -54,6 +53,7 @@ else
 fi
 
 
+# TODO: Move to nix
 # Install fast-syntax-highlighting
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting ]]; then
     echo "\n- fast-syntax-highlighting already installed"
@@ -64,6 +64,7 @@ else
 fi
 
 
+# TODO: Move to nix
 # Install zsh-autosuggestions
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
     echo "\n- zsh-autosuggestions already installed"
@@ -74,6 +75,7 @@ else
 fi
 
 
+# TODO: Move to nix
 # Install fzf-tab
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab ]]; then
     echo "\n- fzf-tab already installed"
@@ -84,6 +86,7 @@ else
 fi
 
 
+# TODO: Move to nix
 # Install OhMyZsh Full-autoupdate
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate ]]; then
     echo "\n- OhMyZsh Full-autoupdate already installed"
