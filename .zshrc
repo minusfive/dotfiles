@@ -5,7 +5,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 # wezterm shell integration
-TERMINFO_DIRS="$XDG_CONFIG_HOME/wezterm/terminfo"
+export TERMINFO_DIRS="$XDG_CONFIG_HOME/wezterm/terminfo"
 if [[ -f $XDG_CONFIG_HOME/wezterm/shell-integration.sh ]]; then
   source $XDG_CONFIG_HOME/wezterm/shell-integration.sh
 fi
@@ -23,6 +23,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Oh My Zsh cache
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/omz"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump"
+
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -146,6 +147,9 @@ path=(/usr/local/bin
 path=($HOME/.yarn/bin
       $XDG_CONFIG_HOME/yarn/global/node_modules/.bin
       $path)
+
+# Coreutils
+path=($(brew --prefix)/opt/coreutils/libexec/gnubin $path)
 
 export PATH
 export FPATH
