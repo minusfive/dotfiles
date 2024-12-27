@@ -1,5 +1,5 @@
 {
-  description = "Example nix-darwin system flake";
+  description = "minusfive's macOS configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -85,7 +85,9 @@
             };
 
             NSGlobalDomain = {
-              "com.apple.trackpad.scaling" = 1.0;
+              AppleICUForce24HourTime = true;
+              AppleInterfaceStyle = "Dark";
+              "com.apple.trackpad.scaling" = 3.0;
             };
 
             # TODO: screencapture
