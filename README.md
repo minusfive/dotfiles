@@ -15,7 +15,7 @@ cd ~/.dotfiles
 source ./scripts/bootstrap.zsh
 ```
 
-Read [the bootstrap script](./scripts/bootstrap.sh) to understand what it does, and [the Brewfile](./scripts/Brewfile) to see what apps it installs.
+Read [the bootstrap script](./scripts/bootstrap.sh) to understand what it does, and what's installed, as well as the [Nix Flake](./.config/nix-darwin/flake.nix).
 
 ## Update
 
@@ -48,13 +48,14 @@ cd ~/.dotfiles
 
 ## Tools
 
+- [Nix](https://nixos.org/) - OS Configuration, Package Manager
+  - [Nix Darwin](https://github.com/LnL7/nix-darwin) - macOS Nix
 - [Neovim](https://neovim.io/) - Text Editor / IDE
   - [LazyVim](https://www.lazyvim.org/) - Neovim Plugin and Configuration Manager
   - See [the Neovim configuration](./.config/nvim) for the full list of installed plugins and settings.
 - [Hammerspoon](https://www.hammerspoon.org/) - macOS Automation (app launcher, window / system manager, etc.)
 - [WezTerm](https://wezfurlong.org/wezterm/) - Terminal Emulator
 - [Homebrew](https://brew.sh) - macOS Package Manager
-  - See [the Brewfile](./scripts/Brewfile) and [the bootstrap script](./scripts/bootstrap.sh) for the full list of installed tools, apps, themes, plugins, etc.
 - [GNU Stow](https://www.gnu.org/software/stow/) - Symlink Manager
 - [GNU Coreutils](https://www.gnu.org/software/coreutils/) - Core Utilities
 - [Zsh](https://www.zsh.org/) - Shell
