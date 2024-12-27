@@ -4,7 +4,7 @@
 set -eu
 
 local SCRIPT_PATH="$(dirname "$(realpath $0)")"
-local DOTFILES_PATH="$SCRIPT_PATH/.."
+local DOTFILES_PATH="$(echo $SCRIPT_PATH | rev | cut -d'/' -f2- | rev)"
 
 
 # Apply nix-darwin configuration

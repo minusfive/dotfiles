@@ -1,10 +1,11 @@
 # Comments and blank lines are allowed.
+.stowrc       # This should be used for this repo, not globally
 
 RCS
 .+,v
 
 CVS
-\.\#.+       # CVS conflict files / emacs lock files
+\.\#.+        # CVS conflict files / emacs lock files
 \.cvsignore
 
 \.svn
@@ -15,8 +16,8 @@ _darcs
 # \.gitignore
 \.gitmodules
 
-.+~          # emacs backup files
-\#.*\#       # emacs autosave files
+.+~           # emacs backup files
+\#.*\#        # emacs autosave files
 
 ^/README.*
 ^/LICENSE.*
