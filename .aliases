@@ -25,22 +25,14 @@ alias cp='cp -v'
 # Terminal control
 alias t='wezterm cli set-tab-title'
 alias wt='wezterm cli set-window-title'
+alias e=exit
 alias x=exit
 alias q=exit
 
-# Shortcut to print current directory
-alias .="echo $PWD"
-
-# Use Zoxide instead of cd
-alias cd="z"
-alias cd..="z .."
-alias ..="z .."
 # alias c="clear"
-# alias e="exit"
+
 # alias ssh="ssh -X"
 
-# Use ripgrep instead of grep
-alias grep='rg'
 # Cleanup ripgrep output for piping
 alias rgc='rg --color=never --no-heading --no-line-number --no-filename'
 
@@ -48,15 +40,7 @@ alias rgc='rg --color=never --no-heading --no-line-number --no-filename'
 alias bunzip2='bunzip2 -k'
 
 # Editor
-alias e=nvim
-alias edit=nvim
-alias n=nvim
 alias v=nvim
-alias vi=nvim
-alias vim=nvim
-
-# Shortcut to Sites directory
-alias dev='cd ~/dev'
 
 # use bat instead of cat, for previews, etc.
 alias cat='bat'
