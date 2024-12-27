@@ -1,24 +1,28 @@
-return {
-  {
-    "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
-    opts = {
-      servers = {
-        bashls = {
-          settings = {
-            filetypes = { "bash", "sh", "zsh" },
-          },
-        },
-      },
-    },
-  },
-  {
-    "stevearc/conform.nvim",
-    optional = true,
-    opts = {
-      formatters_by_ft = {
-        zsh = { "shfmt" },
-      },
-    },
-  },
-}
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     opts = {
+--       ---@module 'lspconfig'
+--       ---@type {[string]: lspconfig.Config|{}}
+--       servers = {
+--         bashls = {
+--           filetypes = { "bash", "sh", "zsh" },
+--         },
+--       },
+--     },
+--   },
+--   {
+--     "stevearc/conform.nvim",
+--     optional = true,
+--     ---@module 'conform'
+--     ---@type conform.setupOpts
+--     opts = {
+--       lang_to_ft = {
+--         zsh = "sh",
+--       },
+--       formatters_by_ft = {
+--         zsh = { "shfmt" },
+--       },
+--     },
+--   },
+-- }
