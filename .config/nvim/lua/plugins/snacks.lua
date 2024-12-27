@@ -56,6 +56,10 @@ return {
         },
         scope = {
           only_current = true,
+          animate = {
+            easing = "inQuad",
+            duration = { total = 100 },
+          },
         },
       },
 
