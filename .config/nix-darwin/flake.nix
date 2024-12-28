@@ -142,14 +142,15 @@
 
             casks = [
               "1password" # Password manager
-              "hammerspoon" # macOS automation
-              "wezterm@nightly" # Terminal emulator
-              "obsidian" # Note-taking
               "betterdisplay" # Display configuration manager
-              "imageoptim" # Image optimizer
               "discord" # Chat app
-              "gpg-suite" # GPG keychain
+              "ghostty" # Terminal emulator
               "google-chrome"
+              "gpg-suite" # GPG keychain
+              "hammerspoon" # macOS automation
+              "imageoptim" # Image optimizer
+              "obsidian" # Note-taking
+              "wezterm@nightly" # Terminal emulator
             ];
 
             masApps = {
