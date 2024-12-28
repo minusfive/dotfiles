@@ -25,11 +25,8 @@ alias cp='cp -v'
 # Terminal control
 alias t='wezterm cli set-tab-title'
 alias wt='wezterm cli set-window-title'
-alias e=exit
-alias x=exit
 alias q=exit
-
-# alias c="clear"
+alias c="clear"
 
 # alias ssh="ssh -X"
 
@@ -44,7 +41,8 @@ alias v=nvim
 
 # use bat instead of cat, for previews, etc.
 alias cat='bat'
-alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+alias fzf='fzf '
 
 # Yazi
 alias f='y'
+

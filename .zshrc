@@ -113,8 +113,9 @@ plugins=(
   # zsh-autocomplete # Too noisy
   zsh-autosuggestions
   # per-directory-history # Not used to this yet
-  # fzf
+  fzf
   fzf-tab
+  fzf-tab-source
   ohmyzsh-full-autoupdate
 )
 
@@ -195,7 +196,28 @@ export ZELLIJ_CONFIG_DIR="$XDG_CONFIG_HOME/zellij"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/.ripgreprc"
 
 # FZF
-source <(fzf --zsh)
+local __fzf_preview_eza_args='eza --tree --level=2 --color=always --icons=auto --classify=auto --group-directories-first --header --time-style=long-iso'
+export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/fzf.conf"
+export FZF_COMPLETION_DIR_OPTS="--preview='$__fzf_preview_eza_args {}'"
+export FZF_CTRL_R_OPTS="--no-preview --layout=reverse"
+export FZF_ALT_C_OPTS="$FZF_COMPLETION_DIR_OPTS"
+
+# fzf-tab
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview "$__fzf_preview_eza_args \$realpath"
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
+# custom fzf flags
+# NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
+zstyle ':fzf-tab:*' fzf-flags --bind=tab:accept
+# To make fzf-tab follow FZF_DEFAULT_OPTS.
+# NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+enable-fzf-tab
 
 # Colorize LS
 export LS_COLORS="$(vivid generate catppuccin-mocha)"
@@ -214,22 +236,7 @@ function y() {
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 # Fix https://github.com/romkatv/powerlevel10k/issues/1554
 unset ZSH_AUTOSUGGEST_USE_ASYNC
-
-# fzf-tab
-# disable sort when completing `git checkout`
-zstyle ':completion:*:git-checkout:*' sort false
-# set descriptions format to enable group support
-# NOTE: don't use escape sequences here, fzf-tab will ignore them
-zstyle ':completion:*:descriptions' format '[%d]'
-# set list-colors to enable filename colorizing
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-zstyle ':completion:*' menu no
-# preview directory's content with eza when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-# switch group using `<` and `>`
-zstyle ':fzf-tab:*' switch-group '<' '>'
-enable-fzf-tab
+bindkey '^y' autosuggest-accept
 
 # Autoload python venv
 python_venv() {

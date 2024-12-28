@@ -87,6 +87,18 @@ fi
 
 
 # TODO: Move to nix
+# Install fzf-tab-source
+if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab-source ]]; then
+  echo "\n- fzf-tab-source already installed"
+else
+  echo "\n- Installing fzf-tab-source"
+  git clone --depth=1 https://github.com/Freed-Wu/fzf-tab-source \
+    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab-source
+fi
+
+
+
+# TODO: Move to nix
 # Install OhMyZsh Full-autoupdate
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate ]]; then
   echo "\n- OhMyZsh Full-autoupdate already installed"
