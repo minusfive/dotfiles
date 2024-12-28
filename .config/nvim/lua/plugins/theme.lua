@@ -71,6 +71,7 @@ return {
             FzfLuaHeaderBind = { fg = colors.subtext1 },
             FzfLuaFzfPrompt = { fg = colors.peach },
             FzfLuaFzfPointer = { fg = colors.peach },
+            FzfLuaFzfHeader = { fg = colors.overlay0 },
 
             -- Cursorline
             CursorLine = { bg = colors.mantle },
