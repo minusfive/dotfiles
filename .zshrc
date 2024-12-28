@@ -190,7 +190,7 @@ fi
 export ZELLIJ_CONFIG_DIR="$XDG_CONFIG_HOME/zellij"
 
 # Lazygit
-# LG_CONFIG_FILE="$XDG_CONFIG_HOME/lazygit/config.yml,$XDG_CONFIG_HOME/lazygit/theme.yml"
+export LG_CONFIG_FILE="$XDG_CONFIG_HOME/lazygit/config.yml,$XDG_CONFIG_HOME/lazygit/theme.yml"
 
 # ripgrep config
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/.ripgreprc"
