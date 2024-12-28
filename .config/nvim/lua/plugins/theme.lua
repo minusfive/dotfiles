@@ -62,10 +62,9 @@ return {
             FloatBorder = { fg = colors.surface1 },
 
             -- Fuzzy Finder
-            FzfLuaBorder = { link = "FloatBorder" },
-            -- FzfLuaNormal = { bg = colors.base },
+            FzfLuaBorder = { fg = colors.surface1, bg = colors.base },
+            FzfLuaNormal = { bg = colors.base },
             FzfLuaTitle = { fg = colors.crust, bg = colors.peach, style = { "bold" } },
-            FzfLuaPreviewNormal = { bg = colors.mantle },
             FzfLuaPreviewTitle = { fg = colors.crust, bg = colors.blue, style = { "bold" } },
             FzfLuaHeaderText = { fg = colors.overlay1 },
             FzfLuaHeaderBind = { fg = colors.subtext1 },
@@ -80,7 +79,7 @@ return {
 
             -- Completon
             BlinkCmpItemIdx = { fg = colors.surface2 },
-            BlinkCmpMenuSelection = { bg = colors.base, style = { "bold" } },
+            BlinkCmpMenuSelection = { bg = colors.surface1, style = { "bold" } },
             BlinkCmpDoc = { bg = colors.surface0 },
           }
         end,
