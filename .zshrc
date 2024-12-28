@@ -86,36 +86,42 @@ HIST_STAMPS="yyyy-mm-dd"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# vi-mode plugin settings
+VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+VI_MODE_SET_CURSOR=true
+VI_MODE_CURSOR_NORMAL=1
+VI_MODE_CURSOR_VISUAL=0
+VI_MODE_CURSOR_INSERT=5
+VI_MODE_CURSOR_OPPEND=0
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    # other plugins...
-    colored-man-pages
-    docker
-    fast-syntax-highlighting
-    git
-    mise
-    terraform
-    virtualenv
-    # yarn # Keyboard commands conflict with Yazi's CLI
-    zoxide
-    # zsh-autocomplete # Too noisy
-    zsh-autosuggestions
-    # per-directory-history # Not used to this yet
-    fzf
-    fzf-tab
-    ohmyzsh-full-autoupdate
+  vi-mode
+  colored-man-pages
+  docker
+  fast-syntax-highlighting
+  git
+  mise
+  terraform
+  virtualenv
+  # yarn # Keyboard commands conflict with Yazi's CLI
+  zoxide
+  # zsh-autocomplete # Too noisy
+  zsh-autosuggestions
+  # per-directory-history # Not used to this yet
+  # fzf
+  fzf-tab
+  ohmyzsh-full-autoupdate
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# Enable VI mode
-bindkey -v
 # Remove ESC delay
 KEYTIMEOUT=1
 
