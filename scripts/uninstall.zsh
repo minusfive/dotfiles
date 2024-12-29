@@ -8,19 +8,15 @@ if [[ $(command -v nix) != "" ]]; then
   nix --extra-experimental-features "nix-command flakes" run nix-darwin#darwin-uninstaller
 fi
 
-
-
 # Uninstall Nix
 if [[ -x "/nix/nix-installer" ]]; then
-    echo "\n- Uninstalling Nix..."
+  echo "\n- Uninstalling Nix..."
 
-    /nix/nix-installer uninstall
+  /nix/nix-installer uninstall
 
-    if [[ $? == 0 ]]; then
-        echo "\n- Nix uninstalled"
-    fi
+  if [[ $? == 0 ]]; then
+    echo "\n- Nix uninstalled"
+  fi
 fi
 
-
 echo "\n- Uninstall complete"
-

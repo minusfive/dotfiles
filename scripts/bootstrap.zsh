@@ -20,7 +20,6 @@ else
   echo "\n- Nix already installed"
 fi
 
-
 # Install nix-darwin
 if [[ $(command -v nix) != "" && $(command -v darwin-rebuild) == "" ]]; then
   echo "\n- nix-darwin not installed, installing..."
@@ -31,7 +30,6 @@ if [[ $(command -v nix) != "" && $(command -v darwin-rebuild) == "" ]]; then
   fi
 fi
 
-
 # TODO: Move to nix
 # Install OhMyZsh
 if [[ -d ${ZSH:-$HOME/.oh-my-zsh} ]]; then
@@ -40,7 +38,6 @@ else
   echo "\n- Installing OhMyZsh"
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
-
 
 # TODO: Move to nix
 # Install PowerLevel10K
@@ -52,7 +49,6 @@ else
     ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 fi
 
-
 # TODO: Move to nix
 # Install fast-syntax-highlighting
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting ]]; then
@@ -62,7 +58,6 @@ else
   git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
     ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 fi
-
 
 # TODO: Move to nix
 # Install zsh-autosuggestions
@@ -74,7 +69,6 @@ else
     ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
-
 # TODO: Move to nix
 # Install fzf-tab
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab ]]; then
@@ -84,7 +78,6 @@ else
   git clone --depth=1 https://github.com/Aloxaf/fzf-tab \
     ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 fi
-
 
 # TODO: Move to nix
 # Install fzf-tab-source
@@ -96,8 +89,6 @@ else
     ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab-source
 fi
 
-
-
 # TODO: Move to nix
 # Install OhMyZsh Full-autoupdate
 if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate ]]; then
@@ -107,6 +98,5 @@ else
   git clone --depth=1 https://github.com/Pilaton/OhMyZsh-full-autoupdate.git \
     ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
 fi
-
 
 source "$SCRIPT_PATH/update.zsh"
