@@ -85,7 +85,13 @@
         NSGlobalDomain = {
           AppleICUForce24HourTime = true;
           AppleInterfaceStyle = "Dark";
-          "com.apple.trackpad.scaling" = 3.0;
+          "com.apple.trackpad.scaling" = 5.0;
+        };
+
+        CustomUserPreferences = {
+          "org.hammerspoon.Hammerspoon" = {
+            MJConfigFile = "~/.config/hammerspoon/init.lua";
+          };
         };
 
         # TODO: screencapture
