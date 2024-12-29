@@ -25,6 +25,8 @@ return {
       ---@type PluginLspOpts
       local lspconfigOptions = {
         inlay_hints = { enabled = false },
+        ---@module 'lspconfig'
+        ---@type {[string]: lspconfig.Config|{}}
         servers = {
           harper_ls = {
             autostart = false,
