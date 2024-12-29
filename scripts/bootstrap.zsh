@@ -23,7 +23,7 @@ fi
 # Install nix-darwin
 if [[ $(command -v nix) != "" && $(command -v darwin-rebuild) == "" ]]; then
   echo "\n- nix-darwin not installed, installing..."
-  nix run nix-darwin -- switch --flake "$DOTFILES_PATH/.config/nix-darwin#macos"
+  nix run nix-darwin -- switch --flake "$DOTFILES_PATH#macos"
 
   if [[ $? == 0 ]]; then
     echo "\n- nix-darwin installed"

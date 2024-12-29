@@ -15,7 +15,7 @@ cd ~/.dotfiles
 source ./scripts/bootstrap.zsh
 ```
 
-Read [the bootstrap script](./scripts/bootstrap.sh) to understand what it does, and what's installed, as well as the [Nix Flake](./.config/nix-darwin/flake.nix).
+Read [the bootstrap script](./scripts/bootstrap.sh) to understand what it does, and what's installed, as well as the [Nix Flake](./flake.nix).
 
 ## Update
 

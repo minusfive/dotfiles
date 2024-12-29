@@ -9,7 +9,7 @@ local DOTFILES_PATH="$(echo $SCRIPT_PATH | rev | cut -d'/' -f2- | rev)"
 # Apply nix-darwin configuration
 if [[ $(command -v darwin-rebuild) != "" ]]; then
   echo "\n- Applying nix-darwin changes..."
-  darwin-rebuild switch --flake "$DOTFILES_PATH/.config/nix-darwin#macos"
+  darwin-rebuild switch --flake "$DOTFILES_PATH#macos"
 
   if [[ $? == 0 ]]; then
     echo "\n- nix-darwin changes applied"

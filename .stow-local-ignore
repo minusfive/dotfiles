@@ -31,5 +31,7 @@ _darcs
 ^/assets
 ^/scripts
 ^/tests
+^/flake.nix
+^/flake.lock
 \.luarc.json
 \.ruby-lsp
