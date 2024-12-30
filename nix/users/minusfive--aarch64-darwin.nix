@@ -69,6 +69,17 @@
 
   # Homebrew
   homebrew = {
+    enable = true;
+
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "zap";
+      upgrade = true;
+      extraFlags = [
+        "--verbose"
+      ];
+    };
+
     brews = [
       "bat" # `cat` replacement
       "coreutils" # GNU core utilities

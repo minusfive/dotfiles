@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 
 {
   # Set Git commit hash for darwin-version.
@@ -11,17 +11,17 @@
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
 
-  # Homebrew
-  homebrew = {
-    enable = true;
-
-    onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";
-      upgrade = true;
-      extraFlags = [
-        "--verbose"
-      ];
-    };
-  };
+  # A list of permissible login shells for user accounts.
+  # The default macOS shells will be automatically included:
+  # - /bin/bash
+  # - /bin/csh
+  # - /bin/dash
+  # - /bin/ksh
+  # - /bin/sh
+  # - /bin/tcsh
+  # - /bin/zsh
+  environment.shells = with pkgs; [
+    bashInteractive
+    zsh
+  ];
 }

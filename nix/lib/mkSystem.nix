@@ -12,12 +12,13 @@
 }:
 
 let
+  # Check whether the system is darwin
+  isDarwin = nixpkgs.lib.strings.hasSuffix "-darwin" system;
+
   # The config files for this system
   systemConfig = ../systems/${system}.nix;
   userOSConfig = ../users/${user}--${system}.nix;
 
-  # Check whether the system is darwin
-  isDarwin = nixpkgs.lib.strings.hasSuffix "-darwin" system;
   # NixOS vs. nix-darwin functions
   systemFunc = if isDarwin then inputs.nix-darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
 in
@@ -43,10 +44,7 @@ systemFunc {
     # better based on these values.
     {
       config._module.args = {
-        # currentSystem = system;
-        # currentSystemName = name;
-        # currentSystemUser = user;
-        inputs = inputs;
+        inherit inputs isDarwin;
       };
     }
   ];
