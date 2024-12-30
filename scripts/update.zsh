@@ -3,45 +3,51 @@
 # Exit immediately if a command fails and treat unset vars as error
 set -eu
 
-local SCRIPT_PATH="$(dirname "$(realpath $0)")"
-local DOTFILES_PATH="$(echo $SCRIPT_PATH | rev | cut -d'/' -f2- | rev)"
+# Immediately invoked anonymous function with the script's path as its only argument
+# used to contain variables and functions in a local scope
+function {
+  local __dotfiles_scripts_dir="$(dirname "$1")"
+  local __dotfiles_dir="$(dirname "$__dotfiles_scripts_dir")"
 
-# Apply nix-darwin configuration
-if [[ $(command -v darwin-rebuild) != "" ]]; then
-  echo "\n- Applying nix-darwin changes..."
-  darwin-rebuild switch --flake "$DOTFILES_PATH#macos"
+  # Apply nix-darwin configuration
+  if [[ $(command -v darwin-rebuild) != "" ]]; then
+    echo "\n- Applying nix-darwin changes..."
+    darwin-rebuild switch --flake "$__dotfiles_dir#macos"
 
-  if [[ $? == 0 ]]; then
-    echo "\n- nix-darwin changes applied"
+    if [[ $? == 0 ]]; then
+      echo "\n- nix-darwin changes applied"
+    fi
   fi
-fi
 
-# Symlink dotfiles
-source "$SCRIPT_PATH/link.zsh"
+  # Symlink dotfiles
+  source "$__dotfiles_scripts_dir/link.zsh"
 
-# Update OhMyZsh, plugins and themes
-zsh "$ZSH/tools/upgrade.sh"
+  # Update OhMyZsh, plugins and themes
+  zsh "$ZSH/tools/upgrade.sh"
 
-# Rebuild bat cache
-if [[ $(command -v bat) != "" ]]; then
-  echo "\n- Rebuilding bat cache..."
-  bat cache --build
-fi
+  # Rebuild bat cache
+  if [[ $(command -v bat) != "" ]]; then
+    echo "\n- Rebuilding bat cache..."
+    bat cache --build
+  fi
 
-# Update Yazi packages
-if [[ $(command -v ya) != "" ]]; then
-  echo "\n- Updating Yazi packages..."
-  ya pack -u
-fi
+  # Update Yazi packages
+  if [[ $(command -v ya) != "" ]]; then
+    echo "\n- Updating Yazi packages..."
+    ya pack -u
+  fi
 
-# Update NPM packages
-if [[ $(command -v npm) != "" ]]; then
-  echo "\n- Install + update NPM packages..."
-  npm install -g npm@latest neovim
-fi
+  # Update NPM packages
+  if [[ $(command -v npm) != "" ]]; then
+    echo "\n- Install + update NPM packages..."
+    npm install -g npm@latest neovim
+  fi
 
-echo "\n- Cleaning up zsh completion..."
-rm -f "$ZSH_COMPDUMP"
+  echo "\n- Cleaning up zsh completion..."
+  rm -f "$ZSH_COMPDUMP"
 
-echo "\n- Update complete, sourcing ~/.zshrc..."
-source "$HOME/.zshrc"
+  echo "\n- Update complete, sourcing ~/.zshrc..."
+  source "$HOME/.zshrc"
+
+} $(realpath $0)
+
