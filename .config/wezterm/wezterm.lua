@@ -18,11 +18,7 @@ config.animation_fps = 60
 
 -- Enable advanced features
 config.set_environment_variables = {
-  XDG_CONFIG_HOME = "$HOME/.config",
-  XDG_DATA_HOME = "$HOME/.local/share",
-  XDG_STATE_HOME = "$HOME/.local/state",
-  XDG_CACHE_HOME = "$HOME/.cache",
-  TERMINFO_DIRS = "$XDG_CONFIG_HOME/wezterm/terminfo",
+  TERMINFO_DIRS = "$HOME/.config/wezterm/terminfo",
   WSLENV = "TERMINFO_DIRS",
 }
 config.term = "wezterm"
@@ -117,20 +113,20 @@ config.keys = {
 
   -- Split pane
   {
-    key = "d",
+    key = "s",
     mods = "CMD|SHIFT",
     action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
   },
 
   {
-    key = "d",
+    key = "s",
     mods = "CMD",
     action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
   },
 
   {
-    key = "p",
-    mods = "CMD",
+    key = "s",
+    mods = "CMD|OPT",
     action = act.PaneSelect,
   },
 

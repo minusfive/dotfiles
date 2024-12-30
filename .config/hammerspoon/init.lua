@@ -69,9 +69,9 @@ local baseSpecs = {
   { m.hotkeys.mods.meh, "8", "1/3 Center", m.windowManager:move(m.windowManager.layout.center33) },
   { m.hotkeys.mods.meh, "9", "1/3 Right", m.windowManager:move(m.windowManager.layout.right33) },
 
-  { m.hotkeys.mods.hyper, "7", "1/2 Left", m.windowManager:move(m.windowManager.layout.left50) },
-  { m.hotkeys.mods.hyper, "8", "1/2 Center", m.windowManager:move(m.windowManager.layout.center50) },
-  { m.hotkeys.mods.hyper, "9", "1/2 Right", m.windowManager:move(m.windowManager.layout.right50) },
+  { m.hotkeys.mods.meh, "6", "1/2 Left", m.windowManager:move(m.windowManager.layout.left50) },
+  { m.hotkeys.mods.meh, "space", "1/2 Center", m.windowManager:move(m.windowManager.layout.center50) },
+  { m.hotkeys.mods.meh, "0", "1/2 Right", m.windowManager:move(m.windowManager.layout.right50) },
 }
 
 -- Modal hotkeys

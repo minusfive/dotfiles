@@ -4,7 +4,7 @@
 [user]
   name = Jorge Villalobos
   email = mail@minusfive.com
-  signingkey = 927677DC8C99CD04
+  signingkey = 99B034B854897B90
 [core]
   excludesfile = ~/.gitignore
   editor = nvim
