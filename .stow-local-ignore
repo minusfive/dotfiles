@@ -29,6 +29,7 @@ _darcs
 
 # Project
 ^/assets
+^/nix
 ^/scripts
 ^/tests
 ^/flake.nix

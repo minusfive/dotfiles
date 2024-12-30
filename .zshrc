@@ -5,8 +5,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 # wezterm shell integration
-export TERMINFO_DIRS="$XDG_CONFIG_HOME/wezterm/terminfo"
-if [[ -f $XDG_CONFIG_HOME/wezterm/shell-integration.sh ]]; then
+if [[ "$TERM" == "wezterm" && -f $XDG_CONFIG_HOME/wezterm/shell-integration.sh ]]; then
   source $XDG_CONFIG_HOME/wezterm/shell-integration.sh
 fi
 

@@ -12,7 +12,7 @@ function {
   # Apply nix-darwin configuration
   if [[ $(command -v darwin-rebuild) != "" ]]; then
     echo "\n- Applying nix-darwin changes..."
-    darwin-rebuild switch --flake "$__dotfiles_dir#macos"
+    darwin-rebuild switch --flake "$__dotfiles_dir#mac"
 
     if [[ $? == 0 ]]; then
       echo "\n- nix-darwin changes applied"

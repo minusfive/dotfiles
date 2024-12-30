@@ -27,7 +27,7 @@ function {
   # Install nix-darwin
   if [[ $(command -v nix) != "" && $(command -v darwin-rebuild) == "" ]]; then
     echo "\n- nix-darwin not installed, installing..."
-    nix run nix-darwin -- switch --flake "$__dotfiles_dir#macos"
+    nix run nix-darwin -- switch --flake "$__dotfiles_dir#mac"
 
     if [[ $? == 0 ]]; then
       echo "\n- nix-darwin installed"

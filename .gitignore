@@ -67,3 +67,6 @@ Last.fm
 # VSCode
 ########
 .vscode
+
+# Copilot
+.config/github-copilot
