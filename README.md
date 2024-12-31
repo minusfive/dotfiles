@@ -5,51 +5,24 @@
 
 <img alt="Workspace" src="./assets/workspace.png" width="100%"/>
 
-## Bootstrap
+## Bootstrap and Update
 
-To setup a new machine run [the bootstrap script](./scripts/bootstrap.zsh):
+> [!WARNING]
+> This will modify system settings and install software. You should read and understand [the bootstrap script](./scripts/bootstrap.sh) and [Nix Flake](./flake.nix) before proceeding.
+
+To setup or update a new machine run [the bootstrap script](./scripts/bootstrap.zsh):
 
 ```sh
 git clone git@github.com:minusfive/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-source ./scripts/bootstrap.zsh
+./scripts/bootstrap.zsh
 ```
-
-Read [the bootstrap script](./scripts/bootstrap.sh) to understand what it does, and what's installed, as well as the [Nix Flake](./flake.nix).
-
-## Update
-
-> [!IMPORTANT]\
-> `Wezterm` must be granted "Application Management" access so this script is allowed to update all managed applications.
->
-> `System Preferences > Security & Privacy > Application Management`
-
-To update an already bootstrapped system (i.e. all installed tools/apps), run [the update script](./scripts/update.zsh):
-
-```sh
-cd ~/.dotfiles
-source ./scripts/update.zsh
-```
-
-> [!NOTE]
-> The [bootstrap](#bootstrap) script will run this script at the end of its execution, so no need to run it separately after bootstrapping.
-
-## Link
-
-To only link the configuration files (i.e. without installing any tools/apps), run [the link script](./scripts/link.zsh):
-
-```sh
-cd ~/.dotfiles
-./scripts/link.zsh
-```
-
-> [!NOTE]
-> The [bootstrap](#bootstrap) and [update](#update) scripts will run this script, so no need to run it separately after bootstrapping or updating.
 
 ## Tools
 
 - [Nix](https://nixos.org/) - OS Configuration, Package Manager
   - [Nix Darwin](https://github.com/LnL7/nix-darwin) - macOS Nix
+  - [Home Manager](https://github.com/nix-community/home-manager) - User configuration
 - [Neovim](https://neovim.io/) - Text Editor / IDE
   - [LazyVim](https://www.lazyvim.org/) - Neovim Plugin and Configuration Manager
   - See [the Neovim configuration](./.config/nvim) for the full list of installed plugins and settings.

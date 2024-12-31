@@ -2,28 +2,26 @@
 # Inspired by https://github.com/mitchellh/nixos-config/blob/main/lib/mksystem.nix
 {
   inputs,
-  nixpkgs,
   ...
 }:
 
 {
-  system,
   user,
+  system ? "aarch64-darwin",
 }:
 
 let
-  # Check whether the system is darwin
-  isDarwin = nixpkgs.lib.strings.hasSuffix "-darwin" system;
-
-  # The config files for this system
-  systemConfig = ../systems/${system}.nix;
-  userOSConfig = ../users/${user}--${system}.nix;
-
-  # NixOS vs. nix-darwin functions
-  systemFunc = if isDarwin then inputs.nix-darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
+  lib = inputs.nixpkgs.lib;
+  isDarwin = lib.strings.hasSuffix "darwin" system;
+  nix-darwin = inputs.nix-darwin;
+  home-manager = inputs.home-manager;
+  systemFn = if isDarwin then nix-darwin.lib.darwinSystem else lib.nixosSystem;
+  hmModules = if isDarwin then home-manager.darwinModules else home-manager.nixosModules;
 in
-systemFunc {
+systemFn {
   inherit system;
+
+  specialArgs = { inherit inputs user; };
 
   modules = [
     # Default config for all systems
@@ -33,19 +31,24 @@ systemFunc {
 
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
+
+      # Install all packages docs
+      nixpkgs.config.documentation.enable = true;
+      nixpkgs.config.documentation.man.enable = true;
+      nixpkgs.config.documentation.dev.enable = true;
     }
 
-    # System configuration(s)
-    systemConfig
-    # machineConfig
-    userOSConfig
+    # System configuration
+    ../systems/${system}.nix
 
-    # We expose some extra arguments so that our modules can parameterize
-    # better based on these values.
+    # User configruation
+    ../users/${user}/${system}.nix
+    hmModules.home-manager
     {
-      config._module.args = {
-        inherit inputs isDarwin;
-      };
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+      home-manager.extraSpecialArgs = { inherit inputs user; };
+      home-manager.users.${user} = import ../users/${user}/home.nix;
     }
   ];
 }

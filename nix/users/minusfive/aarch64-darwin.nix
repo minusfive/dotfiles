@@ -1,18 +1,16 @@
-{ pkgs, ... }:
 {
+  user,
+  ...
+}:
+{
+  users.users.${user} = {
+    name = user;
+    home = /Users/${user};
+  };
+
   environment.variables = {
     TERMINFO_DIRS = [ "$HOME/.config/wezterm/terminfo" ];
   };
-
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    nixd
-    nixfmt-rfc-style
-  ];
-
-  # Enable alternative shell support in nix-darwin.
-  # programs.fish.enable = true;
 
   # Use Touch ID for sudo authentication. (e.g. Apple Watch)
   security.pam.enableSudoTouchIdAuth = true;
@@ -65,6 +63,7 @@
 
     # TODO: screencapture
     # TODO: screensaver
+    # TODO: screen corners
   };
 
   # Homebrew
@@ -79,36 +78,6 @@
         "--verbose"
       ];
     };
-
-    brews = [
-      "bat" # `cat` replacement
-      "coreutils" # GNU core utilities
-      "eza" # `ls` replacement
-      "fd" # `find` replacement
-      "fzf" # Fuzzy finder
-      "git"
-      "go"
-      "gum" # Go based interactive shell script generator
-      "htop" # `top` replacement
-      "jq" # JSON processor
-      "lazygit" # Git Terminal UI
-      "neovim" # Preferred text editor
-      "node"
-      "pipx" # Python apps installer
-      "ripgrep" # `grep` replacement
-      "ruby"
-      "stow" # Symlink manager
-      "vivid" # `LS_COLORS` generator
-      "wget"
-      "yazi" # File manager in terminal
-      "zoxide" # `cd` replacement
-      "zsh"
-
-      {
-        name = "rustup";
-        link = true;
-      }
-    ];
 
     casks = [
       "1password" # Password manager

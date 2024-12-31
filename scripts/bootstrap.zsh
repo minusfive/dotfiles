@@ -8,6 +8,7 @@ set -eu
 function {
   local __dotfiles_scripts_dir="$(dirname "$1")"
   local __dotfiles_dir="$(dirname "$__dotfiles_scripts_dir")"
+  local __flake_system="personal"
 
   # Install nix
   if [[ $(command -v nix) == "" ]]; then
@@ -27,7 +28,7 @@ function {
   # Install nix-darwin
   if [[ $(command -v nix) != "" && $(command -v darwin-rebuild) == "" ]]; then
     echo "\n- nix-darwin not installed, installing..."
-    nix run nix-darwin -- switch --flake "$__dotfiles_dir#mac"
+    nix run nix-darwin -- switch --flake "$__dotfiles_dir#$__flake_system"
 
     if [[ $? == 0 ]]; then
       echo "\n- nix-darwin installed"
@@ -36,76 +37,68 @@ function {
     echo "\n- nix-darwin already installed"
   fi
 
-  # TODO: Move to nix
-  # Install OhMyZsh
-  if [[ -d ${ZSH:-$HOME/.oh-my-zsh} ]]; then
-    echo "\n- OhMyZsh already installed"
-  else
-    echo "\n- Installing OhMyZsh"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  # Apply nix-darwin configuration
+  if [[ $(command -v darwin-rebuild) != "" ]]; then
+    echo "\n- Applying nix-darwin changes..."
+    darwin-rebuild switch --flake "$__dotfiles_dir#$__flake_system"
+
+    if [[ $? == 0 ]]; then
+      echo "\n- nix-darwin changes applied"
+    fi
   fi
 
-  # TODO: Move to nix
-  # Install PowerLevel10K
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k ]]; then
-    echo "\n- PowerLevel10K already installed"
+  # Symlink dotfiles
+  if [[ $(command -v stow) != "" ]]; then
+    echo "\n- GNU Stow found, symlinking dotfiles"
+
+    # CD to dotfiles dir and then back when done
+    local __from_dir="$PWD"
+
+    if [[ $__from_dir != $__dotfiles_dir ]]; then
+      echo "\n- CWD: $PWD"
+      echo "\n- Switching to $__dotfiles_dir"
+      cd "$__dotfiles_dir"
+      echo "\n- CWD: $PWD\n"
+    fi
+
+    stow -vR .
+
+    if [[ $PWD != $__from_dir ]]; then
+      echo "\n- CWD: $PWD"
+      echo "\n- Switching back to $__from_dir"
+      cd "$__from_dir"
+      echo "\n- CWD: $PWD"
+    fi
   else
-    echo "\n- Installing PowerLevel10K"
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
-      ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+    echo "\n- GNU Stow not found"
+    exit 1
   fi
 
-  # TODO: Move to nix
-  # Install fast-syntax-highlighting
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting ]]; then
-    echo "\n- fast-syntax-highlighting already installed"
-  else
-    echo "\n- Installing fast-syntax-highlighting"
-    git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
-      ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+  # Rebuild bat cache
+  if [[ $(command -v bat) != "" ]]; then
+    echo "\n- Rebuilding bat cache..."
+    bat cache --build
   fi
 
-  # TODO: Move to nix
-  # Install zsh-autosuggestions
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
-    echo "\n- zsh-autosuggestions already installed"
-  else
-    echo "\n- Installing zsh-autosuggestions"
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions \
-      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  # Update Yazi packages
+  if [[ $(command -v ya) != "" ]]; then
+    echo "\n- Updating Yazi packages..."
+    ya pack -u
   fi
 
-  # TODO: Move to nix
-  # Install fzf-tab
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab ]]; then
-    echo "\n- fzf-tab already installed"
-  else
-    echo "\n- Installing fzf-tab"
-    git clone --depth=1 https://github.com/Aloxaf/fzf-tab \
-      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
-  fi
+  # Update NPM packages
+  # if [[ $(command -v npm) != "" ]]; then
+  #   echo "\n- Install + update NPM packages..."
+  #   npm install -g npm@latest neovim
+  # fi
 
-  # TODO: Move to nix
-  # Install fzf-tab-source
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab-source ]]; then
-    echo "\n- fzf-tab-source already installed"
-  else
-    echo "\n- Installing fzf-tab-source"
-    git clone --depth=1 https://github.com/Freed-Wu/fzf-tab-source \
-      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab-source
-  fi
+  echo "\n- Cleaning up zsh completion..."
+  rm -f "$ZSH_COMPDUMP"
 
-  # TODO: Move to nix
-  # Install OhMyZsh Full-autoupdate
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate ]]; then
-    echo "\n- OhMyZsh Full-autoupdate already installed"
-  else
-    echo "\n- Installing OhMyZsh Full-autoupdate"
-    git clone --depth=1 https://github.com/Pilaton/OhMyZsh-full-autoupdate.git \
-      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
-  fi
+  echo "\n- Update complete, sourcing ~/.zshrc..."
+  source "$XDG_CONFIG_HOME/zsh/.zshrc"
 
-  source "$__dotfiles_scripts_dir/update.zsh"
+
 
 } $(realpath $0)
 
