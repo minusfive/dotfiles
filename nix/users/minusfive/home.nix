@@ -41,6 +41,7 @@
     neovim-node-client
     nixd
     nixfmt-rfc-style
+    nodejs_23 # Besides the obvious needed by some LSPs and Copilot
     stow
     ruby
     rustup
