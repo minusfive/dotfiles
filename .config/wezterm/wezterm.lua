@@ -113,13 +113,25 @@ config.keys = {
 
   -- Split pane
   {
-    key = "s",
-    mods = "CMD|SHIFT",
+    key = "g",
+    mods = "CMD",
     action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
   },
 
   {
     key = "s",
+    mods = "CMD",
+    action = act.SplitPane({ direction = "Left" }),
+  },
+
+  {
+    key = "p",
+    mods = "CMD",
+    action = act.SplitPane({ direction = "Up" }),
+  },
+
+  {
+    key = "d",
     mods = "CMD",
     action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
   },
