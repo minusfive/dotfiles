@@ -25,7 +25,7 @@ return {
       completion = {
         menu = {
           draw = {
-            align_to_component = "kind_icon",
+            align_to = "kind_icon",
             treesitter = { "lsp" },
             columns = {
               { "item_idx" },
