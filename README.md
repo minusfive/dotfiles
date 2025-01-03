@@ -1,20 +1,24 @@
 # System Configuration and Automation
 
-> [!NOTE]
-> This configuration includes several keyboard shortcuts for app launching, window management, text editing and other automations, which are specifically optimized to work with [my custom keyboard / layout](https://github.com/minusfive/zmk-config). If you want to use it, you'll likely want to make some changes (primarily to [Hammerspoon](./.config/hammerspoon/), [Wezterm](./.config/wezterm/) and [NeoVim](./.config/nvim/) configurations.
-
 ## Bootstrap and Update
 
 > [!WARNING]
 > This will modify system settings and install software. You should read and understand [the bootstrap script](./scripts/bootstrap.zsh) and [Nix Flake](./flake.nix) before proceeding.
 
-To setup or update a new machine run [the bootstrap script](./scripts/bootstrap.zsh):
+To setup a new machine or update a current one, run:
 
 ```sh
 git clone git@github.com:minusfive/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./scripts/bootstrap.zsh
 ```
+
+> [!NOTE]
+> This configuration includes several keyboard shortcuts specifically optimized to work with [my custom keyboard layout](https://github.com/minusfive/zmk-config) (for app launching, window management, text editing, etc.). To customize those to your preference you'll likely want to make some changes to the following configurations (primarily):
+>
+> - [Hammerspoon](./.config/hammerspoon/)
+> - [Wezterm](./.config/wezterm/)
+> - [NeoVim](./.config/nvim/)
 
 ### Programs
 
