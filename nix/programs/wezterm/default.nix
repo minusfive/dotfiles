@@ -12,18 +12,8 @@
       wt = "wezterm cli set-window-title";
     };
 
-    programs.zsh.initExtraFirst = ''
-      # Wezterm shell integration
-      if [[ "$TERM" == "wezterm" && -f "$WEZTERM_EXECUTABLE_DIR/../Resources/wezterm.sh" ]]; then
-        source "$WEZTERM_EXECUTABLE_DIR/../Resources/wezterm.sh"
-      fi
-    '';
+    programs.zsh.initExtraFirst = builtins.readFile ./shell-integration.zsh;
 
-    programs.zsh.initExtra = ''
-      # Wezterm shell completion
-      if [[ $(command -v wezterm) != "" ]]; then
-        eval "$(wezterm shell-completion --shell zsh)"
-      fi
-    '';
+    programs.zsh.initExtra = builtins.readFile ./shell-completion.zsh;
   };
 }

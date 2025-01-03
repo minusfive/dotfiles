@@ -28,9 +28,6 @@
   };
 
   home-manager.users.${user} = {
-    programs.zsh.profileExtra = ''
-      # Source homebrew environment
-      eval "$(/opt/homebrew/bin/brew shellenv)"
-    '';
+    programs.zsh.profileExtra = builtins.readFile ./config.zsh;
   };
 }

@@ -1,7 +1,4 @@
 { user, ... }:
-let
-  eza_fzf_cmd = "eza --tree --level=2 --color=always --icons=auto --classify=auto --group-directories-first --header --time-style=long-iso";
-in
 {
   home-manager.users.${user} = {
     programs.eza.enable = true;
@@ -19,11 +16,6 @@ in
       lt = "ll --tree --level=2 ";
     };
 
-    programs.zsh.initExtra = ''
-      # FZF: preview directories contents with eza when completing cd and zoxide
-      zstyle ':fzf-tab:complete:cd:*' fzf-preview "${eza_fzf_cmd} \$realpath"
-      zstyle ':fzf-tab:complete:z:*' fzf-preview "${eza_fzf_cmd} \$realpath"
-      zstyle ':fzf-tab:complete:zoxide:*' fzf-preview "${eza_fzf_cmd} \$realpath"
-    '';
+    programs.zsh.initExtra = builtins.readFile ./config.zsh;
   };
 }
