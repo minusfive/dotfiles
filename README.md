@@ -1,7 +1,5 @@
 # System Configuration and Automation
 
-## Bootstrap and Update
-
 To setup a new machine or update a current one, run:
 
 ```sh
@@ -20,9 +18,7 @@ cd ~/.dotfiles
 > - [Wezterm](./.config/wezterm/)
 > - [NeoVim](./.config/nvim/)
 
-### Programs
-
-#### Nix, nix-darwin and Home Manager
+## Programs
 
 Primary OS configuration and software installation + management is handled by [Nix](https://nixos.org/), using the [nix-darwin](https://github.com/LnL7/nix-darwin) (macOS) and [Home Manager](https://github.com/nix-community/home-manager) (user configuration) modules, with some help from [Homebrew](https://brew.sh) (macOS package manager) and [GNU Stow](https://www.gnu.org/software/stow/) (symlink manager).
 
