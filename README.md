@@ -20,7 +20,7 @@ cd ~/.dotfiles
 
 #### Nix, nix-darwin and Home Manager
 
-Primary OS configuration and software installation + management is handled by [Nix](https://nixos.org/), using the [Nix Darwin](https://github.com/LnL7/nix-darwin) (macOS) and [Home Manager](https://github.com/nix-community/home-manager) (user configuration) modules, with some help from [Homebrew](https://brew.sh) (macOS package manager) and [GNU Stow](https://www.gnu.org/software/stow/) (symlink manager).
+Primary OS configuration and software installation + management is handled by [Nix](https://nixos.org/), using the [nix-darwin](https://github.com/LnL7/nix-darwin) (macOS) and [Home Manager](https://github.com/nix-community/home-manager) (user configuration) modules, with some help from [Homebrew](https://brew.sh) (macOS package manager) and [GNU Stow](https://www.gnu.org/software/stow/) (symlink manager).
 
 These are the [programs](./nix/programs/) currently installed by Nix on my machine:
 
