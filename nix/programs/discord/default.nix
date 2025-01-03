@@ -1,3 +1,6 @@
+{ pkgs, user, ... }:
 {
-  homebrew.casks = [ "discord" ];
+  home-manager.users.${user} = {
+    home.packages = [ pkgs.discord ];
+  };
 }

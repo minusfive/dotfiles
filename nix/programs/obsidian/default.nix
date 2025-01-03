@@ -1,3 +1,6 @@
+{ pkgs, user, ... }:
 {
-  homebrew.casks = [ "obsidian" ];
+  home-manager.users.${user} = {
+    home.packages = [ pkgs.obsidian ];
+  };
 }
