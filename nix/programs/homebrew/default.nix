@@ -15,16 +15,6 @@
       extraFlags = [ "--verbose" ];
       upgrade = true;
     };
-
-    casks = [
-      "betterdisplay" # Display configuration manager
-      "discord" # Chat app
-      "ghostty" # Terminal emulator
-      "google-chrome"
-      "gpg-suite" # GPG keychain
-      "imageoptim" # Image optimizer
-      "obsidian" # Note-taking
-    ];
   };
 
   home-manager.users.${user} = {
