@@ -17,7 +17,6 @@
     };
 
     casks = [
-      "1password" # Password manager
       "betterdisplay" # Display configuration manager
       "discord" # Chat app
       "ghostty" # Terminal emulator
@@ -26,11 +25,6 @@
       "imageoptim" # Image optimizer
       "obsidian" # Note-taking
     ];
-
-    masApps = {
-      "WhatsApp Messenger" = 310633997;
-      "1Password for Safari" = 1569813296;
-    };
   };
 
   home-manager.users.${user} = {

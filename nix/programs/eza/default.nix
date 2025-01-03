@@ -20,7 +20,7 @@ in
     };
 
     programs.zsh.initExtra = ''
-      # FZF: preview directory's content with eza when completing cd
+      # FZF: preview directories contents with eza when completing cd and zoxide
       zstyle ':fzf-tab:complete:cd:*' fzf-preview "${eza_fzf_cmd} \$realpath"
       zstyle ':fzf-tab:complete:z:*' fzf-preview "${eza_fzf_cmd} \$realpath"
       zstyle ':fzf-tab:complete:zoxide:*' fzf-preview "${eza_fzf_cmd} \$realpath"

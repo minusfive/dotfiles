@@ -37,7 +37,7 @@ systemFn {
       # Environment Variables
       environment.variables = {
         # Disable Next.js telemetry https://nextjs.org/telemetry
-        NEXT_TELEMETRY_DISABLED = 1;
+        NEXT_TELEMETRY_DISABLED = "1";
       };
     }
 

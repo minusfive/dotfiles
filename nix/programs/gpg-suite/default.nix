@@ -1,0 +1,3 @@
+{
+  homebrew.casks = [ "gpg-suite" ];
+}
