@@ -1,3 +1,10 @@
 param
+darwin
+NeoVim
+symlink
+Wezterm
+Homebrew
 minusfive
 Villalobos
+Hammerspoon
+automations
