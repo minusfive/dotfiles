@@ -2,9 +2,6 @@
 
 ## Bootstrap and Update
 
-> [!WARNING]
-> This will modify system settings and install software. You should read and understand [the bootstrap script](./scripts/bootstrap.zsh) and [Nix Flake](./flake.nix) before proceeding.
-
 To setup a new machine or update a current one, run:
 
 ```sh
@@ -12,6 +9,9 @@ git clone git@github.com:minusfive/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./scripts/bootstrap.zsh
 ```
+
+> [!WARNING]
+> This will modify system settings and install software. You should read and understand [the bootstrap script](./scripts/bootstrap.zsh) and [Nix Flake](./flake.nix) before proceeding.
 
 > [!NOTE]
 > This configuration includes several keyboard shortcuts specifically optimized to work with [my custom keyboard layout](https://github.com/minusfive/zmk-config) (for app launching, window management, text editing, etc.). To customize those to your preference you'll likely want to make some changes to the following configurations (primarily):
