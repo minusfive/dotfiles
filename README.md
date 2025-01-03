@@ -12,7 +12,7 @@ cd ~/.dotfiles
 > This will modify system settings and install software. You should read and understand [the bootstrap script](./scripts/bootstrap.zsh) and [Nix Flake](./flake.nix) before proceeding.
 
 > [!NOTE]
-> This configuration includes several keyboard shortcuts specifically optimized to work with [my custom keyboard layout](https://github.com/minusfive/zmk-config) (for app launching, window management, text editing, etc.). To customize those to your preference you'll likely want to make some changes to the following configurations (primarily):
+> This configuration includes several keyboard shortcuts (for app launching, window management, text editing, etc.), optimized to work with [my custom keyboard layout](https://github.com/minusfive/zmk-config) and workflow. To customize you'll likely want to primarily look at the following configurations:
 >
 > - [Hammerspoon](./.config/hammerspoon/)
 > - [Wezterm](./.config/wezterm/)
