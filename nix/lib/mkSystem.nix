@@ -24,6 +24,14 @@ systemFn {
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
 
+      # Add overlays
+      nixpkgs.overlays = [
+        (import ../overlays/zsh-fast-syntax-highlighting.nix)
+        (import ../overlays/zsh-fzf-tab.nix)
+        (import ../overlays/zsh-powerlevel10k.nix)
+        (import ../overlays/zsh-vi-mode.nix)
+      ];
+
       # Install all packages docs
       nixpkgs.config.documentation.enable = true;
       nixpkgs.config.documentation.man.enable = true;

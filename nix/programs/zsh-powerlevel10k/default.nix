@@ -1,16 +1,10 @@
 { pkgs, user, ... }:
 {
   home-manager.users.${user} = {
-    # TODO: Use overlays on existing packages instead of fetching from gh
     programs.zsh.plugins = [
       {
-        name = "powerlevel10k";
-        src = pkgs.fetchFromGitHub {
-          owner = "romkatv";
-          repo = "powerlevel10k";
-          rev = "c85cd0f02844ff2176273a450c955b6532a185dc";
-          hash = "sha256-NQjXW/16KLotVGd1/c8MmZ9z455MiC365BQfzDMX3x8=";
-        };
+        name = pkgs.zsh-powerlevel10k.pname;
+        src = pkgs.zsh-powerlevel10k.src;
         file = "powerlevel10k.zsh-theme";
       }
 
