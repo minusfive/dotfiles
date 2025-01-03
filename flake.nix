@@ -19,12 +19,13 @@
     in
     {
       darwinConfigurations = {
-        # Build darwin flake using:
-        # $ darwin-rebuild build --flake .#personal
+        # Build with: `$ darwin-rebuild build --flake .#personal`
         personal = mkSystem {
           user = "minusfive";
           system = "aarch64-darwin";
         };
+
+        # Build with: `$ darwin-rebuild build --flake .#work`
         # work = mkSystem { user = ""; system = ""; };
       };
     };

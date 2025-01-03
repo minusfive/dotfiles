@@ -13,41 +13,12 @@ in
 systemFn {
   inherit system;
 
+  # Extra arguments passed down to all modules
   specialArgs = { inherit inputs user; };
 
   modules = [
     # Default config for all systems
-    {
-      # Enable flakes
-      nix.settings.experimental-features = "nix-command flakes";
-
-      # Allow unfree packages
-      nixpkgs.config.allowUnfree = true;
-
-      # Add overlays
-      nixpkgs.overlays = [
-        (import ../overlays/zsh-fast-syntax-highlighting.nix)
-        (import ../overlays/zsh-fzf-tab.nix)
-        (import ../overlays/zsh-powerlevel10k.nix)
-        (import ../overlays/zsh-vi-mode.nix)
-      ];
-
-      # Install all packages docs
-      nixpkgs.config.documentation.enable = true;
-      nixpkgs.config.documentation.man.enable = true;
-      nixpkgs.config.documentation.dev.enable = true;
-
-      # Home Manager
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
-      home-manager.extraSpecialArgs = { inherit inputs user; };
-
-      # Environment Variables
-      environment.variables = {
-        # Disable Next.js telemetry https://nextjs.org/telemetry
-        NEXT_TELEMETRY_DISABLED = "1";
-      };
-    }
+    ../systems
 
     # System configuration
     ../systems/${system}.nix
@@ -55,7 +26,7 @@ systemFn {
     # User configuration
     ../users/${user}/${system}.nix
 
-    # Home Manager
+    # Home Manager module
     hmModules.home-manager
   ];
 }
