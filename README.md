@@ -6,7 +6,7 @@
 ## Bootstrap and Update
 
 > [!WARNING]
-> This will modify system settings and install software. You should read and understand [the bootstrap script](./scripts/bootstrap.sh) and [Nix Flake](./flake.nix) before proceeding.
+> This will modify system settings and install software. You should read and understand [the bootstrap script](./scripts/bootstrap.zsh) and [Nix Flake](./flake.nix) before proceeding.
 
 To setup or update a new machine run [the bootstrap script](./scripts/bootstrap.zsh):
 
