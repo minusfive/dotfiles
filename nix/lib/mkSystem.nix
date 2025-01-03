@@ -1,15 +1,7 @@
 # This function creates a NixOS system configuration for a particular architecture.
 # Inspired by https://github.com/mitchellh/nixos-config/blob/main/lib/mksystem.nix
-{
-  inputs,
-  ...
-}:
-
-{
-  user,
-  system ? "aarch64-darwin",
-}:
-
+{ inputs, ... }:
+{ user, system }:
 let
   lib = inputs.nixpkgs.lib;
   isDarwin = lib.strings.hasSuffix "darwin" system;
@@ -36,19 +28,26 @@ systemFn {
       nixpkgs.config.documentation.enable = true;
       nixpkgs.config.documentation.man.enable = true;
       nixpkgs.config.documentation.dev.enable = true;
+
+      # Home Manager
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+      home-manager.extraSpecialArgs = { inherit inputs user; };
+
+      # Environment Variables
+      environment.variables = {
+        # Disable Next.js telemetry https://nextjs.org/telemetry
+        NEXT_TELEMETRY_DISABLED = 1;
+      };
     }
 
     # System configuration
     ../systems/${system}.nix
 
-    # User configruation
+    # User configuration
     ../users/${user}/${system}.nix
+
+    # Home Manager
     hmModules.home-manager
-    {
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
-      home-manager.extraSpecialArgs = { inherit inputs user; };
-      home-manager.users.${user} = import ../users/${user}/home.nix;
-    }
   ];
 }
