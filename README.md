@@ -24,6 +24,6 @@ OS configuration and software installation + management is handled by [Nix](http
 
 These are the [programs](./nix/programs/) currently installed by Nix (or Homebrew through Nix), on my machine:
 
-<https://github.com/minusfive/dotfiles/blob/51cf975a5c392a0a73fd74730ceb11e1fa0ed3a6/nix/users/minusfive/aarch64-darwin.nix#L3-L39>
+https://github.com/minusfive/dotfiles/blob/9281e43c79fca6794f2a6e9e577820eb7b869d6b/nix/users/minusfive/aarch64-darwin.nix#L3-L40
 
 <img alt="Workspace" src="./assets/workspace.png" width="100%"/>
