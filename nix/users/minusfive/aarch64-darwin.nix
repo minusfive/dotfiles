@@ -1,5 +1,6 @@
-{ pkgs, user, ... }:
+{ user, ... }:
 let
+  # CLI tools managed by Nix; GUI macOS apps managed by Homebrew
   programs = [
     "1password" # password maanger
     "bat" # better `cd`
