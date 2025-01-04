@@ -20,10 +20,10 @@ cd ~/.dotfiles
 
 ## Programs
 
-OS configuration and software installation + management is handled by [Nix](https://nixos.org/), using the [nix-darwin](https://github.com/LnL7/nix-darwin) (macOS) and [Home Manager](https://github.com/nix-community/home-manager) (user configuration) modules, with some help from [Homebrew](https://brew.sh) (macOS package manager) and [GNU Stow](https://www.gnu.org/software/stow/) (symlink manager).
+OS configuration and software installation + management is handled by [Nix](https://nixos.org/), using the [nix-darwin](https://github.com/LnL7/nix-darwin) (macOS) and [Home Manager](https://github.com/nix-community/home-manager) (user configuration) modules, with some help from [Homebrew](https://brew.sh) (for macOS GUI apps) and [GNU Stow](https://www.gnu.org/software/stow/) (for management of mutable symlinks).
 
-These are the [programs](./nix/programs/) currently installed by Nix (or Homebrew through Nix), on my machine:
+These are the [programs](./nix/programs/) currently installed by Nix and Homebrew on my machine:
 
-https://github.com/minusfive/dotfiles/blob/9281e43c79fca6794f2a6e9e577820eb7b869d6b/nix/users/minusfive/aarch64-darwin.nix#L3-L40
+<https://github.com/minusfive/dotfiles/blob/9281e43c79fca6794f2a6e9e577820eb7b869d6b/nix/users/minusfive/aarch64-darwin.nix#L3-L40>
 
 <img alt="Workspace" src="./assets/workspace.png" width="100%"/>
