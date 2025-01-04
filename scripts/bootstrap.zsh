@@ -10,95 +10,99 @@ function {
   local __dotfiles_dir="$(dirname "$__dotfiles_scripts_dir")"
   local __flake_system="personal"
 
+  function __log_info() { print -P "%F{blue}󰬐 %f $1" }
+  function __log_ok() { print -P "%F{green}󰄲 %f $1" }
+  function __log_error() { print -P "%F{red}󰡅 %f $1" }
+
   # Install nix
   if [[ $(command -v nix) == "" ]]; then
-    echo "\n- Nix not installed. Attempting install..."
+    __log_info "Nix not installed. Attempting install..."
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
 
     if [[ $? == 0 ]]; then
-      echo "\n- Nix installed, starting service..."
+      __log_ok "Nix installed, starting service..."
 
       # Start the nix daemon without restarting the shell
       source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     fi
   else
-    echo "\n- Nix already installed"
+    __log_ok "Nix already installed"
   fi
 
   # Install nix-darwin
   if [[ $(command -v nix) != "" && $(command -v darwin-rebuild) == "" ]]; then
-    echo "\n- nix-darwin not installed, installing..."
+    __log_info "nix-darwin not installed, installing..."
     nix run nix-darwin -- switch --flake "$__dotfiles_dir#$__flake_system"
 
     if [[ $? == 0 ]]; then
-      echo "\n- nix-darwin installed"
+      __log_ok "nix-darwin installed"
     fi
   else
-    echo "\n- nix-darwin already installed"
+    __log_ok "nix-darwin already installed"
   fi
 
   # Apply nix-darwin configuration
   if [[ $(command -v darwin-rebuild) != "" ]]; then
-    echo "\n- Applying nix-darwin changes..."
+    __log_info "Applying nix-darwin changes..."
     darwin-rebuild switch --flake "$__dotfiles_dir#$__flake_system"
 
     if [[ $? == 0 ]]; then
-      echo "\n- nix-darwin changes applied"
+      __log_ok "nix-darwin changes applied"
     fi
   fi
 
   # Symlink dotfiles
   if [[ $(command -v stow) != "" ]]; then
-    echo "\n- GNU Stow found, symlinking dotfiles"
+    __log_info "GNU Stow found, symlinking dotfiles"
 
     # CD to dotfiles dir and then back when done
     local __from_dir="$PWD"
 
     if [[ $__from_dir != $__dotfiles_dir ]]; then
-      echo "\n- CWD: $PWD"
-      echo "\n- Switching to $__dotfiles_dir"
+      echo "- CWD: $PWD"
+      echo "- Switching to $__dotfiles_dir"
       cd "$__dotfiles_dir"
-      echo "\n- CWD: $PWD\n"
+      echo "- CWD: $PWD"
     fi
 
     stow -vR .
 
     if [[ $PWD != $__from_dir ]]; then
-      echo "\n- CWD: $PWD"
-      echo "\n- Switching back to $__from_dir"
+      echo "- CWD: $PWD"
+      echo "- Switching back to $__from_dir"
       cd "$__from_dir"
-      echo "\n- CWD: $PWD"
+      echo "- CWD: $PWD"
     fi
   else
-    echo "\n- GNU Stow not found"
+    __log_error "GNU Stow not found"
     exit 1
-  fi
-
-  # Rebuild bat cache
-  if [[ $(command -v bat) != "" ]]; then
-    echo "\n- Rebuilding bat cache..."
-    bat cache --build
   fi
 
   # Update Yazi packages
   if [[ $(command -v ya) != "" ]]; then
-    echo "\n- Updating Yazi packages..."
+    __log_info "Updating Yazi packages..."
     ya pack -u
   fi
 
+  # TODO: Reactivate?
   # Update NPM packages
   # if [[ $(command -v npm) != "" ]]; then
   #   echo "\n- Install + update NPM packages..."
   #   npm install -g npm@latest neovim
   # fi
 
-  echo "\n- Cleaning up zsh completion..."
-  rm -f "$ZSH_COMPDUMP"
+  # From https://github.com/ohmyzsh/ohmyzsh/blob/d82669199b5d900b50fd06dd3518c277f0def869/lib/cli.zsh#L668-L676
+  function __reload {
+    # Delete current completion cache
+    (command rm -f $_comp_dumpfile $ZSH_COMPDUMP) 2> /dev/null
 
-  echo "\n- Update complete, sourcing ~/.zshrc..."
-  source "$XDG_CONFIG_HOME/zsh/.zshrc"
+    # Old zsh versions don't have ZSH_ARGZERO
+    local zsh="${ZSH_ARGZERO:-${functrace[-1]%:*}}"
+    # Check whether to run a login shell
+    [[ "$zsh" = -* || -o login ]] && exec -l "${zsh#-}" || exec "$zsh"
+  }
 
-
-
+  __log_ok "Update complete, reloading shell..."
+  __reload
 } $(realpath $0)
 
