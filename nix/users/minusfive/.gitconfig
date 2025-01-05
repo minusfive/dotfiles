@@ -3,10 +3,8 @@
   email = mail@minusfive.com
   signingkey = 99B034B854897B90
 [core]
-  excludesfile = ~/.gitignore
   editor = nvim
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-  ; pager = `brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less
 [merge]
   tool = nvim
   summary = true
@@ -21,7 +19,7 @@
   lgg = log --color --graph --pretty=format:'%C(cyan)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit
   ls = ls-files
   ign = ls-files -o -i --exclude-standard
-	up = !git fetch && git rebase --autostash FETCH_HEAD
+  up = !git fetch && git rebase --autostash FETCH_HEAD
 [color]
   diff = always
   status = always
@@ -65,16 +63,16 @@
   help = cyan
   error = red reverse
 [push]
-	default = current
+  default = current
 [filter "media"]
-	clean = git media clean %f
-	smudge = git media smudge %f
-	required = true
+  clean = git media clean %f
+  smudge = git media smudge %f
+  required = true
 [pull]
-	rebase = true
+  rebase = true
 [commit]
-	gpgsign = true
+  gpgsign = true
 [tag]
   gpgsign = true
 [init]
-	defaultBranch = main
+  defaultBranch = main
