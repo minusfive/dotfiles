@@ -1,7 +1,13 @@
 -- Module to manage / manipulate windows
 
 -- Global settings
-hs.window.animationDuration = 0
+hs.window.animationDuration = 0.1
+hs.window.highlight.ui.overlay = true
+hs.window.highlight.ui.overlayColor = { hex = "#11111b", alpha = 0.000001 }
+hs.window.highlight.ui.isolateColor = { hex = "#11111b", alpha = 0.9 }
+hs.window.highlight.ui.frameWidth = 6
+hs.window.highlight.ui.frameColor = { hex = "#cdd6f4", alpha = 0.2 }
+hs.window.highlight.start()
 
 ---@alias hs.geometry.rect {x: number, y: number, w: number, h: number}
 
@@ -37,37 +43,73 @@ WindowManager.layout = {
   bottomRigh25 = { x = 0.50, y = 0.50, w = 0.50, h = 0.50 },
 }
 
+-- Wrapper to perform certain operations before and after window movement
+-- to reduce artifacts
+---@generic T
+---@param fn function():`T`
+---@return T
+local function __optimizeFrame(fn)
+  hs.window.highlight.stop()
+  local result = fn()
+  hs.timer.doAfter(hs.window.animationDuration + 0.02, hs.window.highlight.start)
+  return result
+end
+
 -- Move window to specified rect coordinates
 ---@param unit hs.geometry.rect
 function WindowManager:move(unit)
   return function()
-    hs.window.focusedWindow():move(unit, nil, true)
+    __optimizeFrame(function()
+      hs.window.focusedWindow():move(unit, nil, true)
+    end)
   end
 end
 
 -- Toggle window "Full Screen" state
 function WindowManager:toggleFullScreen()
-  hs.window.focusedWindow():toggleFullScreen()
+  __optimizeFrame(function()
+    hs.window.focusedWindow():toggleFullScreen()
+  end)
 end
 
 -- Maximize window
 function WindowManager:maximixe()
-  hs.window.focusedWindow():maximize()
+  __optimizeFrame(function()
+    hs.window.focusedWindow():maximize()
+  end)
 end
 
 -- Center window on screen
 function WindowManager:center()
-  hs.window.focusedWindow():centerOnScreen(nil, true, 0)
+  __optimizeFrame(function()
+    hs.window.focusedWindow():centerOnScreen(nil, true, 0)
+  end)
 end
 
 -- Move window to next screen
 function WindowManager:screenNext()
-  hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(), false, true)
+  __optimizeFrame(function()
+    hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():next(), false, true)
+  end)
 end
 
 -- Move window to previous screen
 function WindowManager:screenPrev()
-  hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(), false, true)
+  __optimizeFrame(function()
+    hs.window.focusedWindow():moveToScreen(hs.window.focusedWindow():screen():previous(), false, true)
+  end)
+end
+
+-- Places window in a specific location within current screen bounds
+---@param rect hs.geometry.rect
+---@param duration? number
+---@return hs.window
+local function __setFrameInScreenBounds(rect, duration)
+  local win = hs.window.focusedWindow()
+  __optimizeFrame(function()
+    win:setFrameInScreenBounds(rect, duration)
+  end)
+  return win
 end
 
 -- Cycle window position to next available of equal size
@@ -87,7 +129,7 @@ function WindowManager:cycleHorizontalPosition(direction)
     newX = newX <= (sw - w) and newX or 0
   end
 
-  hs.window.focusedWindow():setFrameInScreenBounds({ x = newX, y = window.y, w = w, h = window.h })
+  __setFrameInScreenBounds({ x = newX, y = window.y, w = w, h = window.h })
 end
 
 -- Cycle window position to the right
@@ -135,7 +177,7 @@ function WindowManager:resizeWindowWidthInSteps(direction, step, minWidth)
     newX = math.max(0, math.floor((screen.w - newW) / 2))
   end
 
-  hs.window.focusedWindow():setFrameInScreenBounds({ x = newX, y = window.y, w = newW, h = window.h })
+  __setFrameInScreenBounds({ x = newX, y = window.y, w = newW, h = window.h })
 end
 
 -- Resize window height in steps
@@ -155,7 +197,7 @@ function WindowManager:resizeWindowHeightInSteps(direction, step, minHeight)
 
   if direction == "+" then
     newH = window.h + step
-    newH = newH > screen.h and screen.w or newH
+    newH = newH > screen.h and screen.h or newH
   elseif direction == "-" then
     newH = window.h - step
     newH = newH < minHeight and minHeight or newH
@@ -169,7 +211,7 @@ function WindowManager:resizeWindowHeightInSteps(direction, step, minHeight)
     newY = math.max(0, math.floor((screen.h - newH) / 2))
   end
 
-  hs.window.focusedWindow():setFrameInScreenBounds({ x = window.x, y = newY, w = window.w, h = newH })
+  __setFrameInScreenBounds({ x = window.x, y = newY, w = window.w, h = newH })
 end
 
 function WindowManager:shrinkX()
@@ -204,15 +246,10 @@ local function mouseFollowsFocus(window)
   end
 end
 
-hs.window.highlight.ui.overlay = true
-hs.window.highlight.ui.overlayColor = { 0, 0, 0, 0.001 }
-hs.window.highlight.ui.frameWidth = 8
 -- Watch for focused window changes and trigger some actions
 ---@param window hs.window
 local function focusedWindowWatcher(window)
   mouseFollowsFocus(window)
-  hs.window.highlight.start()
-  hs.timer.doAfter(0.3, hs.window.highlight.stop)
 end
 local focusedWindowFilter =
   hs.window.filter.new():setOverrideFilter({ visible = true, focused = true, activeApplication = true })
