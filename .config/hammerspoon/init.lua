@@ -158,4 +158,4 @@ m.hotkeys:bindHotkeys({
 m.caffeine.start()
 
 -- Notify on config [re]load
-hs.notify.new({ title = "Configuration Loaded" }):send()
+hs.notify.new({ title = "Configuration Loaded", subTitle = "Settings applied" }):send()
