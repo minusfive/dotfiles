@@ -1,5 +1,7 @@
 -- Load type annotations and docs for LSP
 hs.loadSpoon("EmmyLua")
+-- Enable HS CLI (inter-process communication)
+require("hs.ipc")
 
 -- Set default settings
 hs.alert.defaultStyle = {
