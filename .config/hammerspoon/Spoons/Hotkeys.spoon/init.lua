@@ -1,8 +1,5 @@
 -- Module to handle hotkey actions
 
--- Global settings
-hs.hotkey.alertDuration = 0.3
-
 ---@alias hs.hotkey.KeySpec [string[], string, string, function?, function?, function?]
 
 ---@class Hotkeys.ActiveMode
@@ -22,6 +19,11 @@ hs.hotkey.alertDuration = 0.3
 ---@field keyListener? hs.eventtap
 ---@field menuBarItem? hs.menubar
 local Hotkeys = {
+  name = "Hotkeys",
+  version = "1.0",
+  author = "http://github.com/minusfive",
+  license = "MIT - https://opensource.org/licenses/MIT",
+
   mods = {
     meh = { "ctrl", "alt", "shift" },
     hyper = { "ctrl", "alt", "shift", "cmd" },

@@ -1,4 +1,17 @@
--- Module to manage / manipulate windows
+--- Module to manage / manipulate windows
+---@class WindowManager
+local WindowManager = {
+  name = "WindowManager",
+  version = "1.0",
+  author = "http://github.com/minusfive",
+  license = "MIT - https://opensource.org/licenses/MIT",
+
+  ---@class WindowManagerOptions
+  ---@field enableFocusedWindowHighlight? boolean
+  options = {
+    enableFocusedWindowHighlight = false,
+  },
+}
 
 -- Global settings
 hs.window.animationDuration = 0.1
@@ -7,12 +20,8 @@ hs.window.highlight.ui.overlayColor = { hex = "#11111b", alpha = 0.000001 }
 hs.window.highlight.ui.isolateColor = { hex = "#11111b", alpha = 0.9 }
 hs.window.highlight.ui.frameWidth = 6
 hs.window.highlight.ui.frameColor = { hex = "#cdd6f4", alpha = 0.2 }
-hs.window.highlight.start()
 
 ---@alias hs.geometry.rect {x: number, y: number, w: number, h: number}
-
----@class WindowManager
-local WindowManager = {}
 
 -- Convenience list of unit rects for common window layouts
 ---@enum (key) WindowManager.layout
@@ -49,6 +58,10 @@ WindowManager.layout = {
 ---@param fn function():`T`
 ---@return T
 local function __optimizeFrame(fn)
+  if not WindowManager.options.enableFocusedWindowHighlight then
+    return fn()
+  end
+
   hs.window.highlight.stop()
   local result = fn()
   hs.timer.doAfter(hs.window.animationDuration + 0.02, hs.window.highlight.start)
@@ -132,16 +145,6 @@ function WindowManager:cycleHorizontalPosition(direction)
   __setFrameInScreenBounds({ x = newX, y = window.y, w = w, h = window.h })
 end
 
--- Cycle window position to the right
-function WindowManager:moveR()
-  WindowManager:cycleHorizontalPosition(">")
-end
-
--- Cycle window position to the left
-function WindowManager:moveL()
-  WindowManager:cycleHorizontalPosition("<")
-end
-
 -- Increase or decrease window width in steps
 ---@param direction "+" | "-"
 ---@param step? integer (Optional) number of pixes window should grow by. Defaults to 100.
@@ -214,20 +217,30 @@ function WindowManager:resizeWindowHeightInSteps(direction, step, minHeight)
   __setFrameInScreenBounds({ x = window.x, y = newY, w = window.w, h = newH })
 end
 
+-- Cycle window position to the right
+function WindowManager:moveR()
+  return WindowManager:cycleHorizontalPosition(">")
+end
+
+-- Cycle window position to the left
+function WindowManager:moveL()
+  return WindowManager:cycleHorizontalPosition("<")
+end
+
 function WindowManager:shrinkX()
-  WindowManager:resizeWindowWidthInSteps("-")
+  return WindowManager:resizeWindowWidthInSteps("-")
 end
 
 function WindowManager:growX()
-  WindowManager:resizeWindowWidthInSteps("+")
+  return WindowManager:resizeWindowWidthInSteps("+")
 end
 
 function WindowManager:shrinkY()
-  WindowManager:resizeWindowHeightInSteps("-")
+  return WindowManager:resizeWindowHeightInSteps("-")
 end
 
 function WindowManager:growY()
-  WindowManager:resizeWindowHeightInSteps("+")
+  return WindowManager:resizeWindowHeightInSteps("+")
 end
 
 -- Position mouse in center of focused windows whenever focus changes
@@ -251,21 +264,16 @@ end
 local function focusedWindowWatcher(window)
   mouseFollowsFocus(window)
 end
-local focusedWindowFilter =
-  hs.window.filter.new():setOverrideFilter({ visible = true, focused = true, activeApplication = true })
-focusedWindowFilter:subscribe(hs.window.filter.windowFocused, focusedWindowWatcher)
 
 -- Ensure all terminal windows open on specific positions depending on screen size
 ---@param window hs.window
-local function weztermNewWindowWatcher(window)
+local function terminalNewWindowWatcher(window)
   local desiredPosition = WindowManager.layout.right50
   if window:screen():fullFrame().w >= 5120 then
     desiredPosition = WindowManager.layout.center33
   end
   window:moveToUnit(desiredPosition, 0)
 end
-local weztermWindowFilter = hs.window.filter.new({ "Terminal", "WezTerm" })
-weztermWindowFilter:subscribe(hs.window.filter.windowCreated, weztermNewWindowWatcher)
 
 -- Ensure all browser windows open on specific positions depending on screen size
 ---@param window hs.window
@@ -286,7 +294,33 @@ local function browserNewWindowWatcher(window)
   end
   window:moveToUnit(desiredPosition, 0)
 end
-local browserWindowFilter = hs.window.filter.new({ "Safari", "Google Chrome", "Firefox", "Brave" })
-browserWindowFilter:subscribe(hs.window.filter.windowCreated, browserNewWindowWatcher)
+
+--- Initialize WindowManager
+function WindowManager:init()
+  local focusedWindowFilter = hs.window.filter.new()
+  focusedWindowFilter:setOverrideFilter({ visible = true, focused = true, activeApplication = true })
+  local weztermWindowFilter = hs.window.filter.new({ "Terminal", "WezTerm" })
+  local browserWindowFilter = hs.window.filter.new({ "Safari", "Google Chrome", "Firefox", "Brave" })
+
+  --- Starts the WindowManager watchers
+  function WindowManager:start()
+    focusedWindowFilter:subscribe(hs.window.filter.windowFocused, focusedWindowWatcher)
+    weztermWindowFilter:subscribe(hs.window.filter.windowCreated, terminalNewWindowWatcher)
+    browserWindowFilter:subscribe(hs.window.filter.windowCreated, browserNewWindowWatcher)
+
+    if WindowManager.options.enableFocusedWindowHighlight then
+      hs.window.highlight.start()
+    end
+  end
+
+  --- Stops the WindowManager watchers
+  function WindowManager:stop()
+    focusedWindowFilter:unsubscribe(hs.window.filter.windowFocused, focusedWindowWatcher)
+    weztermWindowFilter:unsubscribe(hs.window.filter.windowCreated, terminalNewWindowWatcher)
+    browserWindowFilter:unsubscribe(hs.window.filter.windowCreated, browserNewWindowWatcher)
+
+    hs.window.highlight.stop()
+  end
+end
 
 return WindowManager

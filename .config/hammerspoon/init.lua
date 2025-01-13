@@ -1,9 +1,24 @@
 -- Load type annotations and docs for LSP
 hs.loadSpoon("EmmyLua")
--- Enable HS CLI (inter-process communication)
-require("hs.ipc")
+hs.loadSpoon("WindowManager")
+hs.loadSpoon("AppLauncher")
+hs.loadSpoon("Caffeine")
+hs.loadSpoon("Hotkeys")
+
+---@type AppLauncher
+local al = spoon.AppLauncher
+
+---@type WindowManager
+local wm = spoon.WindowManager
+
+---@type Caffeine
+local cf = spoon.Caffeine
+
+---@type Hotkeys
+local hk = spoon.Hotkeys
 
 -- Set default settings
+hs.hotkey.alertDuration = 0.3
 hs.alert.defaultStyle = {
   strokeWidth = 0,
   strokeColor = { white = 0, alpha = 0 },
@@ -19,61 +34,49 @@ hs.alert.defaultStyle = {
   padding = 18,
 }
 
--- Keep all modules in a common table
-local m = {
-  ---@type AppLauncher
-  appLauncher = require("modules.appLauncher"),
-  ---@type Caffeine
-  caffeine = require("modules.caffeine"),
-  ---@type Hotkeys
-  hotkeys = require("modules.hotkeys"),
-  ---@type WindowManager
-  windowManager = require("modules.windowManager"),
-}
-
 -- Base hotkeys
 -- These are the most used / useful shortcuts, available through a single combination
 ---@type hs.hotkey.KeySpec[]
 local baseSpecs = {
   -- Apps
-  { m.hotkeys.mods.meh, "d", "Discord", m.appLauncher:openApp("Discord") },
-  { m.hotkeys.mods.meh, "e", "Microsoft Outlook", m.appLauncher:openApp("Microsoft Outlook") }, -- Email
-  { m.hotkeys.mods.meh, "f", "Finder", m.appLauncher:openApp("Finder") },
-  { m.hotkeys.mods.meh, "g", "Google Chrome", m.appLauncher:openApp("Google Chrome") },
-  { m.hotkeys.mods.meh, "h", "Hammerspoon", m.appLauncher:openApp("Hammerspoon") },
-  { m.hotkeys.mods.hyper, "h", "Hints", hs.hints.windowHints },
-  { m.hotkeys.mods.meh, "k", "Slack", m.appLauncher:openApp("Slack") }, -- Chat, Channels
-  { m.hotkeys.mods.meh, "m", "Messages", m.appLauncher:openApp("Messages") },
-  { m.hotkeys.mods.meh, "n", "Notes", m.appLauncher:openApp("Notes") },
-  { m.hotkeys.mods.meh, "o", "Obsidian", m.appLauncher:openApp("Obsidian") },
-  { m.hotkeys.mods.meh, "p", "1Password", m.appLauncher:openApp("1Password") },
-  { m.hotkeys.mods.meh, "r", "Reminders", m.appLauncher:openApp("Reminders") },
-  { m.hotkeys.mods.meh, "s", "Safari", m.appLauncher:openApp("Safari") },
-  { m.hotkeys.mods.meh, "t", "WezTerm", m.appLauncher:openApp("WezTerm") },
-  { m.hotkeys.mods.meh, "w", "WhatsApp", m.appLauncher:openApp("WhatsApp") },
-  { m.hotkeys.mods.meh, "x", "Microsoft Excel", m.appLauncher:openApp("Microsoft Excel") },
-  { m.hotkeys.mods.meh, "z", "Zoom.us", m.appLauncher:openApp("Zoom.us") },
+  { hk.mods.meh, "d", "Discord", al:openApp("Discord") },
+  { hk.mods.meh, "e", "Microsoft Outlook", al:openApp("Microsoft Outlook") }, -- Email
+  { hk.mods.meh, "f", "Finder", al:openApp("Finder") },
+  { hk.mods.meh, "g", "Google Chrome", al:openApp("Google Chrome") },
+  { hk.mods.meh, "h", "Hammerspoon", al:openApp("Hammerspoon") },
+  { hk.mods.hyper, "h", "Hints", hs.hints.windowHints },
+  { hk.mods.meh, "k", "Slack", al:openApp("Slack") }, -- Chat, Channels
+  { hk.mods.meh, "m", "Messages", al:openApp("Messages") },
+  { hk.mods.meh, "n", "Notes", al:openApp("Notes") },
+  { hk.mods.meh, "o", "Obsidian", al:openApp("Obsidian") },
+  { hk.mods.meh, "p", "1Password", al:openApp("1Password") },
+  { hk.mods.meh, "r", "Reminders", al:openApp("Reminders") },
+  { hk.mods.meh, "s", "Safari", al:openApp("Safari") },
+  { hk.mods.meh, "t", "WezTerm", al:openApp("WezTerm") },
+  { hk.mods.meh, "w", "WhatsApp", al:openApp("WhatsApp") },
+  { hk.mods.meh, "x", "Microsoft Excel", al:openApp("Microsoft Excel") },
+  { hk.mods.meh, "z", "Zoom.us", al:openApp("Zoom.us") },
 
   -- Window Layouts
   -- Top Row
-  { m.hotkeys.mods.meh, "1", "1/4 1", m.windowManager:move(m.windowManager.layout.first25) },
-  { m.hotkeys.mods.meh, "2", "1/4 2", m.windowManager:move(m.windowManager.layout.second25) },
-  { m.hotkeys.mods.meh, "3", "1/4 3", m.windowManager:move(m.windowManager.layout.third25) },
-  { m.hotkeys.mods.meh, "4", "1/4 4", m.windowManager:move(m.windowManager.layout.fourth25) },
+  { hk.mods.meh, "1", "1/4 1", wm:move(wm.layout.first25) },
+  { hk.mods.meh, "2", "1/4 2", wm:move(wm.layout.second25) },
+  { hk.mods.meh, "3", "1/4 3", wm:move(wm.layout.third25) },
+  { hk.mods.meh, "4", "1/4 4", wm:move(wm.layout.fourth25) },
 
-  { m.hotkeys.mods.meh, "=", "Grow Width", m.windowManager.growX },
-  { m.hotkeys.mods.meh, "-", "Shrink Width", m.windowManager.shrinkX },
-  { m.hotkeys.mods.hyper, "=", "Grow Height", m.windowManager.growY },
-  { m.hotkeys.mods.hyper, "-", "Shrink Height", m.windowManager.shrinkY },
+  { hk.mods.meh, "=", "Grow Width", wm.growX },
+  { hk.mods.meh, "-", "Shrink Width", wm.shrinkX },
+  { hk.mods.hyper, "=", "Grow Height", wm.growY },
+  { hk.mods.hyper, "-", "Shrink Height", wm.shrinkY },
 
   -- Middle Row
-  { m.hotkeys.mods.meh, "7", "1/3 Left", m.windowManager:move(m.windowManager.layout.left33) },
-  { m.hotkeys.mods.meh, "8", "1/3 Center", m.windowManager:move(m.windowManager.layout.center33) },
-  { m.hotkeys.mods.meh, "9", "1/3 Right", m.windowManager:move(m.windowManager.layout.right33) },
+  { hk.mods.meh, "7", "1/3 Left", wm:move(wm.layout.left33) },
+  { hk.mods.meh, "8", "1/3 Center", wm:move(wm.layout.center33) },
+  { hk.mods.meh, "9", "1/3 Right", wm:move(wm.layout.right33) },
 
-  { m.hotkeys.mods.meh, "6", "1/2 Left", m.windowManager:move(m.windowManager.layout.left50) },
-  { m.hotkeys.mods.meh, "space", "1/2 Center", m.windowManager:move(m.windowManager.layout.center50) },
-  { m.hotkeys.mods.meh, "0", "1/2 Right", m.windowManager:move(m.windowManager.layout.right50) },
+  { hk.mods.meh, "6", "1/2 Left", wm:move(wm.layout.left50) },
+  { hk.mods.meh, "space", "1/2 Center", wm:move(wm.layout.center50) },
+  { hk.mods.meh, "0", "1/2 Right", wm:move(wm.layout.right50) },
 }
 
 -- Modal hotkeys
@@ -82,18 +85,18 @@ local baseSpecs = {
 ---@type hs.hotkey.KeySpec[]
 local commonModalSpecs = {
   -- Uniform ways of exiting modal environments
-  { {}, "escape", nil, m.hotkeys.activeModeExit },
+  { {}, "escape", nil, hk.activeModeExit },
 }
 
 -- System manipulation mode
 ---@type Hotkeys.ModalSpec
 local modeSystem = {
-  trigger = { m.hotkeys.mods.hyper, "s", "System" },
+  trigger = { hk.mods.hyper, "s", "System" },
   isOneShot = true,
   specs = {
-    { {}, "a", "Activity Monitor", m.appLauncher:openApp("Activity Monitor") },
-    { {}, "c", "Caffeine", m.caffeine.toggle },
-    { {}, "h", "Hammerspoon", m.appLauncher:openApp("Hammerspoon") },
+    { {}, "a", "Activity Monitor", al:openApp("Activity Monitor") },
+    { {}, "c", "Caffeine", cf.toggle },
+    { {}, "h", "Hammerspoon", al:openApp("Hammerspoon") },
     {
       {},
       "r",
@@ -103,41 +106,41 @@ local modeSystem = {
         hs.reload()
       end,
     },
-    { {}, ",", "System Preferences", m.appLauncher:openApp("System Preferences") },
+    { {}, ",", "System Preferences", al:openApp("System Preferences") },
   },
 }
 
 -- Window manager mode
 ---@type Hotkeys.ModalSpec
 local modeWindowManager = {
-  trigger = { m.hotkeys.mods.hyper, "w", "Window" },
+  trigger = { hk.mods.hyper, "w", "Window" },
   isOneShot = true,
   specs = {
-    { {}, "up", "1/2 Top", m.windowManager:move(m.windowManager.layout.top50) },
-    { {}, "down", "1/2 Bottom", m.windowManager:move(m.windowManager.layout.bottom50) },
+    { {}, "up", "1/2 Top", wm:move(wm.layout.top50) },
+    { {}, "down", "1/2 Bottom", wm:move(wm.layout.bottom50) },
 
     -- Corners
-    { { "shift" }, "1", "1/4 Top-Left", m.windowManager:move(m.windowManager.layout.topLeft25) },
-    { { "shift" }, "2", "1/4 Top-Right", m.windowManager:move(m.windowManager.layout.topRigh25) },
-    { { "shift" }, "3", "1/4 Bottom-Left", m.windowManager:move(m.windowManager.layout.bottomLeft25) },
-    { { "shift" }, "4", "1/4 Bottom-Right", m.windowManager:move(m.windowManager.layout.bottomRigh25) },
+    { { "shift" }, "1", "1/4 Top-Left", wm:move(wm.layout.topLeft25) },
+    { { "shift" }, "2", "1/4 Top-Right", wm:move(wm.layout.topRigh25) },
+    { { "shift" }, "3", "1/4 Bottom-Left", wm:move(wm.layout.bottomLeft25) },
+    { { "shift" }, "4", "1/4 Bottom-Right", wm:move(wm.layout.bottomRigh25) },
 
     -- Move
-    { {}, "[", "Move Left", m.windowManager.moveL },
-    { {}, "]", "Move Right", m.windowManager.moveR },
-    { { "shift" }, "[", "Prev Screen", m.windowManager.screenPrev },
-    { { "shift" }, "]", "Next Screen", m.windowManager.screenNext },
+    { {}, "[", "Move Left", wm.moveL },
+    { {}, "]", "Move Right", wm.moveR },
+    { { "shift" }, "[", "Prev Screen", wm.screenPrev },
+    { { "shift" }, "]", "Next Screen", wm.screenNext },
 
-    { {}, "c", "Center", m.windowManager.center },
+    { {}, "c", "Center", wm.center },
 
     -- Resize
-    { {}, "=", "Grow Width", m.windowManager.growX },
-    { {}, "-", "Shrink Width", m.windowManager.shrinkX },
-    { { "shift" }, "=", "Grow Height", m.windowManager.growY },
-    { { "shift" }, "-", "Shrink Height", m.windowManager.shrinkY },
+    { {}, "=", "Grow Width", wm.growX },
+    { {}, "-", "Shrink Width", wm.shrinkX },
+    { { "shift" }, "=", "Grow Height", wm.growY },
+    { { "shift" }, "-", "Shrink Height", wm.shrinkY },
 
-    { {}, "m", "Maximize", m.windowManager.maximixe },
-    { {}, "f", "Full Screen", m.windowManager.toggleFullScreen },
+    { {}, "m", "Maximize", wm.maximixe },
+    { {}, "f", "Full Screen", wm.toggleFullScreen },
   },
 }
 
@@ -146,7 +149,7 @@ hs.fnutils.each({ modeSystem, modeWindowManager }, function(modalSpec)
   modalSpec.specs = hs.fnutils.concat(modalSpec.specs, commonModalSpecs)
 end)
 
-m.hotkeys:bindHotkeys({
+hk:bindHotkeys({
   specs = baseSpecs,
   modes = {
     modeSystem,
@@ -155,7 +158,17 @@ m.hotkeys:bindHotkeys({
 })
 
 -- Start caffeine
-m.caffeine.start()
+cf.options.notifyOnStateChange = true
+cf:start()
+
+--- Start WindowManager
+wm:start()
+
+--- Start AppLauncher
+al:start()
+
+-- Enable HS CLI (inter-process communication)
+require("hs.ipc")
 
 -- Notify on config [re]load
 hs.notify.new({ title = "Configuration Loaded", subTitle = "Settings applied" }):send()

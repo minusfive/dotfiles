@@ -1,7 +1,17 @@
 -- Module to open / focus applictions and automate application tasks
 ---@class AppLauncher
----@field notifyOnActivation? boolean Whether to send notifications on app activation
-local AppLauncher = { notifyOnActivation = false }
+local AppLauncher = {
+  name = "AppLauncher",
+  version = "1.0",
+  author = "http://github.com/minusfive",
+  license = "MIT - https://opensource.org/licenses/MIT",
+
+  ---@class AppLauncherOptions
+  ---@field notifyOnActivation? boolean
+  options = {
+    notifyOnActivation = false,
+  },
+}
 
 -- Quickly open and/or focus applications
 ---@param name string
@@ -15,7 +25,7 @@ end
 -- Sends a system notification whenever an app is activated
 ---@param app hs.application
 local function __sendAppActivationNotification(app)
-  if not AppLauncher.notifyOnActivation then
+  if not AppLauncher.options.notifyOnActivation then
     return
   end
 
@@ -48,7 +58,19 @@ local function appWatcher(name, eventType, app)
   end
 end
 
-AppLauncher.watcher = hs.application.watcher.new(appWatcher)
-AppLauncher.watcher:start()
+--- Initialize the AppLauncher module
+function AppLauncher:init()
+  AppLauncher.watcher = hs.application.watcher.new(appWatcher)
+
+  --- Start the AppLauncher applications watcher
+  function AppLauncher:start()
+    AppLauncher.watcher:start()
+  end
+
+  --- Stop the AppLauncher applications watcher
+  function AppLauncher:stop()
+    AppLauncher.watcher:stop()
+  end
+end
 
 return AppLauncher
