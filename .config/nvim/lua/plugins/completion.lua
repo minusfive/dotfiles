@@ -25,12 +25,12 @@ return {
       completion = {
         menu = {
           draw = {
-            align_to = "kind_icon",
+            align_to = "label",
             treesitter = { "lsp" },
             columns = {
               { "item_idx" },
-              { "kind_icon", "label", "label_description", gap = 1 },
-              { "source_name" },
+              { "label", "label_description", gap = 1 },
+              { "kind_icon", "source_name", gap = 1 },
             },
             components = {
               -- Add indexed selection keymaps hints
@@ -48,9 +48,9 @@ return {
       keymap = (function()
         ---@type blink.cmp.KeymapConfig
         local keymap = {
-          preset = "default",
-          ["<Up>"] = require("blink.cmp.keymap.presets").enter["<Up>"],
-          ["<Down>"] = require("blink.cmp.keymap.presets").enter["<Down>"],
+          preset = "super-tab",
+          -- ["<Up>"] = require("blink.cmp.keymap.presets").enter["<Up>"],
+          -- ["<Down>"] = require("blink.cmp.keymap.presets").enter["<Down>"],
         }
 
         -- Add indexed selection keymaps
