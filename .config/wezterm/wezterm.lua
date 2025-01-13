@@ -107,6 +107,8 @@ config.leader = {
 }
 
 config.keys = {
+  -- TODO: Investigate "ActivateOrSplitPane" https://github.com/wez/wezterm/discussions/2388#discussioncomment-3371519
+
   -- Workspaces
   -- { key = "n", mods = "CTRL", action = act.SwitchWorkspaceRelative(1) },
   -- { key = "p", mods = "CTRL", action = act.SwitchWorkspaceRelative(-1) },
