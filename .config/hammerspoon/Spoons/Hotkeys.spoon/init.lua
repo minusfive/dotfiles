@@ -64,12 +64,12 @@ local function configureModal(modalSpec)
 
     if Hotkeys.menuBarItem then
       Hotkeys.menuBarItem:returnToMenuBar()
-      Hotkeys.menuBarItem:setTitle(hs.styledtext(modalSpec.trigger[3], {
+      Hotkeys.menuBarItem:setTitle(hs.styledtext(modalSpec.trigger[3]:upper(), {
         font = { size = 12 },
       }))
     end
 
-    hs.notify.new({ title = modalSpec.trigger[3] .. " Mode" }):send()
+    hs.notify.new({ title = modalSpec.trigger[3], subTitle = "Hokeys Mode" }):send()
   end
 
   ---@diagnostic disable-next-line: duplicate-set-field
@@ -84,7 +84,7 @@ local function configureModal(modalSpec)
       Hotkeys.menuBarItem:removeFromMenuBar()
     end
 
-    hs.notify.new({ title = modalSpec.trigger[3] .. " Mode Exited" }):send()
+    hs.notify.new({ title = "Normal", subTitle = "Hotkeys Mode" }):send()
   end
 end
 
