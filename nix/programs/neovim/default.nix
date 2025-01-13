@@ -3,6 +3,10 @@
   home-manager.users.${user} = {
     home.sessionVariables.EDITOR = "nvim";
 
+    home.shellAliases = {
+      v = "nvim";
+    };
+
     # Apps we want installed
     home.packages = with pkgs; [
       neovim-node-client
@@ -14,9 +18,5 @@
     ];
 
     programs.neovim.enable = true; # Preferred text editor
-
-    programs.zsh.zsh-abbr.abbreviations = {
-      v = "nvim";
-    };
   };
 }
