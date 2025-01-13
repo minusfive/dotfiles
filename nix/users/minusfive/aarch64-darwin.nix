@@ -5,6 +5,7 @@ let
     "1password" # password maanger
     "bat" # better `cd`
     "betterdisplay" # display configuration manager
+    "direnv" # per-directory shell environment
     "discord" # chat app
     "eza" # better `ls`
     "fd" # better `find`
