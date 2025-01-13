@@ -14,6 +14,7 @@ let
     "gnu-coreutils" # standard core unix utils (e.g. `rm`, `ln`, `mv`, etc.)
     "gnu-stow" # symlink manager
     "gnu-wget" # "web get", i.e. file retriever
+    "go" # Go programming language
     "google-chrome" # browser
     "gpg-suite" # GPG keychain
     "gum" # Go TUI builder
