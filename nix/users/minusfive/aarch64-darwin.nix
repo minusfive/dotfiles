@@ -37,6 +37,7 @@ let
     "wezterm" # terminal emulator
     "whatsapp" # chat app
     "yazi" # TUI file manager
+    "zoom" # video conferencing
     "zoxide" # better `cd`
     "zsh" # shell
     "zsh-autosuggestions" # zsh autocomplete hints
