@@ -4,6 +4,7 @@ let
   programs = [
     "1password" # password maanger
     "bat" # better `cd`
+    "bash" # shell
     "betterdisplay" # display configuration manager
     "direnv" # per-directory shell environment
     "discord" # chat app
