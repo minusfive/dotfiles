@@ -8,6 +8,7 @@ let
     "betterdisplay" # display configuration manager
     "direnv" # per-directory shell environment
     "discord" # chat app
+    "docker" # container engine
     "eza" # better `ls`
     "fd" # better `find`
     "fzf" # fuzzy-finder
@@ -26,9 +27,11 @@ let
     "imageoptim" # image optimizer
     "jq" # json query and manipulation utility
     "lazygit" # git TUI
+    "lima" # vm manager
     "neovim" # editor
     "obsidian" # note-taking
     "oh-my-zsh" # zsh configuration manager
+    "podman" # daemonless container engine
     "ripgrep" # better `grep`
     "vivid" # LS_COLORS generator
     "wezterm" # terminal emulator
