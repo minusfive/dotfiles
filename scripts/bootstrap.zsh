@@ -10,50 +10,54 @@ function {
   local __dotfiles_dir="$(dirname "$__dotfiles_scripts_dir")"
   local __flake_system="personal"
 
-  function __log_info() { print -P "%F{blue}󰬐 %f $1" }
-  function __log_ok() { print -P "%F{green}󰄲 %f $1" }
-  function __log_error() { print -P "%F{red}󰡅 %f $1" }
+  function __log_info() { print -P "%F{blue}󰬐  $1%f" }
+  function __log_ok() { print -P "%F{green}󰄲  $1%f" }
+  function __log_error() { print -P "%F{red}󰡅  $1%f" }
 
   # Install nix
   if [[ $(command -v nix) == "" ]]; then
-    __log_info "Nix not installed. Attempting install..."
+    echo "\n"
+    __log_info "%UNix%u not installed. Attempting install..."
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
 
     if [[ $? == 0 ]]; then
-      __log_ok "Nix installed, starting service..."
+      __log_ok "%UNix%u installed, starting service..."
 
       # Start the nix daemon without restarting the shell
       source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     fi
   else
-    __log_ok "Nix already installed"
+    __log_ok "%UNix%u already installed"
   fi
 
   # Install nix-darwin
   if [[ $(command -v nix) != "" && $(command -v darwin-rebuild) == "" ]]; then
-    __log_info "nix-darwin not installed, installing..."
+    echo "\n"
+    __log_info "%Unix-darwin%u not installed, installing..."
     nix run nix-darwin -- switch --flake "$__dotfiles_dir#$__flake_system"
 
     if [[ $? == 0 ]]; then
-      __log_ok "nix-darwin installed"
+      __log_ok "%Unix-darwin%u installed"
     fi
   else
-    __log_ok "nix-darwin already installed"
+    __log_ok "%Unix-darwin%u already installed"
   fi
 
   # Apply nix-darwin configuration
   if [[ $(command -v darwin-rebuild) != "" ]]; then
-    __log_info "Applying nix-darwin changes..."
+    echo "\n"
+    __log_info "Applying %Unix-darwin%u changes..."
     darwin-rebuild switch --flake "$__dotfiles_dir#$__flake_system"
 
     if [[ $? == 0 ]]; then
-      __log_ok "nix-darwin changes applied"
+      __log_ok "%Unix-darwin%u changes applied"
     fi
   fi
 
   # Symlink dotfiles
   if [[ $(command -v stow) != "" ]]; then
-    __log_info "GNU Stow found, symlinking dotfiles"
+    echo "\n"
+    __log_info "%UGNU Stow%u found, symlinking dotfiles"
 
     # CD to dotfiles dir and then back when done
     local __from_dir="$PWD"
@@ -74,13 +78,15 @@ function {
       echo "- CWD: $PWD"
     fi
   else
-    __log_error "GNU Stow not found"
+    echo "\n"
+    __log_error "%UGNU Stow%u not found"
     exit 1
   fi
 
   # Update Yazi packages
   if [[ $(command -v ya) != "" ]]; then
-    __log_info "Updating Yazi packages..."
+    echo "\n"
+    __log_info "Updating %UYazi%u packages..."
     ya pack -u
   fi
 
@@ -102,6 +108,7 @@ function {
     [[ "$zsh" = -* || -o login ]] && exec -l "${zsh#-}" || exec "$zsh"
   }
 
+  echo "\n"
   __log_ok "Update complete, reloading shell..."
   __reload
 } $(realpath $0)
