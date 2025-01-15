@@ -63,6 +63,11 @@ return {
         },
       },
 
+      -- Picker
+      picker = {
+        layout = { preset = "ivy" },
+      },
+
       -- Scroll Animation
       scroll = {
         -- TODO: Nested animation configs should be partial as well
@@ -77,5 +82,33 @@ return {
         right = { "mark", "fold" },
       },
     },
+
+    keys = {
+      {
+        "<leader><space>",
+        function()
+          Snacks.picker.files({ hidden = true })
+        end,
+        desc = "Find Files (Root Dir)",
+      },
+    },
+  },
+
+  {
+    "folke/snacks.nvim",
+    ---@param opts snacks.Config
+    opts = function(_, opts)
+      opts.dashboard.preset.keys[1].action = function()
+        Snacks.picker.files({ hidden = true })
+      end
+
+      opts.dashboard.preset.keys[3].action = function()
+        Snacks.picker.projects()
+      end
+
+      opts.dashboard.preset.keys[5].action = function()
+        Snacks.picker.recent()
+      end
+    end,
   },
 }
