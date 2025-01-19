@@ -3,6 +3,7 @@
 *~
 *.swp
 *.out
+*.repro
 
 # Compiled source #
 ###################
@@ -69,4 +70,5 @@ Last.fm
 .vscode
 
 # Copilot
+# #######
 .config/github-copilot

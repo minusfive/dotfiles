@@ -3,8 +3,8 @@ return {
 
   {
     "catppuccin/nvim",
-    -- optional = true,
     name = "catppuccin",
+
     ---@module 'catppuccin'
     ---@type CatppuccinOptions
     opts = {
@@ -42,6 +42,19 @@ return {
             SnacksDashboardSpecial = { fg = colors.overlay1 },
             SnacksDashboardTitle = { fg = colors.overlay0, style = { "underline" } },
 
+            -- Picker
+            SnacksPicker = { link = "FloatNormal" },
+            SnacksPickerBorder = { fg = colors.crust },
+            SnacksPickerTitle = { link = "Search" },
+            SnacksPickerListCursorLine = { bg = colors.mantle },
+            SnacksPickerListItemSign = { fg = colors.base },
+            SnacksPickerListItemSignCursorLine = { bg = colors.mantle, fg = colors.peach },
+            SnacksPickerMatch = { bg = nil, fg = nil, style = { "underline" } },
+            SnacksPickerPreviewCursorLine = { link = "SnacksPickerCursorLine" },
+            SnacksPickerPreviewTitle = { bg = colors.sapphire, fg = colors.base },
+            SnacksPickerPrompt = { link = "Command" },
+            SnacksPickerFlag = vim.tbl_extend("force", {}, search_hl, { style = { "italic" } }),
+
             -- Make some elements more subtle
             SnacksIndent = { fg = colors.surface0 },
             SnacksIndentScope = { fg = colors.surface2 },
@@ -59,7 +72,8 @@ return {
             VisualNOS = { link = "Visual" },
 
             -- Floating Windows
-            FloatBorder = { fg = colors.surface1 },
+            FloatNormal = { bg = colors.base },
+            FloatBorder = { fg = colors.surface1, bg = colors.base },
 
             -- Fuzzy Finder
             FzfLuaBorder = { fg = colors.surface1, bg = colors.base },
@@ -75,7 +89,10 @@ return {
             -- Cursorline
             CursorLine = { bg = colors.mantle },
             CursorLineNr = { link = "CursorLine", fg = colors.text, style = { "bold" } },
-            CursorLineSign = { link = "Cursorline" },
+            CursorLineSign = { link = "CursorLine" },
+            GitSignsAddCul = { bg = colors.mantle, fg = colors.green },
+            GitSignsChangeCul = { bg = colors.mantle, fg = colors.yellow },
+            GitSignsDeleteCul = { bg = colors.mantle, fg = colors.red },
 
             -- Completon
             BlinkCmpItemIdx = { fg = colors.surface2 },

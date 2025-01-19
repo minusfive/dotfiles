@@ -6,11 +6,20 @@ return {
     event = "VeryLazy",
   },
 
+  -- Git markers on sign column
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      numhl = false,
+      linehl = false,
+      culhl = true,
+    },
+  },
+
   -- Keybindings help menu
   {
     "folke/which-key.nvim",
     optional = true,
-    event = "VeryLazy",
     opts = {
       preset = "helix",
       spec = {

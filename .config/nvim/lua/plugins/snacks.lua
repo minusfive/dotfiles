@@ -1,4 +1,3 @@
----@type Logos
 local Logos = require("config.logos")
 
 --- Add the startup section
@@ -19,9 +18,50 @@ local function dashboardStartup()
   }
 end
 
+local function pickFilesWithHidden()
+  Snacks.picker.smart({ hidden = true })
+end
+
+local function pickProjects()
+  Snacks.picker.projects()
+end
+
+-- local
+
+---@type snacks.picker.layout.Config
+local pickerLayoutLg = {
+  -- reverse = true,
+  preview = true,
+  layout = {
+    box = "horizontal",
+    row = -1,
+    width = 0,
+    height = 0.4,
+    min_height = 20,
+    border = "none",
+    {
+      box = "vertical",
+      { win = "input", height = 1, border = "vpad", title = "{source} {live} {flags}", title_pos = "center" },
+      { win = "list", border = "none" },
+    },
+    {
+      width = 0.5,
+      border = { " ", " ", "", "", "", "", "", "│" },
+      title = "{preview}",
+      title_pos = "center",
+      win = "preview",
+    },
+  },
+}
+
+---@type snacks.picker.layout.Config
+local pickerLayoutSm = vim.deepcopy(pickerLayoutLg)
+pickerLayoutSm.preview = false
+
 return {
   {
     "folke/snacks.nvim",
+    -- dev = true,
 
     ---@type snacks.Config
     opts = {
@@ -65,12 +105,67 @@ return {
 
       -- Picker
       picker = {
-        layout = { preset = "ivy" },
+        layout = {
+          cycle = true,
+          preset = function()
+            return vim.o.columns >= 120 and "pickerLayoutLg" or "pickerLayoutSm"
+          end,
+        },
+        layouts = {
+          pickerLayoutLg = pickerLayoutLg,
+          pickerLayoutSm = pickerLayoutSm,
+        },
+        formatters = {
+          file = {
+            filename_first = true,
+          },
+        },
+        win = {
+          list = {
+            wo = {
+              statuscolumn = "%#SnacksPickerListItemSign#%{v:relnum?'▎':''}%#SnacksPickerListItemSignCursorLine#%{v:relnum?'':'▎'}",
+              number = true,
+              numberwidth = 1,
+              relativenumber = true,
+            },
+          },
+          preview = {
+            minimal = true,
+            wo = {
+              foldcolumn = "0",
+              number = true,
+              relativenumber = false,
+              signcolumn = "no",
+            },
+          },
+        },
+        sources = {
+          smart = {
+            actions = {
+              smart_delete = function(picker, item)
+                if item.buf then
+                  Snacks.picker.actions.bufdelete(picker, item)
+                  return
+                end
+
+                Snacks.notify.warn("Not an open buffer", { title = "Smart Picker" })
+              end,
+            },
+            win = {
+              input = {
+                keys = {
+                  ["dd"] = "smart_delete",
+                  ["<c-x>"] = { "smart_delete", mode = { "n", "i" } },
+                },
+              },
+              list = { keys = { ["dd"] = "smart_delete" } },
+            },
+          },
+        },
       },
 
       -- Scroll Animation
       scroll = {
-        -- TODO: Nested animation configs should be partial as well
         animate = {
           duration = { total = 100 },
         },
@@ -86,9 +181,7 @@ return {
     keys = {
       {
         "<leader><space>",
-        function()
-          Snacks.picker.files({ hidden = true })
-        end,
+        pickFilesWithHidden,
         desc = "Find Files (Root Dir)",
       },
     },
@@ -98,17 +191,8 @@ return {
     "folke/snacks.nvim",
     ---@param opts snacks.Config
     opts = function(_, opts)
-      opts.dashboard.preset.keys[1].action = function()
-        Snacks.picker.files({ hidden = true })
-      end
-
-      opts.dashboard.preset.keys[3].action = function()
-        Snacks.picker.projects()
-      end
-
-      opts.dashboard.preset.keys[5].action = function()
-        Snacks.picker.recent()
-      end
+      opts.dashboard.preset.keys[1].action = pickFilesWithHidden
+      opts.dashboard.preset.keys[3].action = pickProjects
     end,
   },
 }
