@@ -36,11 +36,11 @@ return {
             SnacksDashboardDesc = { fg = colors.text },
             SnacksDashboardFile = { fg = colors.text },
             SnacksDashboardFooter = { fg = colors.surface2 },
-            SnacksDashboardHeader = { fg = colors.blue },
-            SnacksDashboardIcon = { fg = colors.mauve },
-            SnacksDashboardKey = { fg = colors.green },
+            SnacksDashboardHeader = { fg = colors.sky },
+            SnacksDashboardIcon = { fg = colors.teal },
+            SnacksDashboardKey = { fg = colors.teal, style = { "bold" } },
             SnacksDashboardSpecial = { fg = colors.overlay1 },
-            SnacksDashboardTitle = { fg = colors.overlay0, style = { "underline" } },
+            SnacksDashboardTitle = { fg = colors.surface1, style = { "underline" } },
 
             -- Picker
             SnacksPicker = { link = "FloatNormal" },

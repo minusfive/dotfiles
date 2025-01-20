@@ -1,63 +1,5 @@
 local Logos = require("config.logos")
 
---- Add the startup section
----@return snacks.dashboard.Section
-local function dashboardStartup()
-  local stats = Snacks.dashboard.lazy_stats
-  stats = stats and stats.startuptime > 0 and stats or require("lazy.stats").stats()
-  local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-
-  return {
-    align = "center",
-    padding = { 0, 1 },
-    text = {
-      { stats.loaded .. "/" .. stats.count, hl = "special" },
-      { " plugins loaded in ", hl = "footer" },
-      { ms .. "ms", hl = "special" },
-    },
-  }
-end
-
-local function pickFilesWithHidden()
-  Snacks.picker.smart({ hidden = true })
-end
-
-local function pickProjects()
-  Snacks.picker.projects()
-end
-
--- local
-
----@type snacks.picker.layout.Config
-local pickerLayoutLg = {
-  -- reverse = true,
-  preview = true,
-  layout = {
-    box = "horizontal",
-    row = -1,
-    width = 0,
-    height = 0.4,
-    min_height = 20,
-    border = "none",
-    {
-      box = "vertical",
-      { win = "input", height = 1, border = "vpad", title = "{source} {live} {flags}", title_pos = "center" },
-      { win = "list", border = "none" },
-    },
-    {
-      width = 0.5,
-      border = { " ", " ", "", "", "", "", "", "│" },
-      title = "{preview}",
-      title_pos = "center",
-      win = "preview",
-    },
-  },
-}
-
----@type snacks.picker.layout.Config
-local pickerLayoutSm = vim.deepcopy(pickerLayoutLg)
-pickerLayoutSm.preview = false
-
 return {
   {
     "folke/snacks.nvim",
@@ -73,18 +15,47 @@ return {
 
       -- Dashboard
       dashboard = {
+        width = 50,
         preset = {
           header = Logos.v2,
+          keys = {
+            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+            { icon = " ", key = "f", desc = "Find File", action = "<leader><space>" },
+            { icon = " ", key = "g", desc = "Find Text (grep)", action = ":lua Snacks.dashboard.pick('live_grep')" },
+            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+            { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
+            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+          },
         },
         sections = {
-          { section = "header", padding = 0 },
-          { title = "Shortcuts", padding = 1, align = "center" },
-          { section = "keys", padding = { 1, 0 } },
-          { title = "Recent Files", padding = 1, align = "center" },
-          { section = "recent_files", padding = 1 },
-          { title = "Projects", padding = 1, align = "center" },
-          { section = "projects", padding = 1 },
-          dashboardStartup,
+          { section = "header", padding = { 0, 0 } },
+          { title = "", padding = { 1, 0 }, align = "center" },
+          { title = nil, section = "keys", padding = { 0, 0 } },
+          { title = "", padding = { 1, 0 }, align = "center" },
+          -- Unused
+          -- { title = "Recent Files", padding = 1, align = "center" },
+          -- { section = "recent_files", padding = 1 },
+          -- { title = "Projects", padding = 1, align = "center" },
+          -- { section = "projects", padding = 1 },
+
+          --- Stats
+          function()
+            local stats = Snacks.dashboard.lazy_stats
+            stats = stats and stats.startuptime > 0 and stats or require("lazy.stats").stats()
+            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+
+            return {
+              align = "center",
+              padding = { 0, 0 },
+              text = {
+                { stats.loaded .. "/" .. stats.count, hl = "special" },
+                { " plugins loaded in ", hl = "footer" },
+                { ms .. "ms", hl = "special" },
+              },
+            }
+          end,
         },
       },
 
@@ -105,15 +76,61 @@ return {
 
       -- Picker
       picker = {
-        layout = {
-          cycle = true,
-          preset = function()
-            return vim.o.columns >= 120 and "pickerLayoutLg" or "pickerLayoutSm"
-          end,
-        },
+        layout = function()
+          return vim.o.columns >= 120 and "lg" or "sm"
+        end,
+
         layouts = {
-          pickerLayoutLg = pickerLayoutLg,
-          pickerLayoutSm = pickerLayoutSm,
+          lg = {
+            preview = true,
+            layout = {
+              box = "horizontal",
+              row = -1,
+              width = 0,
+              height = 0.4,
+              min_height = 20,
+              {
+                box = "vertical",
+                border = "right",
+                {
+                  win = "input",
+                  height = 1,
+                  border = { "", " ", "", "", "", "", "", "" },
+                  title = "{source} {live} {flags}",
+                  title_pos = "center",
+                },
+                { win = "list", border = "top" },
+              },
+              {
+                win = "preview",
+                title = "{preview}",
+                title_pos = "center",
+                width = 0.5,
+                border = "vpad",
+              },
+            },
+          },
+
+          sm = {
+            preview = true,
+            fullscreen = true,
+            layout = {
+              box = "vertical",
+              border = "none",
+              {
+                win = "preview",
+                title = "{preview}",
+                title_pos = "center",
+                height = 0.5,
+                border = "top",
+              },
+              {
+                box = "vertical",
+                { win = "input", height = 1, border = "top", title = "{source} {live} {flags}", title_pos = "center" },
+                { win = "list", border = "top" },
+              },
+            },
+          },
         },
         formatters = {
           file = {
@@ -140,6 +157,9 @@ return {
           },
         },
         sources = {
+          files = {
+            hidden = true,
+          },
           smart = {
             actions = {
               smart_delete = function(picker, item)
@@ -181,18 +201,11 @@ return {
     keys = {
       {
         "<leader><space>",
-        pickFilesWithHidden,
+        function()
+          Snacks.picker.smart()
+        end,
         desc = "Find Files (Root Dir)",
       },
     },
-  },
-
-  {
-    "folke/snacks.nvim",
-    ---@param opts snacks.Config
-    opts = function(_, opts)
-      opts.dashboard.preset.keys[1].action = pickFilesWithHidden
-      opts.dashboard.preset.keys[3].action = pickProjects
-    end,
   },
 }
