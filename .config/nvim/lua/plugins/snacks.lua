@@ -16,29 +16,25 @@ return {
       -- Dashboard
       dashboard = {
         width = 50,
+
         preset = {
           header = Logos.v2,
           keys = {
+            { icon = " ", key = "s", desc = "Session Restore", section = "session" },
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
             { icon = " ", key = "f", desc = "Find File", action = "<leader><space>" },
             { icon = " ", key = "g", desc = "Find Text (grep)", action = ":lua Snacks.dashboard.pick('live_grep')" },
-            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-            { icon = " ", key = "s", desc = "Restore Session", section = "session" },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
             { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
         },
+
         sections = {
           { section = "header", padding = { 0, 0 } },
           { title = "", padding = { 1, 0 }, align = "center" },
-          { title = nil, section = "keys", padding = { 0, 0 } },
+          { section = "keys", padding = { 0, 0 } },
           { title = "", padding = { 1, 0 }, align = "center" },
-          -- Unused
-          -- { title = "Recent Files", padding = 1, align = "center" },
-          -- { section = "recent_files", padding = 1 },
-          -- { title = "Projects", padding = 1, align = "center" },
-          -- { section = "projects", padding = 1 },
 
           --- Stats
           function()
@@ -50,7 +46,9 @@ return {
               align = "center",
               padding = { 0, 0 },
               text = {
-                { stats.loaded .. "/" .. stats.count, hl = "special" },
+                { tostring(stats.loaded), hl = "special" },
+                { " out of ", hl = "footer" },
+                { tostring(stats.count), hl = "special" },
                 { " plugins loaded in ", hl = "footer" },
                 { ms .. "ms", hl = "special" },
               },
@@ -159,27 +157,6 @@ return {
         sources = {
           files = {
             hidden = true,
-          },
-          smart = {
-            actions = {
-              smart_delete = function(picker, item)
-                if item.buf then
-                  Snacks.picker.actions.bufdelete(picker, item)
-                  return
-                end
-
-                Snacks.notify.warn("Not an open buffer", { title = "Smart Picker" })
-              end,
-            },
-            win = {
-              input = {
-                keys = {
-                  ["dd"] = "smart_delete",
-                  ["<c-x>"] = { "smart_delete", mode = { "n", "i" } },
-                },
-              },
-              list = { keys = { ["dd"] = "smart_delete" } },
-            },
           },
         },
       },
