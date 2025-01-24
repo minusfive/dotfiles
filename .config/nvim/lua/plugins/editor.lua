@@ -1,5 +1,9 @@
+--- Keymap Group: Lazy
+local kmg_lazy = "<leader>u<c-l>"
+
 return {
   -- Text manipulation
+  -- TODO: give this a proper test, or remove
   {
     "tpope/vim-abolish",
     enabled = false,
@@ -9,6 +13,9 @@ return {
   -- Git markers on sign column
   {
     "lewis6991/gitsigns.nvim",
+
+    ---@module "gitsigns"
+    ---@type Gitsigns.Config | {}
     opts = {
       numhl = false,
       linehl = false,
@@ -19,11 +26,15 @@ return {
   -- Keybindings help menu
   {
     "folke/which-key.nvim",
+    dev = true,
     optional = true,
+
+    ---@module "which-key"
+    ---@type wk.Config | {}
     opts = {
       preset = "helix",
       spec = {
-        { "<leader>n", group = "new", icon = LazyVim.config.icons.git.added },
+        { kmg_lazy, group = "Lazy" },
       },
       plugins = {
         marks = true,
@@ -33,6 +44,20 @@ return {
           suggestions = 20,
         },
       },
+      icons = {
+        group = "",
+      },
+    },
+    keys = {
+      {
+        kmg_lazy .. "c",
+        function() LazyVim.news.changelog() end,
+        desc = "LazyVim Changelog",
+      },
+      { kmg_lazy .. "d", "<cmd>:LazyDev<cr>", desc = "LazyDev" },
+      { kmg_lazy .. "e", "<cmd>:LazyExtras<cr>", desc = "Lazy Extras" },
+      { kmg_lazy .. "h", "<cmd>:LazyHealth<cr>", desc = "LazyHealth" },
+      { kmg_lazy .. "l", "<cmd>:Lazy<cr>", desc = "Lazy" },
     },
   },
 
@@ -63,52 +88,6 @@ return {
       window = {
         position = "right",
       },
-    },
-  },
-
-  -- Fuzzy Finder
-  {
-    "ibhagwan/fzf-lua",
-    optional = true,
-    opts = function(_, opts)
-      local fzf_utils = require("fzf-lua.utils")
-      local fzf_highlights = require("fzf-lua.config").defaults.__HLS
-
-      LazyVim.merge(opts, {
-        winopts = {
-          -- border = "none",
-          height = 0.5,
-          width = 1,
-          row = 1,
-          col = 0,
-        },
-        keymap = {
-          builtin = {
-            true,
-            ["<C-h>"] = "toggle-help",
-            ["<C-/>"] = "toggle-help",
-          },
-        },
-        defaults = {
-          RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH,
-          header = string.format(
-            "%s%s%s%s%s%s%s\n\n",
-            fzf_utils.ansi_from_hl(fzf_highlights.header_bind, "<C-h>"),
-            fzf_utils.ansi_from_hl(fzf_highlights.header_text, ", "),
-            fzf_utils.ansi_from_hl(fzf_highlights.header_bind, "<C-/>"),
-            fzf_utils.ansi_from_hl(fzf_highlights.header_text, " or "),
-            fzf_utils.ansi_from_hl(fzf_highlights.header_bind, "<F1>"),
-            fzf_utils.ansi_from_hl(fzf_highlights.header_text, " for "),
-            fzf_utils.ansi_from_hl(fzf_highlights.header_bind, "help")
-          ),
-        },
-        grep = {
-          rg_glob = true,
-        },
-      })
-    end,
-    keys = {
-      { "<leader><space>", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
     },
   },
 }

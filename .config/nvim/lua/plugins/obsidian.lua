@@ -45,7 +45,7 @@ return {
       "nvim-lua/plenary.nvim",
     },
     keys = {
-      { "<leader>nn", "<cmd>ObsidianQuickSwitch<cr>", desc = "New Note (Obsidian)", remap = true },
+      { "<leader>fN", "<cmd>ObsidianQuickSwitch<cr>", desc = "New Note (Obsidian)", remap = true },
     },
     opts = {
       -- either 'wiki' or 'markdown'.
