@@ -9,14 +9,37 @@ return {
     ---@type CatppuccinOptions
     opts = {
       transparent_background = true,
-      dim_inactive = {
-        enabled = true,
-      },
+      -- dim_inactive = {
+      --   enabled = true,
+      --   percentage = 0.05,
+      -- },
 
       highlight_overrides = {
         all = function(colors)
           local search_hl = { bg = colors.peach, fg = colors.mantle }
           return {
+            -- Base
+            Normal = { bg = colors.mantle },
+            CursorLine = { bg = colors.base },
+            CursorLineNr = { link = "CursorLine", fg = colors.text, style = { "bold" } },
+            CursorLineSign = { link = "CursorLine" },
+            GitSignsAddCul = { bg = colors.base, fg = colors.green },
+            GitSignsChangeCul = { bg = colors.base, fg = colors.yellow },
+            GitSignsDeleteCul = { bg = colors.base, fg = colors.red },
+
+            -- Visual selections with inverted colors matching lualine mode bg
+            Visual = { bg = colors.mauve, fg = colors.mantle, style = { "bold" } },
+            VisualNOS = { link = "Visual" },
+
+            -- Floating Windows
+            NormalFloat = { bg = colors.base },
+            FloatTitle = { link = "NormalFloat" },
+            FloatBorder = { fg = colors.surface0, bg = colors.base },
+            Pmenu = { link = "NormalFloat" },
+            PmenuSel = { bg = colors.surface0 },
+            PmenuSbar = { link = "PmenuSel" },
+            PmenuThumb = { bg = colors.surface1 },
+
             -- Flash / search matching Noice colors
             Search = search_hl,
             IncSearch = { link = "Search" },
@@ -43,10 +66,11 @@ return {
             SnacksDashboardTitle = { fg = colors.surface1, style = { "underline" } },
 
             -- Picker
-            SnacksPicker = { link = "FloatNormal" },
-            SnacksPickerBorder = { fg = colors.crust },
+            -- SnacksPicker = { link = "FloatNormal" },
+            -- SnacksPickerBorder = { fg = colors.crust },
             SnacksPickerTitle = { link = "Search" },
-            SnacksPickerListCursorLine = { bg = colors.mantle },
+            SnacksPickerCursorLine = { bg = colors.surface0 },
+            SnacksPickerListCursorLine = { link = "SnacksPickerCursorLine" },
             SnacksPickerListItemSign = { fg = colors.base },
             SnacksPickerListItemSignCursorLine = { bg = colors.mantle, fg = colors.peach },
             SnacksPickerMatch = { bg = nil, fg = nil, style = { "underline" } },
@@ -67,37 +91,20 @@ return {
             NoiceCmdlinePopupBorder = { fg = colors.peach },
             NoiceCmdlinePopupTitle = { fg = colors.peach },
 
-            -- Visual selections with inverted colors matching lualine mode bg
-            Visual = { bg = colors.mauve, fg = colors.mantle, style = { "bold" } },
-            VisualNOS = { link = "Visual" },
-
-            -- Floating Windows
-            FloatNormal = { bg = colors.base },
-            FloatBorder = { fg = colors.surface1, bg = colors.base },
-
             -- Fuzzy Finder
-            FzfLuaBorder = { fg = colors.surface1, bg = colors.base },
-            FzfLuaNormal = { bg = colors.base },
-            FzfLuaTitle = { fg = colors.crust, bg = colors.peach, style = { "bold" } },
-            FzfLuaPreviewTitle = { fg = colors.crust, bg = colors.blue, style = { "bold" } },
-            FzfLuaHeaderText = { fg = colors.overlay1 },
-            FzfLuaHeaderBind = { fg = colors.subtext1 },
-            FzfLuaFzfPrompt = { fg = colors.peach },
-            FzfLuaFzfPointer = { fg = colors.peach },
-            FzfLuaFzfHeader = { fg = colors.overlay0 },
-
-            -- Cursorline
-            CursorLine = { bg = colors.mantle },
-            CursorLineNr = { link = "CursorLine", fg = colors.text, style = { "bold" } },
-            CursorLineSign = { link = "CursorLine" },
-            GitSignsAddCul = { bg = colors.mantle, fg = colors.green },
-            GitSignsChangeCul = { bg = colors.mantle, fg = colors.yellow },
-            GitSignsDeleteCul = { bg = colors.mantle, fg = colors.red },
+            -- FzfLuaBorder = { fg = colors.surface1, bg = colors.base },
+            -- FzfLuaNormal = { bg = colors.base },
+            -- FzfLuaTitle = { fg = colors.crust, bg = colors.peach, style = { "bold" } },
+            -- FzfLuaPreviewTitle = { fg = colors.crust, bg = colors.blue, style = { "bold" } },
+            -- FzfLuaHeaderText = { fg = colors.overlay1 },
+            -- FzfLuaHeaderBind = { fg = colors.subtext1 },
+            -- FzfLuaFzfPrompt = { fg = colors.peach },
+            -- FzfLuaFzfPointer = { fg = colors.peach },
+            -- FzfLuaFzfHeader = { fg = colors.overlay0 },
 
             -- Completon
             BlinkCmpItemIdx = { fg = colors.surface2 },
-            BlinkCmpMenuSelection = { bg = colors.surface1, style = { "bold" } },
-            BlinkCmpDoc = { bg = colors.surface0 },
+            BlinkCmpLabelMatch = { fg = colors.yellow },
           }
         end,
       },
