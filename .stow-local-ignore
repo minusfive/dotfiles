@@ -37,3 +37,4 @@ _darcs
 \.luarc.json
 \.ruby-lsp
 \.repro
+\.stylua.*
