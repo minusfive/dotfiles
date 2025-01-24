@@ -74,9 +74,12 @@ return {
 
       -- Picker
       picker = {
-        layout = function()
-          return vim.o.columns >= 120 and "lg" or "sm"
-        end,
+        layout = {
+          cycle = true,
+          preset = function()
+            return vim.o.columns >= 120 and "lg" or "sm"
+          end,
+        },
 
         layouts = {
           lg = {
@@ -85,7 +88,7 @@ return {
               box = "horizontal",
               row = -1,
               width = 0,
-              height = 0.4,
+              height = 0.5,
               min_height = 20,
               {
                 box = "vertical",
@@ -155,6 +158,9 @@ return {
           },
         },
         sources = {
+          grep = {
+            hidden = true,
+          },
           files = {
             hidden = true,
           },
@@ -179,7 +185,7 @@ return {
       {
         "<leader><space>",
         function()
-          Snacks.picker.smart()
+          Snacks.picker.smart({ hidden = true })
         end,
         desc = "Find Files (Root Dir)",
       },
