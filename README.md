@@ -1,4 +1,4 @@
-# System Configuration Automation
+# Personal System Config
 
 To setup a new machine or update a current one, run:
 
