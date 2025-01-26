@@ -98,23 +98,17 @@ return {
         lualine_a = {
           {
             "bo:modified",
-            fmt = function(output)
-              return output == "true" and "󱇧" or nil
-            end,
+            fmt = function(output) return output == "true" and "󱇧" or nil end,
             color = { bg = colors.yellow },
           },
           {
             "bo:readonly",
-            fmt = function(output)
-              return output == "true" and "󰈡" or nil
-            end,
+            fmt = function(output) return output == "true" and "󰈡" or nil end,
             color = { bg = colors.red },
           },
           {
             "mode",
-            fmt = function(str)
-              return str:sub(1, 1)
-            end,
+            fmt = function(str) return str:sub(1, 1) end,
           },
         },
 
@@ -158,12 +152,8 @@ return {
 
       Snacks.toggle({
         name = "Cloak",
-        get = function()
-          return vim.b.cloak_enabled ~= false
-        end,
-        set = function()
-          require("cloak").toggle()
-        end,
+        get = function() return vim.b.cloak_enabled ~= false end,
+        set = function() require("cloak").toggle() end,
       }):map("<leader>**")
     end,
   },
