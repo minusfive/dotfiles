@@ -1,5 +1,5 @@
 --- Keymap Group: Lazy
-local kmg_lazy = "<leader>u<c-l>"
+local kmg_lazy = "<leader><c-l>"
 
 return {
   -- Text manipulation
@@ -35,6 +35,7 @@ return {
       preset = "helix",
       spec = {
         { kmg_lazy, group = "Lazy" },
+        { "<leader>l", group = "LSP", icon = { icon = " ", color = "cyan" } },
       },
       plugins = {
         marks = true,

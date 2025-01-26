@@ -3,7 +3,7 @@ local Logos = require("config.logos")
 return {
   {
     "folke/snacks.nvim",
-    -- dev = true,
+    dev = true,
 
     ---@type snacks.Config
     opts = {
@@ -76,9 +76,7 @@ return {
       picker = {
         layout = {
           cycle = true,
-          preset = function()
-            return vim.o.columns >= 120 and "lg" or "sm"
-          end,
+          preset = function() return vim.o.columns >= 120 and "lg" or "sm" end,
         },
 
         layouts = {
@@ -184,9 +182,7 @@ return {
     keys = {
       {
         "<leader><space>",
-        function()
-          Snacks.picker.smart({ hidden = true })
-        end,
+        function() Snacks.picker.smart({ hidden = true }) end,
         desc = "Find Files (Root Dir)",
       },
     },

@@ -57,8 +57,6 @@ return {
       --- Remove default LspInfo binding
       local keys = require("lazyvim.plugins.lsp.keymaps").get()
       table.insert(keys, { "<leader>cl", false })
-      --- Create a new which-key group
-      require("which-key").add({ "<leader>l", group = "LSP", icon = { icon = " ", color = "cyan" } })
     end,
   },
 }

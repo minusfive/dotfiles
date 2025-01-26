@@ -1,6 +1,6 @@
 local vault_name = "Personal"
-local vault_path_relative = "~/Notes/" .. vault_name
-local vault_path_absolute = vim.fn.expand(vault_path_relative)
+local vault_path = "~/Notes/" .. vault_name
+local vault_path_absolute = vim.fn.expand(vault_path)
 
 ---@param title string|?
 ---@return string
@@ -32,7 +32,6 @@ return {
     event = {
       -- if you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
       -- e.g. "bufreadpre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-      -- personal
       "bufreadpre "
         .. vault_path_absolute
         .. "/**.md",
@@ -53,8 +52,9 @@ return {
 
       -- optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
       completion = {
+        -- FIXME: Switch to using blink.cmp, potentially with blink.compat
         -- set to false to disable completion.
-        nvim_cmp = true,
+        -- nvim_cmp = true,
         -- trigger completion at 2 chars.
         min_chars = 2,
       },
@@ -68,7 +68,7 @@ return {
       workspaces = {
         {
           name = vault_name,
-          path = vault_path_relative,
+          path = vault_path,
         },
       },
 
