@@ -3,7 +3,7 @@ local Logos = require("config.logos")
 return {
   {
     "folke/snacks.nvim",
-    dev = true,
+    -- dev = true,
 
     ---@type snacks.Config
     opts = {

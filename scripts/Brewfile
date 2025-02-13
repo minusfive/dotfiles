@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+
+tap 'buo/cask-upgrade'
+
+brew 'mas' # Mac App Store
+brew 'zsh'
+brew 'eza' # `ls` replacement
+brew 'vivid' # `LS_COLORS` generator
+brew 'git'
+brew 'lazygit' # Git Terminal UI
+brew 'coreutils' # GNU core utilities
+brew 'neovim' # Preferred text editor
+brew 'stow' # Symlink manager
+brew 'fzf' # Fuzzy finder
+brew 'fd' # `find` replacement
+brew 'bat' # `cat` replacement
+brew 'ripgrep' # `grep` replacement
+brew 'zoxide' # `cd` replacement
+brew 'node'
+brew 'go'
+brew 'ruby'
+brew 'lua'
+brew 'luarocks'
+brew 'wget'
+brew 'htop' # `top` replacement
+brew 'yazi' # File manager in terminal
+brew 'gum' # Go based interactive shell script generator
+brew 'jq' # JSON processor
+
+cask '1password' # Password manager
+cask 'hammerspoon' # macOS automation
+cask 'wezterm@nightly' # Terminal emulator
+cask 'obsidian' # Note-taking
+cask 'betterdisplay' # Display configuration manager
+cask 'imageoptim' # Image optimizer
+cask 'discord' # Chat app
+cask 'gpg-suite' # GPG keychain
+cask 'google-chrome'
+
+# mas 'WhatsApp Messenger', id: 310_633_997
+mas '1Password for Safari', id: 1_569_813_296

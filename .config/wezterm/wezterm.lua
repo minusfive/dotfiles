@@ -7,9 +7,7 @@ local config = {}
 
 -- In newer versions of wezterm, use the config_builder which will
 -- help provide clearer error messages
-if wezterm.config_builder then
-  config = wezterm.config_builder()
-end
+if wezterm.config_builder then config = wezterm.config_builder() end
 
 -- This is where you actually apply your config choices
 -- Performance
@@ -18,7 +16,7 @@ config.animation_fps = 60
 
 -- Enable advanced features
 config.set_environment_variables = {
-  TERMINFO_DIRS = "$HOME/.config/wezterm/terminfo",
+  TERMINFO_DIRS = wezterm.home_dir .. "/.config/wezterm/terminfo",
   WSLENV = "TERMINFO_DIRS",
 }
 config.term = "wezterm"

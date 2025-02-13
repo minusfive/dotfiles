@@ -26,7 +26,7 @@ return {
   -- Keybindings help menu
   {
     "folke/which-key.nvim",
-    dev = true,
+    -- dev = true,
     optional = true,
 
     ---@module "which-key"
