@@ -16,11 +16,10 @@ brew 'fd' # `find` replacement
 brew 'bat' # `cat` replacement
 brew 'ripgrep' # `grep` replacement
 brew 'zoxide' # `cd` replacement
-brew 'node'
+brew 'libyaml' # dependency for ruby
+brew 'luarocks' # dependency for nvim
 brew 'go'
-brew 'ruby'
-brew 'lua'
-brew 'luarocks'
+brew 'mise' # version, environment manager
 brew 'wget'
 brew 'htop' # `top` replacement
 brew 'yazi' # File manager in terminal

@@ -149,19 +149,22 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Python
-path=(/usr/local/bin
-      /usr/local/sbin
-      $HOME/.local/bin
-      $path)
+path=(
+  # Coreutils
+  $(brew --prefix)/opt/coreutils/libexec/gnubin
 
-# Yarn
-path=($HOME/.yarn/bin
-      $XDG_CONFIG_HOME/yarn/global/node_modules/.bin
-      $path)
+  # yarn
+  $HOME/.yarn/bin
+  $XDG_CONFIG_HOME/yarn/global/node_modules/.bin
 
-# Coreutils
-path=($(brew --prefix)/opt/coreutils/libexec/gnubin $path)
+  # local
+  /usr/local/bin
+  /usr/local/sbin
+  $HOME/.local/bin
+
+  # default
+  $path
+)
 
 export PATH
 export FPATH
@@ -254,20 +257,20 @@ unset ZSH_AUTOSUGGEST_USE_ASYNC
 bindkey '^y' autosuggest-accept
 
 # Autoload python venv
-python_venv() {
-  local __dir_venv=./.venv
-  if [[ -d $__dir_venv ]]; then
-    # when you cd into a folder that contains $__dir_venv
-    source $__dir_venv/bin/activate > /dev/null 2>&1
-  else
-    # when you cd into a folder that doesn't
-    deactivate > /dev/null 2>&1
-  fi
-}
-autoload -U add-zsh-hook
-add-zsh-hook chpwd python_venv
-
-python_venv
+# python_venv() {
+#   local __dir_venv=./.venv
+#   if [[ -d $__dir_venv ]]; then
+#     # when you cd into a folder that contains $__dir_venv
+#     source $__dir_venv/bin/activate > /dev/null 2>&1
+#   else
+#     # when you cd into a folder that doesn't
+#     deactivate > /dev/null 2>&1
+#   fi
+# }
+# autoload -U add-zsh-hook
+# add-zsh-hook chpwd python_venv
+#
+# python_venv
 
 # Disable Next.js telemetry
 # https://nextjs.org/telemetry
@@ -275,3 +278,6 @@ export NEXT_TELEMETRY_DISABLED=1
 
 # Use 1Password SSH agent
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+
+# mise
+eval "$(mise activate zsh)"

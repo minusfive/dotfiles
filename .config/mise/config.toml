@@ -1,0 +1,7 @@
+[tools]
+go = "latest"
+lua = "5.1"
+node = "latest"
+python = "latest"
+ruby = "latest"
+rust = "latest"

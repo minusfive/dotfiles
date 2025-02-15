@@ -12,42 +12,42 @@ function {
   local __dotfiles_scripts_dir="$(dirname "$1")"
   local __dotfiles_dir="$(dirname "$__dotfiles_scripts_dir")"
 
-	export HOMEBREW_BUNDLE_FILE_GLOBAL="$__dotfiles_scripts_dir/Brewfile"
+  export HOMEBREW_BUNDLE_FILE_GLOBAL="$__dotfiles_scripts_dir/Brewfile"
 
   function log_info() { print -P "%F{blue}󰬐  $1%f" }
   function log_ok() { print -P "%F{green}󰄲  $1%f" }
   function log_error() { print -P "%F{red}󰡅  $1%f" }
 
-	# Install Homebrew
-	if [[ $(command -v brew) == "" ]]; then
-	    log_info "%UHomebrew%u not installed. Attempting install..."
-	    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # Install Homebrew
+  if [[ $(command -v brew) == "" ]]; then
+      log_info "%UHomebrew%u not installed. Attempting install..."
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-	    if [[ $? == 0 ]]; then
-		log_ok "%UHomebrew%u installed, adding to path..."
-		(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> $HOME/.zprofile
-		eval "$(/opt/homebrew/bin/brew shellenv)"
-	    fi
-	else
-		log_ok "%UHomebrew%u installed at $(which brew)"
-	fi
+      if [[ $? == 0 ]]; then
+    log_ok "%UHomebrew%u installed, adding to path..."
+    (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> $HOME/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+      fi
+  else
+    log_ok "%UHomebrew%u installed at $(which brew)"
+  fi
 
 
   echo "\n"
-	# Install Homebrew packages and apps
-	if [[ $(command -v brew) != "" ]]; then
-		if [[ ! -f $HOMEBREW_BUNDLE_FILE_GLOBAL ]]; then
-			log_error "%UBrewfile%u not found"
-			exit 1
-		fi
+  # Install Homebrew packages and apps
+  if [[ $(command -v brew) != "" ]]; then
+    if [[ ! -f $HOMEBREW_BUNDLE_FILE_GLOBAL ]]; then
+      log_error "%UBrewfile%u not found"
+      exit 1
+    fi
 
-		log_info "Installing %UHomebrew bundle%u"
-		brew bundle -v --global --cleanup --zap
+    log_info "Installing %UHomebrew bundle%u"
+    brew bundle -v --global --cleanup --zap
 
-		if [[ $? == 0 ]]; then
-			log_ok "%UHomebrew bundle%u installed"
-		fi
-	fi
+    if [[ $? == 0 ]]; then
+      log_ok "%UHomebrew bundle%u installed"
+    fi
+  fi
 
 
   echo "\n"
@@ -203,20 +203,35 @@ function {
     fi
   fi
 
-	# From https://github.com/ohmyzsh/ohmyzsh/blob/d82669199b5d900b50fd06dd3518c277f0def869/lib/cli.zsh#L668-L676
-	function __reload {
-		# Delete current completion cache
-		(command rm -f $_comp_dumpfile $ZSH_COMPDUMP) 2> /dev/null
+  echo "\n"
+  # Install mise dev tools
+  if [[ $(command -v mise) != "" ]]; then
+    log_info "Installing %Umise dev tools%u"
+    mise use -g go lua@5.1 node python ruby rust
 
-		# Old zsh versions don't have ZSH_ARGZERO
-		local zsh="${ZSH_ARGZERO:-${functrace[-1]%:*}}"
+    if [[ $? = 0 ]]; then
+      log_ok "%Umise dev tools%u installed"
+    fi
+  else
+    log_error "%Umise%u not found"
+    exit 1
+  fi
 
-		# Check whether to run a login shell
-		[[ "$zsh" = -* || -o login ]] && exec -l "${zsh#-}" || exec "$zsh"
-	}
+  # From https://github.com/ohmyzsh/ohmyzsh/blob/d82669199b5d900b50fd06dd3518c277f0def869/lib/cli.zsh#L668-L676
+  function __reload {
+    # Delete current completion cache
+    (command rm -f $_comp_dumpfile $ZSH_COMPDUMP) 2> /dev/null
 
-	echo "\n"
-	log_ok "Update complete, reloading shell..."
-	__reload
+    # Old zsh versions don't have ZSH_ARGZERO
+    local zsh="${ZSH_ARGZERO:-${functrace[-1]%:*}}"
+
+    # Check whether to run a login shell
+    [[ "$zsh" = -* || -o login ]] && exec -l "${zsh#-}" || exec "$zsh"
+  }
+
+  echo "\n"
+  log_ok "Update complete, %Ureloading shell%u..."
+  __reload
+
 } $(realpath $0)
 
