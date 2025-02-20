@@ -191,7 +191,6 @@ return {
             layout = {
               preset = responsiveLayout,
               preview = true,
-              height = 0.75,
             },
           },
           files = {
