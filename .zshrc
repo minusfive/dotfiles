@@ -110,7 +110,6 @@ plugins=(
   docker
   fast-syntax-highlighting
   git
-  mise
   terraform
   virtualenv
   # yarn # Keyboard commands conflict with Yazi's CLI
@@ -280,4 +279,7 @@ export NEXT_TELEMETRY_DISABLED=1
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
 # mise
+export MISE_NODE_DEFAULT_PACKAGES_FILE="$XDG_CONFIG_HOME/mise/default-npm-packages"
+export MISE_PYTHON_DEFAULT_PACKAGES_FILE="$XDG_CONFIG_HOME/mise/default-python-packages"
+export MISE_RUBY_DEFAULT_PACKAGES_FILE="$XDG_CONFIG_HOME/mise/default-gems"
 eval "$(mise activate zsh)"

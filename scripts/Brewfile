@@ -18,7 +18,6 @@ brew 'ripgrep' # `grep` replacement
 brew 'zoxide' # `cd` replacement
 brew 'libyaml' # dependency for ruby
 brew 'luarocks' # dependency for nvim
-brew 'go'
 brew 'mise' # version, environment manager
 brew 'wget'
 brew 'htop' # `top` replacement

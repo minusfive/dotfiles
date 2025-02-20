@@ -207,10 +207,11 @@ function {
   # Install mise dev tools
   if [[ $(command -v mise) != "" ]]; then
     log_info "Installing %Umise dev tools%u"
-    mise use -g go lua@5.1 node python ruby rust
+    mise install
+    mise prune
 
     if [[ $? = 0 ]]; then
-      log_ok "%Umise dev tools%u installed"
+      log_ok "%Umise dev tools%u installed and pruned"
     fi
   else
     log_error "%Umise%u not found"
