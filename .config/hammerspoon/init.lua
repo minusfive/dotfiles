@@ -53,6 +53,7 @@ local baseSpecs = {
   { hk.mods.meh, "r", "Reminders", al:openApp("Reminders") },
   { hk.mods.meh, "s", "Safari", al:openApp("Safari") },
   { hk.mods.meh, "t", "WezTerm", al:openApp("WezTerm") },
+  { hk.mods.hyper, "t", "Microsoft Teams", al:openApp("Microsoft Teams") },
   { hk.mods.meh, "w", "WhatsApp", al:openApp("WhatsApp") },
   { hk.mods.meh, "x", "Microsoft Excel", al:openApp("Microsoft Excel") },
   { hk.mods.meh, "z", "Zoom.us", al:openApp("Zoom.us") },
@@ -145,9 +146,10 @@ local modeWindowManager = {
 }
 
 -- Append commonModalSpecs to each modal's specs
-hs.fnutils.each({ modeSystem, modeWindowManager }, function(modalSpec)
-  modalSpec.specs = hs.fnutils.concat(modalSpec.specs, commonModalSpecs)
-end)
+hs.fnutils.each(
+  { modeSystem, modeWindowManager },
+  function(modalSpec) modalSpec.specs = hs.fnutils.concat(modalSpec.specs, commonModalSpecs) end
+)
 
 hk:bindHotkeys({
   specs = baseSpecs,
