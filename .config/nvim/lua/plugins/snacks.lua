@@ -188,10 +188,6 @@ return {
         sources = {
           explorer = {
             hidden = true,
-            layout = {
-              preset = responsiveLayout,
-              preview = true,
-            },
           },
           files = {
             hidden = true,
