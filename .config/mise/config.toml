@@ -11,12 +11,12 @@ ruby = "latest"
 
 python = "latest"
 
-[settings]
-paranoid = true
-experimental = true
-
 [tasks.postinstall]
 run = ['pip install pynvim']
 
 [hooks]
 postinstall = 'mise run postinstall'
+
+[settings]
+# paranoid = true
+experimental = true
