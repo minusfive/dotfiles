@@ -62,6 +62,7 @@ return {
   -- Statusline, Winbar and Bufferline (buffer tabs) configuration
   {
     "nvim-lualine/lualine.nvim",
+    optional = true,
     opts = function(_, opts)
       local colors = require("catppuccin.palettes").get_palette("mocha")
 
@@ -90,9 +91,12 @@ return {
       opts.sections.lualine_y = { "branch" }
       opts.sections.lualine_z = {}
 
-      vim.list_extend(opts.options.disabled_filetypes.statusline, { "neo-tree" })
-      vim.list_extend(opts.options.disabled_filetypes.statusline, { "edgy" })
-      opts.options.disabled_filetypes.winbar = vim.deepcopy(opts.options.disabled_filetypes.statusline)
+      vim.list_extend(
+        opts.options.disabled_filetypes.statusline,
+        { "neo-tree", "edgy", "snacks_picker_input", "snacks_picker_list", "snacks_picker_preview" }
+      )
+
+      opts.options.disabled_filetypes.winbar = vim.list_extend({}, opts.options.disabled_filetypes.statusline)
 
       opts.winbar = {
         lualine_a = {

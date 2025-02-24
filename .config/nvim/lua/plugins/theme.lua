@@ -77,7 +77,7 @@ return {
             SnacksPickerPreviewCursorLine = { link = "SnacksPickerCursorLine" },
             SnacksPickerPreviewTitle = { bg = colors.sapphire, fg = colors.base },
             SnacksPickerPrompt = { link = "Command" },
-            SnacksPickerFlag = vim.tbl_extend("force", {}, search_hl, { style = { "italic" } }),
+            SnacksPickerToggle = vim.tbl_extend("force", {}, search_hl, { style = { "italic" } }),
 
             -- Make some elements more subtle
             SnacksIndent = { fg = colors.surface0 },
@@ -135,9 +135,7 @@ return {
       -- transparent = true,
       use_background = "dark",
 
-      on_colors = function(colors)
-        colors.border_highlight = colors.dark3
-      end,
+      on_colors = function(colors) colors.border_highlight = colors.dark3 end,
 
       on_highlights = function(highlights, colors)
         highlights.CursorLine.bg = colors.bg_dark

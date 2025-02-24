@@ -1,0 +1,3 @@
+[hooks]
+enter = "wezterm cli set-tab-title Dot"
+leave = "wezterm cli set-tab-title ''"

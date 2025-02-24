@@ -1,0 +1,22 @@
+[tools]
+go = "latest"
+lua = "5.1"
+rust = "latest"
+
+node = "lts"
+"npm:neovim" = "latest"
+
+ruby = "latest"
+"gem:neovim" = "latest"
+
+python = "latest"
+
+[tasks.postinstall]
+run = ['pip install pynvim']
+
+[hooks]
+postinstall = 'mise run postinstall'
+
+[settings]
+# paranoid = true
+experimental = true

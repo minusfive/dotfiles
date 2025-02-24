@@ -1,5 +1,4 @@
 # Comments and blank lines are allowed.
-.stowrc       # This should be used for this repo, not globally
 
 RCS
 .+,v
@@ -13,7 +12,7 @@ _darcs
 \.hg
 
 \.git
-# \.gitignore
+\.gitignore
 \.gitmodules
 
 .+~           # emacs backup files
@@ -28,12 +27,15 @@ _darcs
 \.Trash
 
 # Project
+.stowrc       # This should be used for this repo, not globally
 ^/assets
 ^/nix
 ^/scripts
 ^/tests
 ^/flake.nix
 ^/flake.lock
+^/\.mise.local.toml
+^/\.mise.toml
 \.luarc.json
 \.ruby-lsp
 \.repro

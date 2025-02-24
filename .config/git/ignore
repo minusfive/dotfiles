@@ -72,3 +72,7 @@ Last.fm
 # Copilot
 # #######
 .config/github-copilot
+
+# mise
+# ####
+mise.local.toml

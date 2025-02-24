@@ -3,61 +3,57 @@
 # Exit immediately if a command fails and treat unset vars as error
 set -eu
 
+# Exit immediately if a command fails and treat unset vars as error
+set -eu
+
 # Immediately invoked anonymous function with the script's path as its only argument
 # used to contain variables and functions in a local scope
 function {
   local __dotfiles_scripts_dir="$(dirname "$1")"
   local __dotfiles_dir="$(dirname "$__dotfiles_scripts_dir")"
-  local __flake_system="personal"
 
-  function __log_info() { print -P "%F{blue}󰬐  $1%f" }
-  function __log_ok() { print -P "%F{green}󰄲  $1%f" }
-  function __log_error() { print -P "%F{red}󰡅  $1%f" }
+  export HOMEBREW_BUNDLE_FILE_GLOBAL="$__dotfiles_scripts_dir/Brewfile"
 
-  # Install nix
-  if [[ $(command -v nix) == "" ]]; then
-    echo "\n"
-    __log_info "%UNix%u not installed. Attempting install..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  function log_info() { print -P "%F{blue}󰬐  $1%f" }
+  function log_ok() { print -P "%F{green}󰄲  $1%f" }
+  function log_error() { print -P "%F{red}󰡅  $1%f" }
 
-    if [[ $? == 0 ]]; then
-      __log_ok "%UNix%u installed, starting service..."
+  # Install Homebrew
+  if [[ $(command -v brew) == "" ]]; then
+      log_info "%UHomebrew%u not installed. Attempting install..."
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-      # Start the nix daemon without restarting the shell
-      source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-    fi
+      if [[ $? == 0 ]]; then
+        log_ok "%UHomebrew%u installed, adding to path..."
+        (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> $HOME/.zprofile
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+      fi
   else
-    __log_ok "%UNix%u already installed"
+    log_ok "%UHomebrew%u installed at $(which brew)"
   fi
 
-  # Install nix-darwin
-  if [[ $(command -v nix) != "" && $(command -v darwin-rebuild) == "" ]]; then
-    echo "\n"
-    __log_info "%Unix-darwin%u not installed, installing..."
-    nix run nix-darwin -- switch --flake "$__dotfiles_dir#$__flake_system"
 
-    if [[ $? == 0 ]]; then
-      __log_ok "%Unix-darwin%u installed"
+  echo "\n"
+  # Install Homebrew packages and apps
+  if [[ $(command -v brew) != "" ]]; then
+    if [[ ! -f $HOMEBREW_BUNDLE_FILE_GLOBAL ]]; then
+      log_error "%UBrewfile%u not found"
+      exit 1
     fi
-  else
-    __log_ok "%Unix-darwin%u already installed"
-  fi
 
-  # Apply nix-darwin configuration
-  if [[ $(command -v darwin-rebuild) != "" ]]; then
-    echo "\n"
-    __log_info "Applying %Unix-darwin%u changes..."
-    darwin-rebuild switch --flake "$__dotfiles_dir#$__flake_system"
+    log_info "Installing %UHomebrew bundle%u"
+    brew bundle -v --global --cleanup --zap
 
     if [[ $? == 0 ]]; then
-      __log_ok "%Unix-darwin%u changes applied"
+      log_ok "%UHomebrew bundle%u installed"
     fi
   fi
 
+
+  echo "\n"
   # Symlink dotfiles
   if [[ $(command -v stow) != "" ]]; then
-    echo "\n"
-    __log_info "%UGNU Stow%u found, symlinking dotfiles"
+    log_info "%UGNU Stow%u found, symlinking dotfiles"
 
     # CD to dotfiles dir and then back when done
     local __from_dir="$PWD"
@@ -78,24 +74,149 @@ function {
       echo "- CWD: $PWD"
     fi
   else
-    echo "\n"
-    __log_error "%UGNU Stow%u not found"
+    log_error "%UGNU Stow%u not found"
     exit 1
   fi
 
-  # Update Yazi packages
-  if [[ $(command -v ya) != "" ]]; then
-    echo "\n"
-    __log_info "Updating %UYazi%u packages..."
-    ya pack -u
+
+  echo "\n"
+  # Configure OS settings
+  if [[ $(defaults read org.hammerspoon.Hammerspoon MJConfigFile 2> /dev/null) == "~/.config/hammerspoon/init.lua" ]]; then
+    log_ok "%UHammerspoon%u config dir set to XDG"
+  else
+    log_info "Configuring %UHammerspoon%u to read config from XDG dir"
+    defaults write org.hammerspoon.Hammerspoon MJConfigFile "~/.config/hammerspoon/init.lua"
+
+    if [[ $? == 0 ]]; then
+      log_ok "%UHammerspoon%u config dir set to XDG"
+    fi
   fi
 
-  # TODO: Reactivate?
-  # Update NPM packages
-  # if [[ $(command -v npm) != "" ]]; then
-  #   echo "\n- Install + update NPM packages..."
-  #   npm install -g npm@latest neovim
-  # fi
+  echo "\n"
+  # Install OhMyZsh
+  if [[ -d ${ZSH:-$HOME/.oh-my-zsh} ]]; then
+    log_ok "%UOhMyZsh%u already installed"
+  else
+    log_info "Installing %UOhMyZsh%u"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+    if [[ $? == 0 ]]; then
+      log_ok "%UOhMyZsh%u installed"
+    fi
+  fi
+
+  echo "\n"
+  # Install PowerLevel10K
+  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k ]]; then
+    log_ok "%UPowerLevel10K%u already installed"
+  else
+    log_info "Installing %UPowerLevel10K%u"
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+      ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+    if [[ $? == 0 ]]; then
+      log_ok "%UPowerLevel10K%u installed"
+    fi
+  fi
+
+  echo "\n"
+  # Install fast-syntax-highlighting
+  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting ]]; then
+    log_ok "%Ufast-syntax-highlighting%u already installed"
+  else
+    log_info "Installing %Ufast-syntax-highlighting%u"
+    git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
+      ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+
+    if [[ $? == 0 ]]; then
+      log_ok "%Ufast-syntax-highlighting%u installed"
+    fi
+  fi
+
+  echo "\n"
+  # Install zsh-autosuggestions
+  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
+    log_ok "%Uzsh-autosuggestions%u already installed"
+  else
+    log_info "Installing %Uzsh-autosuggestions%u"
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions \
+      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+    if [[ $? == 0 ]]; then
+      log_ok "%Ufast-syntax-highlighting%u installed"
+    fi
+  fi
+
+  echo "\n"
+  # Install fzf-tab
+  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab ]]; then
+    log_ok "%Ufzf-tab%u already installed"
+  else
+    log_info "Installing %Ufzf-tab%u"
+    git clone --depth=1 https://github.com/Aloxaf/fzf-tab \
+      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
+
+    if [[ $? == 0 ]]; then
+      log_ok "%Ufzf-tab%u installed"
+    fi
+  fi
+
+  echo "\n"
+  # Install fzf-tab-source
+  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab-source ]]; then
+    log_ok "%Ufzf-tab-source%u already installed"
+  else
+    log_info "Installing %Ufzf-tab-source%u"
+    git clone --depth=1 https://github.com/Freed-Wu/fzf-tab-source \
+      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab-source
+
+    if [[ $? == 0 ]]; then
+      log_ok "%Ufzf-tab-source%u installed"
+    fi
+  fi
+
+  echo "\n"
+  # Install zsh-vi-mode
+  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-vi-mode ]]; then
+    log_ok "%Uzsh-vi-mode%u already installed"
+  else
+    log_info "Installing %Uzsh-vi-mode%u"
+    git clone --depth=1 https://github.com/jeffreytse/zsh-vi-mode \
+      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-vi-mode
+
+    if [[ $? == 0 ]]; then
+      log_ok "%Uzsh-vi-mode%u installed"
+    fi
+  fi
+
+  echo "\n"
+  # Install OhMyZsh Full-autoupdate
+  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate ]]; then
+    log_ok "%UOhMyZsh Full-autoupdate%u already installed"
+  else
+    log_info "Installing %UOhMyZsh Full-autoupdate%u"
+    git clone --depth=1 https://github.com/Pilaton/OhMyZsh-full-autoupdate.git \
+      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
+
+    if [[ $? == 0 ]]; then
+      log_ok "%UOhMyZsh Full-autoupdate%u installed"
+    fi
+  fi
+
+  echo "\n"
+  # Install mise dev tools
+  if [[ $(command -v mise) != "" ]]; then
+    log_info "Installing %Umise dev tools%u"
+    mise install
+    mise prune
+
+    if [[ $? = 0 ]]; then
+      log_ok "%Umise dev tools%u installed and pruned"
+    fi
+  else
+    log_error "%Umise%u not found"
+    exit 1
+  fi
 
   # From https://github.com/ohmyzsh/ohmyzsh/blob/d82669199b5d900b50fd06dd3518c277f0def869/lib/cli.zsh#L668-L676
   function __reload {
@@ -104,12 +225,14 @@ function {
 
     # Old zsh versions don't have ZSH_ARGZERO
     local zsh="${ZSH_ARGZERO:-${functrace[-1]%:*}}"
+
     # Check whether to run a login shell
     [[ "$zsh" = -* || -o login ]] && exec -l "${zsh#-}" || exec "$zsh"
   }
 
   echo "\n"
-  __log_ok "Update complete, reloading shell..."
+  log_ok "Update complete, %Ureloading shell%u..."
   __reload
+
 } $(realpath $0)
 
