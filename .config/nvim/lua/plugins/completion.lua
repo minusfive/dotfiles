@@ -60,7 +60,13 @@ return {
 
       -- TODO: Explore other ways of reverting overrides?
       -- Force enable commandline completion
-      cmdline = require("blink.cmp.config").cmdline,
+      cmdline = vim.tbl_deep_extend("force", {}, require("blink.cmp.config").cmdline, {
+        keymap = { preset = "super-tab" },
+        completion = {
+          menu = { auto_show = true },
+          ghost_text = { enabled = true },
+        },
+      }),
 
       sources = {
         providers = {
