@@ -27,12 +27,22 @@ local wo = {
 
 local function responsiveLayout() return vim.o.columns >= 120 and "lg" or "sm" end
 
+local pickerWinCommonKeymaps = {
+  ["<c-/>"] = {
+    function()
+      if package.loaded["which-key"] then require("which-key").show({ global = false }) end
+    end,
+    desc = "Show which-key",
+    mode = { "n", "i", "v" },
+  },
+}
+
 return {
   {
     "folke/snacks.nvim",
     -- dev = true,
 
-    ---@type snacks.Config.base
+    ---@type snacks.Config|{}
     opts = {
       -- Animation
       animate = {
@@ -46,11 +56,21 @@ return {
 
         preset = {
           header = Logos.v2,
-          keys = {},
+          keys = {
+            { icon = " ", key = "s", desc = "Session Restore", section = "session" },
+            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+            { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
+            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+          },
         },
 
         sections = {
           { section = "header", padding = { 0, 0 } },
+          { section = "session", key = "s", desc = "Session Restore", hidden = true },
+          { key = "q", desc = "Quit", action = ":qa", hidden = true },
+          -- { title = "", padding = { 1, 0 }, align = "center" },
+          -- { section = "keys", padding = { 0, 0 } },
+          -- { title = "", padding = { 1, 0 }, align = "center" },
 
           --- Stats
           function()
@@ -105,7 +125,6 @@ return {
 
         layouts = {
           lg = {
-            preview = true,
             layout = {
               box = "horizontal",
               row = -1,
@@ -141,7 +160,6 @@ return {
           },
 
           sm = {
-            preview = true,
             fullscreen = true,
             layout = {
               box = "vertical",
@@ -177,6 +195,7 @@ return {
         sources = {
           explorer = {
             hidden = true,
+            focus = "input",
           },
           files = {
             hidden = true,
@@ -187,6 +206,18 @@ return {
           smart = {
             hidden = true,
             filter = { cwd = true },
+          },
+        },
+
+        win = {
+          input = {
+            keys = pickerWinCommonKeymaps,
+          },
+          list = {
+            keys = pickerWinCommonKeymaps,
+          },
+          preview = {
+            keys = pickerWinCommonKeymaps,
           },
         },
       },

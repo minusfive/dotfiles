@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-tap 'buo/cask-upgrade'
+tap 'buo/cask-upgrade' # auto-upgrade casks
 
 brew 'mas' # Mac App Store
 brew 'zsh' # Shell
