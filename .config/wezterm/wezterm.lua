@@ -1,5 +1,7 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
+local catppuccin = wezterm.plugin.require("https://github.com/minusfive/catppuccin-wezterm")
+
 local act = wezterm.action
 
 -- This table will hold the configuration.
@@ -24,39 +26,41 @@ config.term = "wezterm"
 -- Default working directory
 config.default_cwd = wezterm.home_dir .. "/dev"
 
--- Theme
--- local tokyo_night_mod = wezterm.color.get_builtin_schemes()["tokyonight_night"]
--- -- tokyo_night_mod.background = "#16161e"
--- -- tokyo_night_mod.background = "#1a1b26"
--- tokyo_night_mod.tab_bar.background = tokyo_night_mod.tab_bar.inactive_tab_edge
--- tokyo_night_mod.tab_bar.new_tab.bg_color = tokyo_night_mod.background
--- tokyo_night_mod.tab_bar.active_tab.intensity = "Bold"
--- tokyo_night_mod.tab_bar.active_tab.bg_color = tokyo_night_mod.background
--- tokyo_night_mod.tab_bar.inactive_tab.bg_color = tokyo_night_mod.tab_bar.background
+-- Get theme for customization
+local ctp = wezterm.color.get_builtin_schemes()["Catppuccin Mocha"]
 
-config.color_scheme = "Catppuccin Mocha"
--- config.color_schemes = { ["tokyonight_mod"] = tokyo_night_mod }
--- config.command_palette_bg_color = tokyo_night_mod.background
-config.command_palette_font_size = 18.0
+-- Tab bar
+config.use_fancy_tab_bar = false -- Use retro tab bar
 config.hide_tab_bar_if_only_one_tab = true
-config.macos_window_background_blur = 20
-config.quick_select_alphabet = "ARSTQWFPZXCVNEIOLUYMDHGJBK"
 config.show_new_tab_button_in_tab_bar = false
 config.tab_max_width = 30
--- config.tab_bar_style = {
--- 	active_tab_left = wezterm.format({
--- 		{ Background = { Color = tokyo_night_mod.tab_bar.active_tab.bg_color } },
--- 		{ Foreground = { Color = tokyo_night_mod.tab_bar.active_tab.fg_color } },
--- 		{ Text = "  " },
--- 	}),
--- }
-config.underline_position = -8
-config.use_fancy_tab_bar = false
--- config.window_background_gradient = {
--- 	colors = { tokyo_night_mod.background, tokyo_night_mod.tab_bar.background },
--- 	orientation = "Vertical",
--- }
--- config.window_background_opacity = 0.925
+ctp.tab_bar.active_tab.intensity = "Bold"
+ctp.tab_bar.inactive_tab.bg_color = catppuccin.colors.mocha.crust
+ctp.tab_bar.inactive_tab.fg_color = catppuccin.colors.mocha.overlay2
+ctp.tab_bar.inactive_tab.intensity = "Half"
+ctp.tab_bar.inactive_tab_hover.fg_color = ctp.tab_bar.inactive_tab.fg_color
+ctp.tab_bar.inactive_tab_hover.intensity = "Normal"
+wezterm.on("format-tab-title", function(tab)
+  local title = tab.tab_title
+
+  if (not title) or #title <= 0 then title = tab.active_pane.title end
+
+  return {
+    { Text = "  " .. title .. " " },
+    { Foreground = { Color = catppuccin.colors.mocha.base } },
+    { Text = "🮇" },
+  }
+end)
+
+-- Command and character selection palettes
+config.command_palette_bg_color = catppuccin.colors.mocha.surface1
+config.command_palette_fg_color = catppuccin.colors.mocha.text
+config.command_palette_font_size = 18
+config.char_select_bg_color = catppuccin.colors.mocha.surface1
+config.char_select_fg_color = catppuccin.colors.mocha.text
+config.char_select_font_size = 18
+
+-- Windows
 config.window_decorations = "RESIZE"
 config.window_padding = {
   bottom = 0,
@@ -64,26 +68,40 @@ config.window_padding = {
   right = 0,
   top = 0,
 }
+
+-- Panes
+config.inactive_pane_hsb = {
+  brightness = 0.7,
+  saturation = 0.9,
+}
+
+-- Use Colemak-DH for quick select, prioritizing inward rolls
+config.quick_select_alphabet = "ARSTGQWFPBZXCDVOIENMYULJHK"
+
 -- Cursor
 config.cursor_blink_rate = 333
 config.default_cursor_style = "BlinkingBlock"
 
--- Fonts
+-- Fonts & Typography
 config.font = wezterm.font({
   family = "JetBrains Mono",
   harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
 })
--- config.font = wezterm.font("Berkeley Mono")
 config.font_size = 18.0
 config.line_height = 1.25
 config.adjust_window_size_when_changing_font_size = false
 config.custom_block_glyphs = true
 config.anti_alias_custom_block_glyphs = true
 config.bold_brightens_ansi_colors = true
+config.underline_position = -8
 
 -- Keys
 config.enable_kitty_keyboard = true
 config.enable_csi_u_key_encoding = false
+
+-- Set customized theme
+config.color_schemes = { ["Catppuccin Mocha (minusfive)"] = ctp }
+config.color_scheme = "Catppuccin Mocha (minusfive)"
 
 -- Show active workspace in the status area
 -- wezterm.on("update-right-status", function(window, pane)
@@ -99,6 +117,7 @@ config.enable_csi_u_key_encoding = false
 -- 	window:set_right_status(name or "")
 -- end)
 
+-- Key mappings
 config.leader = {
   key = "Space",
   mods = "OPT",
