@@ -15,7 +15,7 @@
   ci = commit
   co = checkout
   br = branch
-  lg = log -p
+  lgd = log -p
   lgg = log --color --graph --pretty=format:'%C(cyan)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit
   ls = ls-files
   ign = ls-files -o -i --exclude-standard
