@@ -26,4 +26,3 @@
 -- Delete problematic keymaps
 vim.keymap.del("n", "<leader>L")
 vim.keymap.del("n", "<leader>l")
-vim.keymap.del("n", "<leader>w")

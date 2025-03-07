@@ -1,11 +1,38 @@
 local Logos = require("config.logos")
 
+-- Borders
+local border = {
+  topPad = { "", " ", "", "", "", "", "", "" },
+}
+
+-- Window options
+local wo = {
+  snacks = {
+    picker = {
+      list = {
+        statuscolumn = "%#SnacksPickerListItemSign#%{v:relnum?'▎':''}%#SnacksPickerListItemSignCursorLine#%{v:relnum?'':'▎'}",
+        number = true,
+        numberwidth = 1,
+        relativenumber = true,
+      },
+      preview = {
+        foldcolumn = "0",
+        number = true,
+        relativenumber = false,
+        signcolumn = "no",
+      },
+    },
+  },
+}
+
+local function responsiveLayout() return vim.o.columns >= 120 and "lg" or "sm" end
+
 return {
   {
     "folke/snacks.nvim",
-    dev = true,
+    -- dev = true,
 
-    ---@type snacks.Config
+    ---@type snacks.Config.base
     opts = {
       -- Animation
       animate = {
@@ -19,22 +46,11 @@ return {
 
         preset = {
           header = Logos.v2,
-          keys = {
-            { icon = " ", key = "s", desc = "Session Restore", section = "session" },
-            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-            { icon = " ", key = "f", desc = "Find File", action = "<leader><space>" },
-            { icon = " ", key = "g", desc = "Find Text (grep)", action = ":lua Snacks.dashboard.pick('live_grep')" },
-            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-            { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
-            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
-          },
+          keys = {},
         },
 
         sections = {
           { section = "header", padding = { 0, 0 } },
-          { title = "", padding = { 1, 0 }, align = "center" },
-          { section = "keys", padding = { 0, 0 } },
-          { title = "", padding = { 1, 0 }, align = "center" },
 
           --- Stats
           function()
@@ -76,7 +92,15 @@ return {
       picker = {
         layout = {
           cycle = true,
-          preset = function() return vim.o.columns >= 120 and "lg" or "sm" end,
+          preset = responsiveLayout,
+        },
+
+        icons = {
+          ui = {
+            hidden = "󰘓 ",
+            ignored = "󰷊 ",
+            follow = " ",
+          },
         },
 
         layouts = {
@@ -86,7 +110,7 @@ return {
               box = "horizontal",
               row = -1,
               width = 0,
-              height = 0.5,
+              height = 0.51,
               min_height = 20,
               {
                 box = "vertical",
@@ -94,18 +118,24 @@ return {
                 {
                   win = "input",
                   height = 1,
-                  border = { "", " ", "", "", "", "", "", "" },
+                  border = border.topPad,
                   title = "{source} {live} {flags}",
                   title_pos = "center",
                 },
-                { win = "list", border = "top" },
+                {
+                  win = "list",
+                  border = "top",
+                  wo = wo.snacks.picker.list,
+                },
               },
               {
                 win = "preview",
                 title = "{preview}",
                 title_pos = "center",
-                width = 0.5,
+                width = 0.56,
                 border = "vpad",
+                minimal = true,
+                wo = wo.snacks.picker.preview,
               },
             },
           },
@@ -122,45 +152,41 @@ return {
                 title_pos = "center",
                 height = 0.5,
                 border = "top",
+                minimal = true,
+                wo = wo.snacks.picker.preview,
               },
               {
                 box = "vertical",
                 { win = "input", height = 1, border = "top", title = "{source} {live} {flags}", title_pos = "center" },
-                { win = "list", border = "top" },
+                {
+                  win = "list",
+                  border = "top",
+                  wo = wo.snacks.picker.list,
+                },
               },
             },
           },
         },
+
         formatters = {
           file = {
             filename_first = true,
           },
         },
-        win = {
-          list = {
-            wo = {
-              statuscolumn = "%#SnacksPickerListItemSign#%{v:relnum?'▎':''}%#SnacksPickerListItemSignCursorLine#%{v:relnum?'':'▎'}",
-              number = true,
-              numberwidth = 1,
-              relativenumber = true,
-            },
-          },
-          preview = {
-            minimal = true,
-            wo = {
-              foldcolumn = "0",
-              number = true,
-              relativenumber = false,
-              signcolumn = "no",
-            },
-          },
-        },
+
         sources = {
-          grep = {
+          explorer = {
             hidden = true,
           },
           files = {
             hidden = true,
+          },
+          grep = {
+            hidden = true,
+          },
+          smart = {
+            hidden = true,
+            filter = { cwd = true },
           },
         },
       },
@@ -182,7 +208,7 @@ return {
     keys = {
       {
         "<leader><space>",
-        function() Snacks.picker.smart({ hidden = true }) end,
+        function() Snacks.picker.smart() end,
         desc = "Find Files (Root Dir)",
       },
     },
