@@ -46,3 +46,5 @@ alias fzf='fzf '
 # Yazi
 alias f='y'
 
+# Lazygit
+alias lg='lazygit'
