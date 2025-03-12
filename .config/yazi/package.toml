@@ -1,8 +1,9 @@
-[plugin]
-deps = [
-  { use = "yazi-rs/plugins:git", rev = "600614a" },
-  { use = "yazi-rs/plugins:no-status", rev = "600614a" },
-]
+[[plugin.deps]]
+use = "yazi-rs/plugins:no-status"
+rev = "3d0c7c6"
+hash = "513a23ac28e1eaa626f3a1bb6c8130d0"
 
-[flavor]
-deps = [{ use = "yazi-rs/flavors:catppuccin-mocha", rev = "fc8eeaa" }]
+[[flavor.deps]]
+use = "yazi-rs/flavors:catppuccin-mocha"
+rev = "c023460"
+hash = "2ac87e1b3a61f5887472899e86535d29"
