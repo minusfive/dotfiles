@@ -1,7 +1,9 @@
 [tools]
+aws-cli = "latest"
 go = "latest"
 lua = "5.1"
 rust = "latest"
+vault = "latest"
 
 node = "lts"
 "npm:neovim" = "latest"
