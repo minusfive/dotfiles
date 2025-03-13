@@ -150,7 +150,10 @@ fi
 
 path=(
   # Coreutils
-  $(brew --prefix)/opt/coreutils/libexec/gnubin
+  $(brew --prefix coreutils)/libexec/gnubin
+
+  # git diff-highlight
+  $(brew --prefix git)/share/git-core/contrib/diff-highlight
 
   # yarn
   $HOME/.yarn/bin
