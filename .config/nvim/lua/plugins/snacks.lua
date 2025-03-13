@@ -54,23 +54,13 @@ return {
       dashboard = {
         width = 50,
 
-        preset = {
-          header = Logos.v2,
-          keys = {
-            { icon = " ", key = "s", desc = "Session Restore", section = "session" },
-            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-            { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
-            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
-          },
-        },
+        preset = { header = Logos.v2 },
 
         sections = {
           { section = "header", padding = { 0, 0 } },
-          { section = "session", key = "s", desc = "Session Restore", hidden = true },
-          { key = "q", desc = "Quit", action = ":qa", hidden = true },
-          -- { title = "", padding = { 1, 0 }, align = "center" },
-          -- { section = "keys", padding = { 0, 0 } },
-          -- { title = "", padding = { 1, 0 }, align = "center" },
+          { key = "l", hidden = true, desc = "Lazy", action = ":Lazy" },
+          { key = "q", hidden = true, desc = "Quit", action = ":qa" },
+          { key = "s", hidden = true, desc = "Session Restore", section = "session" },
 
           --- Stats
           function()
