@@ -25,7 +25,6 @@ function {
 
       if [[ $? == 0 ]]; then
         log_ok "%UHomebrew%u installed, adding to path..."
-        (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> $HOME/.zprofile
         eval "$(/opt/homebrew/bin/brew shellenv)"
       fi
   else
