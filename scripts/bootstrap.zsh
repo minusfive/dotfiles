@@ -1,10 +1,7 @@
 #!/usr/bin/env zsh
 
 # Exit immediately if a command fails and treat unset vars as error
-set -eu
-
-# Exit immediately if a command fails and treat unset vars as error
-set -eu
+set -euo pipefail
 
 # Immediately invoked anonymous function with the script's path as its only argument
 # used to contain variables and functions in a local scope
@@ -80,16 +77,7 @@ function {
 
   echo "\n"
   # Configure OS settings
-  if [[ $(defaults read org.hammerspoon.Hammerspoon MJConfigFile 2> /dev/null) == "~/.config/hammerspoon/init.lua" ]]; then
-    log_ok "%UHammerspoon%u config dir set to XDG"
-  else
-    log_info "Configuring %UHammerspoon%u to read config from XDG dir"
-    defaults write org.hammerspoon.Hammerspoon MJConfigFile "~/.config/hammerspoon/init.lua"
-
-    if [[ $? == 0 ]]; then
-      log_ok "%UHammerspoon%u config dir set to XDG"
-    fi
-  fi
+  source "$__dotfiles_scripts_dir/macos/defaults.zsh"
 
   echo "\n"
   # Install OhMyZsh
