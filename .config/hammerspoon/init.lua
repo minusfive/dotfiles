@@ -39,45 +39,26 @@ hs.alert.defaultStyle = {
 ---@type hs.hotkey.KeySpec[]
 local baseSpecs = {
   -- Apps
-  { hk.mods.meh, "d", "Discord", al:openApp("Discord") },
+  -- meh + a: AppLauncher mode (one shot)
+  -- hyper + a: AppLauncher mode (sticky)
+  { hk.mods.hyper, "d", "Discord", al:openApp("Discord") },
   { hk.mods.meh, "e", "Microsoft Outlook", al:openApp("Microsoft Outlook") }, -- Email
   { hk.mods.meh, "f", "Finder", al:openApp("Finder") },
   { hk.mods.meh, "g", "Google Chrome", al:openApp("Google Chrome") },
   { hk.mods.meh, "h", "Hammerspoon", al:openApp("Hammerspoon") },
-  { hk.mods.hyper, "h", "Hints", hs.hints.windowHints },
-  { hk.mods.meh, "k", "Slack", al:openApp("Slack") }, -- Chat, Channels
   { hk.mods.meh, "m", "Messages", al:openApp("Messages") },
   { hk.mods.meh, "n", "Notes", al:openApp("Notes") },
-  { hk.mods.meh, "o", "Obsidian", al:openApp("Obsidian") },
+  { hk.mods.hyper, "n", "Obsidian", al:openApp("Obsidian") }, -- Notes
   { hk.mods.meh, "p", "1Password", al:openApp("1Password") },
   { hk.mods.meh, "r", "Reminders", al:openApp("Reminders") },
   { hk.mods.meh, "s", "Safari", al:openApp("Safari") },
+  { hk.mods.hyper, "s", "Slack", al:openApp("Slack") },
   { hk.mods.meh, "t", "WezTerm", al:openApp("WezTerm") },
   { hk.mods.hyper, "t", "Microsoft Teams", al:openApp("Microsoft Teams") },
-  { hk.mods.meh, "w", "WhatsApp", al:openApp("WhatsApp") },
+  -- meh + w: Window manager mode (one shot)
+  -- hyper + w: Window manager mode (sticky)
   { hk.mods.meh, "x", "Microsoft Excel", al:openApp("Microsoft Excel") },
   { hk.mods.meh, "z", "Zoom.us", al:openApp("Zoom.us") },
-
-  -- Window Layouts
-  -- Top Row
-  { hk.mods.meh, "1", "1/4 1", wm:move(wm.layout.first25) },
-  { hk.mods.meh, "2", "1/4 2", wm:move(wm.layout.second25) },
-  { hk.mods.meh, "3", "1/4 3", wm:move(wm.layout.third25) },
-  { hk.mods.meh, "4", "1/4 4", wm:move(wm.layout.fourth25) },
-
-  { hk.mods.meh, "=", "Grow Width", wm.growX },
-  { hk.mods.meh, "-", "Shrink Width", wm.shrinkX },
-  { hk.mods.hyper, "=", "Grow Height", wm.growY },
-  { hk.mods.hyper, "-", "Shrink Height", wm.shrinkY },
-
-  -- Middle Row
-  { hk.mods.meh, "7", "1/3 Left", wm:move(wm.layout.left33) },
-  { hk.mods.meh, "8", "1/3 Center", wm:move(wm.layout.center33) },
-  { hk.mods.meh, "9", "1/3 Right", wm:move(wm.layout.right33) },
-
-  { hk.mods.meh, "6", "1/2 Left", wm:move(wm.layout.left50) },
-  { hk.mods.meh, "space", "1/2 Center", wm:move(wm.layout.center50) },
-  { hk.mods.meh, "0", "1/2 Right", wm:move(wm.layout.right50) },
 }
 
 -- Modal hotkeys
@@ -92,7 +73,7 @@ local commonModalSpecs = {
 -- System manipulation mode
 ---@type Hotkeys.ModalSpec
 local modeSystem = {
-  trigger = { hk.mods.hyper, "s", "System" },
+  trigger = { hk.mods.meh, ",", "System" }, -- `cmd + ,` is the standard shortcut for preferences on macOS
   isOneShot = true,
   specs = {
     { {}, "a", "Activity Monitor", al:openApp("Activity Monitor") },
@@ -111,51 +92,106 @@ local modeSystem = {
   },
 }
 
--- Window manager mode
+-- AppLauncher mode
+---@type hs.hotkey.KeySpec[]
+local appLauncherSpecs = {
+  { {}, "w", "WhatsApp", al:openApp("WhatsApp") },
+}
+
 ---@type Hotkeys.ModalSpec
-local modeWindowManager = {
-  trigger = { hk.mods.hyper, "w", "Window" },
+local modeAppLauncherOneShot = {
+  trigger = { hk.mods.meh, "a", "App Launcher" },
   isOneShot = true,
-  specs = {
-    { {}, "up", "1/2 Top", wm:move(wm.layout.top50) },
-    { {}, "down", "1/2 Bottom", wm:move(wm.layout.bottom50) },
+  specs = appLauncherSpecs,
+}
 
-    -- Corners
-    { { "shift" }, "1", "1/4 Top-Left", wm:move(wm.layout.topLeft25) },
-    { { "shift" }, "2", "1/4 Top-Right", wm:move(wm.layout.topRigh25) },
-    { { "shift" }, "3", "1/4 Bottom-Left", wm:move(wm.layout.bottomLeft25) },
-    { { "shift" }, "4", "1/4 Bottom-Right", wm:move(wm.layout.bottomRigh25) },
+---@type Hotkeys.ModalSpec
+local modeAppLauncherSticky = {
+  trigger = { hk.mods.hyper, "a", "App Launcher" },
+  specs = appLauncherSpecs,
+}
 
-    -- Move
-    { {}, "[", "Move Left", wm.moveL },
-    { {}, "]", "Move Right", wm.moveR },
-    { { "shift" }, "[", "Prev Screen", wm.screenPrev },
-    { { "shift" }, "]", "Next Screen", wm.screenNext },
-
-    { {}, "c", "Center", wm.center },
-
-    -- Resize
-    { {}, "=", "Grow Width", wm.growX },
-    { {}, "-", "Shrink Width", wm.shrinkX },
-    { { "shift" }, "=", "Grow Height", wm.growY },
-    { { "shift" }, "-", "Shrink Height", wm.shrinkY },
-
-    { {}, "m", "Maximize", wm.maximixe },
-    { {}, "f", "Full Screen", wm.toggleFullScreen },
+-- Window manager mode
+---@type hs.hotkey.KeySpec[]
+local windowModeSpecs = {
+  {
+    {},
+    "h",
+    "Hints",
+    function()
+      hs.hints.windowHints()
+      hk:activeModeExit()
+    end,
   },
+
+  -- Corners
+  { { "shift" }, "1", "1/4 Top-Left", wm:move(wm.layout.topLeft25) },
+  { { "shift" }, "2", "1/4 Top-Right", wm:move(wm.layout.topRigh25) },
+  { { "shift" }, "3", "1/4 Bottom-Left", wm:move(wm.layout.bottomLeft25) },
+  { { "shift" }, "4", "1/4 Bottom-Right", wm:move(wm.layout.bottomRigh25) },
+
+  -- Move
+  { {}, "up", "1/2 Top", wm:move(wm.layout.top50) },
+  { {}, "down", "1/2 Bottom", wm:move(wm.layout.bottom50) },
+
+  { {}, "[", "Move Left", wm.moveL },
+  { {}, "]", "Move Right", wm.moveR },
+
+  { { "shift" }, "[", "Prev Screen", wm.screenPrev },
+  { { "shift" }, "]", "Next Screen", wm.screenNext },
+
+  { { "shift" }, "c", "Center", wm.center },
+
+  { {}, "q", "1/4 1", wm:move(wm.layout.first25) },
+  { {}, "w", "1/4 2", wm:move(wm.layout.second25) },
+  { {}, "f", "1/4 3", wm:move(wm.layout.third25) },
+  { {}, "p", "1/4 4", wm:move(wm.layout.fourth25) },
+
+  { {}, "r", "1/3 Left", wm:move(wm.layout.left33) },
+  { {}, "s", "1/3 Center", wm:move(wm.layout.center33) },
+  { {}, "t", "1/3 Right", wm:move(wm.layout.right33) },
+
+  { {}, "x", "1/2 Left", wm:move(wm.layout.left50) },
+  { {}, "c", "1/2 Center", wm:move(wm.layout.center50) },
+  { {}, "d", "1/2 Right", wm:move(wm.layout.right50) },
+
+  -- Resize
+  { {}, "m", "Maximize", wm.maximixe },
+  { {}, "f", "Full Screen", wm.toggleFullScreen },
+
+  { {}, "=", "Grow Width", wm.growX },
+  { {}, "-", "Shrink Width", wm.shrinkX },
+  { { "shift" }, "=", "Grow Height", wm.growY },
+  { { "shift" }, "-", "Shrink Height", wm.shrinkY },
+}
+
+---@type Hotkeys.ModalSpec
+local modeWindowManagerOneShot = {
+  trigger = { hk.mods.meh, "w", "Window" },
+  isOneShot = true,
+  specs = windowModeSpecs,
+}
+
+---@type Hotkeys.ModalSpec
+local modeWindowManagerSticky = {
+  trigger = { hk.mods.hyper, "w", "Window" },
+  specs = windowModeSpecs,
 }
 
 -- Append commonModalSpecs to each modal's specs
 hs.fnutils.each(
-  { modeSystem, modeWindowManager },
+  { modeAppLauncherOneShot, modeAppLauncherSticky, modeSystem, modeWindowManagerOneShot, modeWindowManagerSticky },
   function(modalSpec) modalSpec.specs = hs.fnutils.concat(modalSpec.specs, commonModalSpecs) end
 )
 
 hk:bindHotkeys({
   specs = baseSpecs,
   modes = {
+    modeAppLauncherOneShot,
+    modeAppLauncherSticky,
     modeSystem,
-    modeWindowManager,
+    modeWindowManagerOneShot,
+    modeWindowManagerSticky,
   },
 })
 
