@@ -9,204 +9,17 @@ function {
   local __dotfiles_scripts_dir="$(dirname "$1")"
   local __dotfiles_dir="$(dirname "$__dotfiles_scripts_dir")"
 
-  export HOMEBREW_BUNDLE_FILE_GLOBAL="$__dotfiles_scripts_dir/Brewfile"
-
-  function log_info() { print -P "%F{blue}󰬐  $1%f" }
-  function log_ok() { print -P "%F{green}󰄲  $1%f" }
-  function log_error() { print -P "%F{red}󰡅  $1%f" }
-
-  # Install Homebrew
-  if [[ $(command -v brew) == "" ]]; then
-      log_info "%UHomebrew%u not installed. Attempting install..."
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-      if [[ $? == 0 ]]; then
-        log_ok "%UHomebrew%u installed, adding to path..."
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-      fi
-  else
-    log_ok "%UHomebrew%u installed at $(which brew)"
-  fi
-
-
-  echo "\n"
-  # Install Homebrew packages and apps
-  if [[ $(command -v brew) != "" ]]; then
-    if [[ ! -f $HOMEBREW_BUNDLE_FILE_GLOBAL ]]; then
-      log_error "%UBrewfile%u not found"
-      exit 1
-    fi
-
-    log_info "Installing %UHomebrew bundle%u"
-    brew bundle -v --global --cleanup --zap
-
-    if [[ $? == 0 ]]; then
-      log_ok "%UHomebrew bundle%u installed"
-    fi
-  fi
-
-
-  echo "\n"
-  # Symlink dotfiles
-  if [[ $(command -v stow) != "" ]]; then
-    log_info "%UGNU Stow%u found, symlinking dotfiles"
-
-    # CD to dotfiles dir and then back when done
-    local __from_dir="$PWD"
-
-    if [[ $__from_dir != $__dotfiles_dir ]]; then
-      echo "- CWD: $PWD"
-      echo "- Switching to $__dotfiles_dir"
-      cd "$__dotfiles_dir"
-      echo "- CWD: $PWD"
-    fi
-
-    stow -vR .
-
-    if [[ $PWD != $__from_dir ]]; then
-      echo "- CWD: $PWD"
-      echo "- Switching back to $__from_dir"
-      cd "$__from_dir"
-      echo "- CWD: $PWD"
-    fi
-  else
-    log_error "%UGNU Stow%u not found"
-    exit 1
-  fi
-
-
-  echo "\n"
-  # Configure OS settings
-  source "$__dotfiles_scripts_dir/macos/defaults.zsh"
-
-  echo "\n"
-  # Install OhMyZsh
-  if [[ -d ${ZSH:-$HOME/.oh-my-zsh} ]]; then
-    log_ok "%UOhMyZsh%u already installed"
-  else
-    log_info "Installing %UOhMyZsh%u"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-    if [[ $? == 0 ]]; then
-      log_ok "%UOhMyZsh%u installed"
-    fi
-  fi
-
-  echo "\n"
-  # Install PowerLevel10K
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k ]]; then
-    log_ok "%UPowerLevel10K%u already installed"
-  else
-    log_info "Installing %UPowerLevel10K%u"
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
-      ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
-    if [[ $? == 0 ]]; then
-      log_ok "%UPowerLevel10K%u installed"
-    fi
-  fi
-
-  echo "\n"
-  # Install fast-syntax-highlighting
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting ]]; then
-    log_ok "%Ufast-syntax-highlighting%u already installed"
-  else
-    log_info "Installing %Ufast-syntax-highlighting%u"
-    git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
-      ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
-
-    if [[ $? == 0 ]]; then
-      log_ok "%Ufast-syntax-highlighting%u installed"
-    fi
-  fi
-
-  echo "\n"
-  # Install zsh-autosuggestions
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
-    log_ok "%Uzsh-autosuggestions%u already installed"
-  else
-    log_info "Installing %Uzsh-autosuggestions%u"
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions \
-      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
-    if [[ $? == 0 ]]; then
-      log_ok "%Ufast-syntax-highlighting%u installed"
-    fi
-  fi
-
-  echo "\n"
-  # Install fzf-tab
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab ]]; then
-    log_ok "%Ufzf-tab%u already installed"
-  else
-    log_info "Installing %Ufzf-tab%u"
-    git clone --depth=1 https://github.com/Aloxaf/fzf-tab \
-      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
-
-    if [[ $? == 0 ]]; then
-      log_ok "%Ufzf-tab%u installed"
-    fi
-  fi
-
-  echo "\n"
-  # Install fzf-tab-source
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab-source ]]; then
-    log_ok "%Ufzf-tab-source%u already installed"
-  else
-    log_info "Installing %Ufzf-tab-source%u"
-    git clone --depth=1 https://github.com/Freed-Wu/fzf-tab-source \
-      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab-source
-
-    if [[ $? == 0 ]]; then
-      log_ok "%Ufzf-tab-source%u installed"
-    fi
-  fi
-
-  echo "\n"
-  # Install zsh-vi-mode
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-vi-mode ]]; then
-    log_ok "%Uzsh-vi-mode%u already installed"
-  else
-    log_info "Installing %Uzsh-vi-mode%u"
-    git clone --depth=1 https://github.com/jeffreytse/zsh-vi-mode \
-      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-vi-mode
-
-    if [[ $? == 0 ]]; then
-      log_ok "%Uzsh-vi-mode%u installed"
-    fi
-  fi
-
-  echo "\n"
-  # Install OhMyZsh Full-autoupdate
-  if [[ -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate ]]; then
-    log_ok "%UOhMyZsh Full-autoupdate%u already installed"
-  else
-    log_info "Installing %UOhMyZsh Full-autoupdate%u"
-    git clone --depth=1 https://github.com/Pilaton/OhMyZsh-full-autoupdate.git \
-      ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
-
-    if [[ $? == 0 ]]; then
-      log_ok "%UOhMyZsh Full-autoupdate%u installed"
-    fi
-  fi
-
-  echo "\n"
-  # Install mise dev tools
-  if [[ $(command -v mise) != "" ]]; then
-    log_info "Installing %Umise dev tools%u"
-    mise install
-    mise prune
-
-    if [[ $? = 0 ]]; then
-      log_ok "%Umise dev tools%u installed and pruned"
-    fi
-  else
-    log_error "%Umise%u not found"
-    exit 1
-  fi
+  function _v::fmt::u() { print -P "%U$@%u" }
+  function _v::color::fg() { print -P "%F{$1}${@:2}%f" }
+  function _v::log::error() { print -P "$(_v::color::fg red 󰡅  " $1")" }
+  function _v::log::info() { print -P "$(_v::color::fg blue 󰬐  " $1")" }
+  function _v::log::ok() { print -P "$(_v::color::fg green 󰄲  " $1")" }
+  function _v::log::warn() { print -P "$(_v::color::fg yellow 󰀩  " $1")" }
+  function _v::q() { print -P "$(_v::color::fg magenta   " $1?") $(_v::color::fg green "(y/n)") " }
 
   # From https://github.com/ohmyzsh/ohmyzsh/blob/d82669199b5d900b50fd06dd3518c277f0def869/lib/cli.zsh#L668-L676
-  function __reload {
+  function _v::reload {
+    _v::log::warn "Reloading Zsh..."
     # Delete current completion cache
     (command rm -f $_comp_dumpfile $ZSH_COMPDUMP) 2> /dev/null
 
@@ -217,9 +30,84 @@ function {
     [[ "$zsh" = -* || -o login ]] && exec -l "${zsh#-}" || exec "$zsh"
   }
 
-  echo "\n"
-  log_ok "Update complete, %Ureloading shell%u..."
-  __reload
 
+  # Homebrew and Homebrew packages installation
+  vared -p "$(_v::q "Install $(_v::fmt::u Homebrew and Homebrew apps)")" -c REPLY
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    _v::log::info "Installing $(_v::fmt::u "Homebrew and Homebrew apps")"
+    source "$__dotfiles_scripts_dir/brew.zsh"
+  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+    _v::log::warn "Skipping $(_v::fmt::u "Homebrew and Homebrew apps") installation"
+  else
+    _v::log::error "Invalid input"
+    exit 1
+  fi
+  unset REPLY
+  echo "\n"
+
+
+  # Symlink dotfiles
+  vared -p "$(_v::q "Symlink $(_v::fmt::u dotfiles)")" -c REPLY
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    _v::log::info "Symlinking $(_v::fmt::u dotfiles)"
+    # Symlink dotfiles
+    source "$__dotfiles_scripts_dir/symlink.zsh"
+  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+    _v::log::warn "Skipping $(_v::fmt::u dotfiles) symlinking"
+  else
+    _v::log::error "Invalid input"
+    exit 1
+  fi
+  unset REPLY
+  echo "\n"
+
+
+  # Configure OS settings
+  vared -p "$(_v::q "Configure $(_v::fmt::u OS settings)")" -c REPLY
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    _v::log::info "Configuring $(_v::fmt::u OS settings)"
+    source "$__dotfiles_scripts_dir/os.zsh"
+  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+    _v::log::warn "Skipping $(_v::fmt::u OS settings) configuration"
+  else
+    _v::log::error "Invalid input"
+    exit 1
+  fi
+  unset REPLY
+  echo "\n"
+
+
+  # Install Zsh theme + plugins
+  vared -p "$(_v::q "Install $(_v::fmt::u Zsh theme + plugins)")" -c REPLY
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    _v::log::info "Installing $(_v::fmt::u Zsh theme + plugins)"
+    source "$__dotfiles_scripts_dir/zsh.zsh"
+  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+    _v::log::warn "Skipping $(_v::fmt::u Zsh theme + plugins) installation"
+  else
+    _v::log::error "Invalid input"
+    exit 1
+  fi
+  unset REPLY
+  echo "\n"
+
+
+  # Install mise dev tools
+  vared -p "$(_v::q "Install $(_v::fmt::u mise dev tools)")" -c REPLY
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    _v::log::info "Installing $(_v::fmt::u mise dev tools)"
+    source "$__dotfiles_scripts_dir/mise.zsh"
+  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+    _v::log::warn "Skipping $(_v::fmt::u mise dev tools) installation"
+  else
+    _v::log::error "Invalid input"
+    exit 1
+  fi
+  unset REPLY
+  echo "\n"
+
+
+  _v::log::ok "Bootstrap complete"
+  _v::reload
 } $(realpath $0)
 
