@@ -185,7 +185,6 @@ return {
         sources = {
           explorer = {
             hidden = true,
-            focus = "input",
           },
           files = {
             hidden = true,
