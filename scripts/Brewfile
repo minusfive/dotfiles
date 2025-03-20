@@ -21,7 +21,7 @@ brew 'zoxide' # `cd` replacement
 brew 'libyaml' # dependency for ruby
 brew 'luarocks' # dependency for nvim
 brew 'mise' # version, environment manager
-brew 'direnv' # per-directory environment manager
+brew 'docker' # Container manager
 brew 'htop' # `top` replacement
 brew 'yazi' # File manager in terminal
 brew 'gum' # Go based interactive shell script generator
