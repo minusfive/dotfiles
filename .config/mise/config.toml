@@ -22,3 +22,4 @@ postinstall = 'mise run postinstall'
 [settings]
 # paranoid = true
 experimental = true
+env_file = ".env"
