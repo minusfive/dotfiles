@@ -56,17 +56,17 @@ local function __toggleMenuBarItem(isActive)
 end
 
 -- Toggles system caffeination
----@param shouldActivate? boolean
+---@param shouldActivate? boolean | table
 function Caffeine.toggle(shouldActivate)
   ---@type boolean | nil
-  local isActive = false
-
-  if shouldActivate == nil then
-    isActive = hs.caffeinate.toggle(__sleepType)
-  else
+  if type(shouldActivate) == "boolean" then
     hs.caffeinate.set(__sleepType, shouldActivate)
-    isActive = shouldActivate
+  else
+    hs.caffeinate.toggle(__sleepType)
   end
+
+  ---@type boolean | nil
+  local isActive = hs.caffeinate.get(__sleepType)
 
   __persistState(isActive)
   __toggleMenuBarItem(isActive)
