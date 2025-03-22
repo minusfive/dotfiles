@@ -14,7 +14,7 @@ ruby = "latest"
 python = "latest"
 
 [tasks.postinstall]
-run = ['pip install --upgrade pip', 'pip install --upgrade pynvim']
+run = ['pip install --upgrade pip', 'pip install --upgrade pipx pynvim']
 
 [hooks]
 postinstall = 'mise run postinstall'
