@@ -5,6 +5,23 @@ local function get_keymap_for_idx(idx)
   return "M-" .. (idx % 10)
 end
 
+local function get_indexed_keymap()
+  ---@type blink.cmp.KeymapConfig
+  local keymap = { preset = "super-tab", ["<C-S-y>"] = { "select_and_accept" } }
+
+  -- Add indexed selection keymaps
+  for i = 1, 10 do
+    local idx_keymap = get_keymap_for_idx(i)
+    if not idx_keymap then break end
+
+    keymap["<" .. idx_keymap .. ">"] = {
+      function(cmp) cmp.accept({ index = i }) end,
+    }
+  end
+
+  return keymap
+end
+
 return {
   {
     "saghen/blink.cmp",
@@ -35,33 +52,14 @@ return {
         },
       },
 
-      keymap = (function()
-        ---@type blink.cmp.KeymapConfig
-        local keymap = {
-          preset = "super-tab",
-          -- ["<Up>"] = require("blink.cmp.keymap.presets").enter["<Up>"],
-          -- ["<Down>"] = require("blink.cmp.keymap.presets").enter["<Down>"],
-        }
-
-        -- Add indexed selection keymaps
-        for i = 1, 10 do
-          local idx_keymap = get_keymap_for_idx(i)
-          if not idx_keymap then break end
-
-          keymap["<" .. idx_keymap .. ">"] = {
-            function(cmp) cmp.accept({ index = i }) end,
-          }
-        end
-
-        return keymap
-      end)(),
+      keymap = get_indexed_keymap(),
 
       -- signature = { enabled = true },
 
       -- TODO: Explore other ways of reverting overrides?
       -- Force enable commandline completion
       cmdline = vim.tbl_deep_extend("force", {}, require("blink.cmp.config").cmdline, {
-        keymap = { preset = "super-tab" },
+        keymap = get_indexed_keymap(),
         completion = {
           menu = { auto_show = true },
           ghost_text = { enabled = true },
