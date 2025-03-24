@@ -12,6 +12,7 @@ ruby = "latest"
 "gem:neovim" = "latest"
 
 python = "latest"
+uv = "latest"
 
 [tasks.postinstall]
 run = ['pip install --upgrade pip', 'pip install --upgrade pipx pynvim']
