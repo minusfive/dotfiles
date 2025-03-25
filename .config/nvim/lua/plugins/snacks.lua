@@ -62,6 +62,18 @@ return {
           { key = "q", hidden = true, desc = "Quit", action = ":qa" },
           { key = "s", hidden = true, desc = "Session Restore", section = "session" },
 
+          --- Neovim Version
+          function()
+            return {
+              align = "center",
+              padding = { 1, 0 },
+              text = {
+                { "Neovim ", hl = "footer" },
+                { tostring(vim.version()), hl = "special" },
+              },
+            }
+          end,
+
           --- Stats
           function()
             local stats = Snacks.dashboard.lazy_stats
@@ -73,7 +85,7 @@ return {
               padding = { 0, 0 },
               text = {
                 { tostring(stats.loaded), hl = "special" },
-                { " out of ", hl = "footer" },
+                { " / ", hl = "footer" },
                 { tostring(stats.count), hl = "special" },
                 { " plugins loaded in ", hl = "footer" },
                 { ms .. "ms", hl = "special" },
