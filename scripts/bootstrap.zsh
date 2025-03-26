@@ -15,7 +15,7 @@ function {
   function _v::log::info() { print -P "$(_v::color::fg blue 󰬐  " $1")" }
   function _v::log::ok() { print -P "$(_v::color::fg green 󰄲  " $1")" }
   function _v::log::warn() { print -P "$(_v::color::fg yellow 󰀩  " $1")" }
-  function _v::q() { print -P "$(_v::color::fg magenta   " $1?") $(_v::color::fg green "(y/n)") " }
+  function _v::q() { print -P "$(_v::color::fg magenta   " $1?") $(_v::color::fg green "(y/N)") " }
 
   # From https://github.com/ohmyzsh/ohmyzsh/blob/d82669199b5d900b50fd06dd3518c277f0def869/lib/cli.zsh#L668-L676
   function _v::reload {
@@ -36,7 +36,7 @@ function {
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     _v::log::info "Installing $(_v::fmt::u "Homebrew and Homebrew apps")"
     source "$__dotfiles_scripts_dir/brew.zsh"
-  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+  elif [[ $REPLY == "" || $REPLY =~ ^[Nn]$ ]]; then
     _v::log::warn "Skipping $(_v::fmt::u "Homebrew and Homebrew apps") installation"
   else
     _v::log::error "Invalid input"
@@ -52,7 +52,7 @@ function {
     _v::log::info "Symlinking $(_v::fmt::u dotfiles)"
     # Symlink dotfiles
     source "$__dotfiles_scripts_dir/symlink.zsh"
-  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+  elif [[ $REPLY == "" || $REPLY =~ ^[Nn]$ ]]; then
     _v::log::warn "Skipping $(_v::fmt::u dotfiles) symlinking"
   else
     _v::log::error "Invalid input"
@@ -67,7 +67,7 @@ function {
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     _v::log::info "Configuring $(_v::fmt::u OS settings)"
     source "$__dotfiles_scripts_dir/os.zsh"
-  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+  elif [[ $REPLY == "" || $REPLY =~ ^[Nn]$ ]]; then
     _v::log::warn "Skipping $(_v::fmt::u OS settings) configuration"
   else
     _v::log::error "Invalid input"
@@ -82,7 +82,7 @@ function {
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     _v::log::info "Installing $(_v::fmt::u Zsh theme + plugins)"
     source "$__dotfiles_scripts_dir/zsh.zsh"
-  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+  elif [[ $REPLY == "" || $REPLY =~ ^[Nn]$ ]]; then
     _v::log::warn "Skipping $(_v::fmt::u Zsh theme + plugins) installation"
   else
     _v::log::error "Invalid input"
@@ -97,7 +97,7 @@ function {
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     _v::log::info "Installing $(_v::fmt::u mise dev tools)"
     source "$__dotfiles_scripts_dir/mise.zsh"
-  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+  elif [[ $REPLY == "" || $REPLY =~ ^[Nn]$ ]]; then
     _v::log::warn "Skipping $(_v::fmt::u mise dev tools) installation"
   else
     _v::log::error "Invalid input"
