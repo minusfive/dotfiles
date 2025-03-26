@@ -41,11 +41,12 @@ local baseSpecs = {
   -- Apps
   -- meh + a: AppLauncher mode (one shot)
   -- hyper + a: AppLauncher mode (sticky)
+  { hk.mods.meh, "e", "Microsoft Outlook", al:openApp("Microsoft Outlook") }, -- email
   { hk.mods.meh, "f", "Finder", al:openApp("Finder") },
   { hk.mods.meh, "g", "Google Chrome", al:openApp("Google Chrome") },
   { hk.mods.meh, "h", "Hammerspoon", al:openApp("Hammerspoon") },
   { hk.mods.meh, "n", "Notes", al:openApp("Notes") },
-  { hk.mods.meh, "o", "Microsoft Outlook", al:openApp("Microsoft Outlook") },
+  { hk.mods.meh, "o", "Obsidian", al:openApp("Obsidian") },
   { hk.mods.meh, "p", "1Password", al:openApp("1Password") },
   { hk.mods.meh, "r", "Reminders", al:openApp("Reminders") },
   { hk.mods.meh, "s", "Safari", al:openApp("Safari") },
@@ -93,7 +94,6 @@ local modeSystem = {
 local appLauncherSpecs = {
   { {}, "d", "Discord", al:openApp("Discord") },
   { {}, "m", "Messages", al:openApp("Messages") },
-  { {}, "o", "Obsidian", al:openApp("Obsidian") },
   { {}, "w", "WhatsApp", al:openApp("WhatsApp") },
   { {}, "s", "Slack", al:openApp("Slack") },
 }
