@@ -106,6 +106,15 @@ function {
   unset REPLY
   echo "\n"
 
+  if [[ $(command -v bat) != "" ]]; then
+    _v::log::info "Refreshing $(_v::fmt::u Bat) cache"
+    bat cache --build
+
+    if [[ $? == 0 ]]; then
+      _v::log::ok "$(_v::fmt::u Bat) cache refreshed"
+    fi
+    echo "\n"
+  fi
 
   _v::log::ok "Bootstrap complete"
   _v::reload
