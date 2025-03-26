@@ -83,7 +83,8 @@ config.inactive_pane_hsb = {
 }
 
 -- Use Colemak-DH for quick select, prioritizing inward rolls
-config.quick_select_alphabet = "ARSTGQWFPBZXCDVOIENMYULJHK"
+config.launcher_alphabet = "arstgqwfpbzxcdvoienmyuljhkARSTGQWFPBZXCDVOIENMYULJHK1234567890"
+config.quick_select_alphabet = config.launcher_alphabet
 
 -- Cursor
 config.cursor_blink_rate = 333
@@ -116,13 +117,11 @@ config.color_scheme = "Catppuccin Mocha (minusfive)"
 -- end)
 
 -- Show which key table is active in the status area
--- wezterm.on("update-right-status", function(window, pane)
--- 	local name = window:active_key_table()
--- 	if name then
--- 		name = "TABLE: " .. name
--- 	end
--- 	window:set_right_status(name or "")
--- end)
+wezterm.on("update-right-status", function(window)
+  local name = window:active_key_table()
+  if name then name = "TABLE: " .. name end
+  window:set_right_status(name or "")
+end)
 
 -- Key mappings
 config.leader = {
@@ -130,126 +129,63 @@ config.leader = {
   mods = "OPT",
 }
 
+local directionMap = {
+  Down = "Bottom",
+  Left = "Left",
+  Right = "Right",
+  Up = "Top",
+}
+
+---@class ActivateOrSplitPaneOpts
+---@field direction "Up" | "Down" | "Left" | "Right"
+---@field key? string
+---@field mods? string
+
+---@param opts ActivateOrSplitPaneOpts
+local function activateOrSplitPane(opts)
+  return {
+    key = opts.key or (opts.direction .. "Arrow"),
+    mods = opts.mods,
+    action = wezterm.action_callback(function(_, pane)
+      wezterm.log_info("Splitting pane " .. opts.direction)
+      local pane_at_direction = pane:tab():get_pane_direction(opts.direction)
+      if pane_at_direction then
+        pane_at_direction:activate()
+        return
+      end
+
+      pane:split({ direction = directionMap[opts.direction] })
+    end),
+  }
+end
+
 config.keys = {
-  -- TODO: Investigate "ActivateOrSplitPane" https://github.com/wez/wezterm/discussions/2388#discussioncomment-3371519
+  activateOrSplitPane({ mods = "CMD", direction = "Right" }),
+  activateOrSplitPane({ mods = "CMD", direction = "Left" }),
+  activateOrSplitPane({ mods = "CMD", direction = "Down" }),
+  activateOrSplitPane({ mods = "CMD", direction = "Up" }),
 
-  -- Workspaces
-  -- { key = "n", mods = "CTRL", action = act.SwitchWorkspaceRelative(1) },
-  -- { key = "p", mods = "CTRL", action = act.SwitchWorkspaceRelative(-1) },
+  { mods = "SHIFT", key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 2 }) },
+  { mods = "SHIFT", key = "RightArrow", action = act.AdjustPaneSize({ "Right", 2 }) },
+  { mods = "SHIFT", key = "UpArrow", action = act.AdjustPaneSize({ "Up", 2 }) },
+  { mods = "SHIFT", key = "DownArrow", action = act.AdjustPaneSize({ "Down", 2 }) },
 
-  -- Split pane
-  {
-    key = "g",
-    mods = "CMD",
-    action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-  },
+  { mods = "LEADER", key = "c", action = act.ActivateCopyMode },
+  { mods = "LEADER", key = "s", action = act.QuickSelect },
 
-  {
-    key = "s",
-    mods = "CMD",
-    action = act.SplitPane({ direction = "Left" }),
-  },
+  { mods = "OPT", key = "s", action = act.PaneSelect },
+  { mods = "OPT", key = "S", action = act.PaneSelect({ mode = "SwapWithActive" }) },
 
-  {
-    key = "p",
-    mods = "CMD",
-    action = act.SplitPane({ direction = "Up" }),
-  },
+  { mods = "CMD", key = "z", action = act.TogglePaneZoomState },
 
-  {
-    key = "d",
-    mods = "CMD",
-    action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
-  },
+  { mods = "CMD", key = "p", action = act.ActivateCommandPalette },
 
-  {
-    key = "s",
-    mods = "CMD|OPT",
-    action = act.PaneSelect,
-  },
+  { mods = "CMD|OPT", key = "t", action = act.ShowTabNavigator },
 
-  {
-    key = "p",
-    mods = "CMD|SHIFT",
-    action = act.PaneSelect({ mode = "SwapWithActive" }),
-  },
+  { mods = "CMD", key = "w", action = act.CloseCurrentPane({ confirm = true }) },
+  { mods = "CMD", key = "W", action = act.CloseCurrentTab({ confirm = true }) },
 
-  {
-    key = "z",
-    mods = "CMD",
-    action = act.TogglePaneZoomState,
-  },
-
-  {
-    key = "t",
-    mods = "CMD|OPT",
-    action = act.ShowTabNavigator,
-  },
-
-  {
-    key = "w",
-    mods = "CMD",
-    action = act.CloseCurrentPane({ confirm = true }),
-  },
-
-  {
-    key = "w",
-    mods = "CMD|SHIFT",
-    action = act.CloseCurrentTab({ confirm = true }),
-  },
-
-  {
-    key = "w",
-    mods = "CMD|ALT",
-    action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }),
-  },
-
-  {
-    key = "LeftArrow",
-    mods = "CMD",
-    action = act.ActivatePaneDirection("Left"),
-  },
-
-  {
-    key = "RightArrow",
-    mods = "CMD",
-    action = act.ActivatePaneDirection("Right"),
-  },
-
-  {
-    key = "UpArrow",
-    mods = "CMD",
-    action = act.ActivatePaneDirection("Up"),
-  },
-
-  {
-    key = "DownArrow",
-    mods = "CMD",
-    action = act.ActivatePaneDirection("Down"),
-  },
-  {
-    key = "LeftArrow",
-    mods = "CMD|OPT",
-    action = act.AdjustPaneSize({ "Left", 2 }),
-  },
-
-  {
-    key = "RightArrow",
-    mods = "CMD|OPT",
-    action = act.AdjustPaneSize({ "Right", 2 }),
-  },
-
-  {
-    key = "UpArrow",
-    mods = "CMD|OPT",
-    action = act.AdjustPaneSize({ "Up", 2 }),
-  },
-
-  {
-    key = "DownArrow",
-    mods = "CMD|OPT",
-    action = act.AdjustPaneSize({ "Down", 2 }),
-  },
+  { mods = "CMD", key = "l", action = act.ShowLauncherArgs({ flags = "LAUNCH_MENU_ITEMS|TABS|WORKSPACES" }) },
 }
 
 -- folke/zen-mode.nvim
