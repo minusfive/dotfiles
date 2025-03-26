@@ -35,6 +35,13 @@ function {
     if [[ $? == 0 ]]; then
       _v::log::ok "$(_v::fmt::u Homebrew bundle) installed"
     fi
+
+    _v::log::info "Upgrading $(_v::fmt::u Homebrew bundle)"
+    brew cu -fi
+
+    if [[ $? == 0 ]]; then
+      _v::log::ok "$(_v::fmt::u Homebrew bundle) upgraded"
+    fi
   fi
 }
 
