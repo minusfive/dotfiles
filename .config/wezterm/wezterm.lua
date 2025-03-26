@@ -129,6 +129,7 @@ config.leader = {
   mods = "OPT",
 }
 
+---Direction string differs between actions / methods. This map bridges the gap.
 local directionMap = {
   Down = "Bottom",
   Left = "Left",
@@ -141,14 +142,15 @@ local directionMap = {
 ---@field key? string
 ---@field mods? string
 
+---Tries to activate a pane in the given direction, or splits the current pane in that direction.
 ---@param opts ActivateOrSplitPaneOpts
 local function activateOrSplitPane(opts)
   return {
     key = opts.key or (opts.direction .. "Arrow"),
     mods = opts.mods,
     action = wezterm.action_callback(function(_, pane)
-      wezterm.log_info("Splitting pane " .. opts.direction)
       local pane_at_direction = pane:tab():get_pane_direction(opts.direction)
+
       if pane_at_direction then
         pane_at_direction:activate()
         return
@@ -165,10 +167,10 @@ config.keys = {
   activateOrSplitPane({ mods = "CMD", direction = "Down" }),
   activateOrSplitPane({ mods = "CMD", direction = "Up" }),
 
-  { mods = "SHIFT", key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 2 }) },
   { mods = "SHIFT", key = "RightArrow", action = act.AdjustPaneSize({ "Right", 2 }) },
-  { mods = "SHIFT", key = "UpArrow", action = act.AdjustPaneSize({ "Up", 2 }) },
+  { mods = "SHIFT", key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 2 }) },
   { mods = "SHIFT", key = "DownArrow", action = act.AdjustPaneSize({ "Down", 2 }) },
+  { mods = "SHIFT", key = "UpArrow", action = act.AdjustPaneSize({ "Up", 2 }) },
 
   { mods = "LEADER", key = "c", action = act.ActivateCopyMode },
   { mods = "LEADER", key = "s", action = act.QuickSelect },
