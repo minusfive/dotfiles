@@ -1,3 +1,7 @@
+---Returns the parent directory of a path.
+---@param path string
+local function parent_dir(path) return path:match("(.*)/") end
+
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
 local catppuccin = wezterm.plugin.require("https://github.com/minusfive/catppuccin-wezterm")
@@ -16,9 +20,12 @@ if wezterm.config_builder then config = wezterm.config_builder() end
 config.front_end = "WebGpu"
 config.animation_fps = 60
 
+local contents_dir = parent_dir(wezterm.executable_dir)
+local resources_dir = contents_dir .. "/Resources"
+
 -- Enable advanced features
 config.set_environment_variables = {
-  TERMINFO_DIRS = wezterm.home_dir .. "/.config/wezterm/terminfo",
+  TERMINFO_DIRS = resources_dir .. "/terminfo",
   WSLENV = "TERMINFO_DIRS",
 }
 config.term = "wezterm"
