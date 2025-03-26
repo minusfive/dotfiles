@@ -60,11 +60,11 @@ wezterm.on("format-tab-title", function(tab)
 end)
 
 -- Command and character selection palettes
-config.command_palette_bg_color = catppuccin.colors.mocha.surface1
-config.command_palette_fg_color = catppuccin.colors.mocha.text
+config.command_palette_bg_color = catppuccin.colors.mocha.surface0
+config.command_palette_fg_color = catppuccin.colors.mocha.lavender
 config.command_palette_font_size = 18
-config.char_select_bg_color = catppuccin.colors.mocha.surface1
-config.char_select_fg_color = catppuccin.colors.mocha.text
+config.char_select_bg_color = catppuccin.colors.mocha.surface0
+config.char_select_fg_color = catppuccin.colors.mocha.lavender
 config.char_select_font_size = 18
 
 -- Windows
