@@ -41,20 +41,16 @@ local baseSpecs = {
   -- Apps
   -- meh + a: AppLauncher mode (one shot)
   -- hyper + a: AppLauncher mode (sticky)
-  { hk.mods.hyper, "d", "Discord", al:openApp("Discord") },
-  { hk.mods.meh, "e", "Microsoft Outlook", al:openApp("Microsoft Outlook") }, -- Email
   { hk.mods.meh, "f", "Finder", al:openApp("Finder") },
   { hk.mods.meh, "g", "Google Chrome", al:openApp("Google Chrome") },
   { hk.mods.meh, "h", "Hammerspoon", al:openApp("Hammerspoon") },
-  { hk.mods.meh, "m", "Messages", al:openApp("Messages") },
   { hk.mods.meh, "n", "Notes", al:openApp("Notes") },
-  { hk.mods.hyper, "n", "Obsidian", al:openApp("Obsidian") }, -- Notes
+  { hk.mods.meh, "o", "Microsoft Outlook", al:openApp("Microsoft Outlook") },
   { hk.mods.meh, "p", "1Password", al:openApp("1Password") },
   { hk.mods.meh, "r", "Reminders", al:openApp("Reminders") },
   { hk.mods.meh, "s", "Safari", al:openApp("Safari") },
-  { hk.mods.hyper, "s", "Slack", al:openApp("Slack") },
   { hk.mods.meh, "t", "WezTerm", al:openApp("WezTerm") },
-  { hk.mods.hyper, "t", "Microsoft Teams", al:openApp("Microsoft Teams") },
+  { hk.mods.meh, "v", "Microsoft Teams", al:openApp("Microsoft Teams") },
   -- meh + w: Window manager mode (one shot)
   -- hyper + w: Window manager mode (sticky)
   { hk.mods.meh, "x", "Microsoft Excel", al:openApp("Microsoft Excel") },
@@ -95,7 +91,11 @@ local modeSystem = {
 -- AppLauncher mode
 ---@type hs.hotkey.KeySpec[]
 local appLauncherSpecs = {
+  { {}, "d", "Discord", al:openApp("Discord") },
+  { {}, "m", "Messages", al:openApp("Messages") },
+  { {}, "o", "Obsidian", al:openApp("Obsidian") },
   { {}, "w", "WhatsApp", al:openApp("WhatsApp") },
+  { {}, "s", "Slack", al:openApp("Slack") },
 }
 
 ---@type Hotkeys.ModalSpec
@@ -114,55 +114,45 @@ local modeAppLauncherSticky = {
 -- Window manager mode
 ---@type hs.hotkey.KeySpec[]
 local windowModeSpecs = {
-  {
-    {},
-    "h",
-    "Hints",
-    function()
-      hs.hints.windowHints()
-      hk:activeModeExit()
-    end,
-  },
-
-  -- Corners
-  { { "shift" }, "1", "1/4 Top-Left", wm:move(wm.layout.topLeft25) },
-  { { "shift" }, "2", "1/4 Top-Right", wm:move(wm.layout.topRigh25) },
-  { { "shift" }, "3", "1/4 Bottom-Left", wm:move(wm.layout.bottomLeft25) },
-  { { "shift" }, "4", "1/4 Bottom-Right", wm:move(wm.layout.bottomRigh25) },
-
-  -- Move
-  { {}, "up", "1/2 Top", wm:move(wm.layout.top50) },
-  { {}, "down", "1/2 Bottom", wm:move(wm.layout.bottom50) },
-
-  { {}, "[", "Move Left", wm.moveL },
-  { {}, "]", "Move Right", wm.moveR },
-
-  { { "shift" }, "[", "Prev Screen", wm.screenPrev },
-  { { "shift" }, "]", "Next Screen", wm.screenNext },
-
-  { { "shift" }, "c", "Center", wm.center },
-
-  { {}, "q", "1/4 1", wm:move(wm.layout.first25) },
-  { {}, "w", "1/4 2", wm:move(wm.layout.second25) },
-  { {}, "f", "1/4 3", wm:move(wm.layout.third25) },
-  { {}, "p", "1/4 4", wm:move(wm.layout.fourth25) },
-
-  { {}, "r", "1/3 Left", wm:move(wm.layout.left33) },
-  { {}, "s", "1/3 Center", wm:move(wm.layout.center33) },
-  { {}, "t", "1/3 Right", wm:move(wm.layout.right33) },
-
-  { {}, "x", "1/2 Left", wm:move(wm.layout.left50) },
-  { {}, "c", "1/2 Center", wm:move(wm.layout.center50) },
-  { {}, "d", "1/2 Right", wm:move(wm.layout.right50) },
-
   -- Resize
   { {}, "m", "Maximize", wm.maximixe },
   { {}, "f", "Full Screen", wm.toggleFullScreen },
 
   { {}, "=", "Grow Width", wm.growX },
   { {}, "-", "Shrink Width", wm.shrinkX },
-  { { "shift" }, "=", "Grow Height", wm.growY },
-  { { "shift" }, "-", "Shrink Height", wm.shrinkY },
+  { hk.mods.shift, "=", "Grow Height", wm.growY },
+  { hk.mods.shift, "-", "Shrink Height", wm.shrinkY },
+
+  -- Move
+  { {}, "up", "1/2 Top", wm:move(wm.layout.top50) },
+  { {}, "down", "1/2 Bottom", wm:move(wm.layout.bottom50) },
+
+  { {}, "left", "Move Left", wm.moveL },
+  { {}, "right", "Move Right", wm.moveR },
+
+  { hk.mods.shift, "left", "Prev Screen", wm.screenPrev },
+  { hk.mods.shift, "right", "Next Screen", wm.screenNext },
+
+  { hk.mods.shift, "c", "Center", wm.center },
+
+  { {}, "r", "1/2 Left", wm:move(wm.layout.left50) },
+  { {}, "s", "1/2 Center", wm:move(wm.layout.center50) },
+  { {}, "t", "1/2 Right", wm:move(wm.layout.right50) },
+
+  { hk.mods.shift, "r", "1/3 Left", wm:move(wm.layout.left33) },
+  { hk.mods.shift, "s", "1/3 Center", wm:move(wm.layout.center33) },
+  { hk.mods.shift, "t", "1/3 Right", wm:move(wm.layout.right33) },
+
+  { {}, "a", "1/4 1", wm:move(wm.layout.first25) },
+  { hk.mods.alt, "r", "1/4 2", wm:move(wm.layout.second25) },
+  { hk.mods.alt, "t", "1/4 3", wm:move(wm.layout.third25) },
+  { {}, "g", "1/4 4", wm:move(wm.layout.fourth25) },
+
+  -- Corners
+  { {}, "q", "1/4 Top-Left", wm:move(wm.layout.topLeft25) },
+  { {}, "b", "1/4 Top-Right", wm:move(wm.layout.topRigh25) },
+  { {}, "z", "1/4 Bottom-Left", wm:move(wm.layout.bottomLeft25) },
+  { {}, "v", "1/4 Bottom-Right", wm:move(wm.layout.bottomRigh25) },
 }
 
 ---@type Hotkeys.ModalSpec

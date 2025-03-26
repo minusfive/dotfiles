@@ -14,7 +14,6 @@
 ---@field isOneShot? boolean
 
 ---@class Hotkeys
----@field mods {meh: string[], hyper: string[]}
 ---@field activeMode? Hotkeys.ActiveMode
 ---@field keyListener? hs.eventtap
 ---@field menuBarItem? hs.menubar
@@ -23,14 +22,19 @@ local Hotkeys = {
   version = "0.1",
   author = "http://github.com/minusfive",
   license = "MIT - https://opensource.org/licenses/MIT",
-
-  mods = {
-    meh = { "ctrl", "alt", "shift" },
-    hyper = { "ctrl", "alt", "shift", "cmd" },
-  },
   activeMode = nil,
   keyListener = nil,
   menuBarItem = nil,
+}
+
+-- Modifier keys
+Hotkeys.mods = {
+  alt = { "alt" },
+  cmd = { "cmd" },
+  ctrl = { "ctrl" },
+  hyper = { "ctrl", "alt", "shift", "cmd" },
+  meh = { "ctrl", "alt", "shift" },
+  shift = { "shift" },
 }
 
 -- Setup modal hotkeys environments
