@@ -34,10 +34,17 @@ hs.alert.defaultStyle = {
   padding = 18,
 }
 
--- Base hotkeys
--- These are the most used / useful shortcuts, available through a single combination
+-- Hotkeys
+-- Hotkeys shared by all modals
 ---@type hs.hotkey.KeySpec[]
-local baseSpecs = {
+local commonModalSpecs = {
+  -- Uniform ways of exiting modal environments
+  { {}, "escape", nil, hk.activeModeExit },
+}
+
+-- The most used shortcuts, available through a single combination, not modal
+---@type hs.hotkey.KeySpec[]
+local normalSpecs = {
   -- Apps
   -- meh + a: AppLauncher mode (one shot)
   -- hyper + a: AppLauncher mode (sticky)
@@ -45,11 +52,13 @@ local baseSpecs = {
   { hk.mods.meh, "f", "Finder", al:openApp("Finder") },
   { hk.mods.meh, "g", "Google Chrome", al:openApp("Google Chrome") },
   { hk.mods.meh, "h", "Hammerspoon", al:openApp("Hammerspoon") },
+  { hk.mods.meh, "i", "Insomnium", al:openApp("Insomnium") },
   { hk.mods.meh, "n", "Notes", al:openApp("Notes") },
   { hk.mods.meh, "o", "Obsidian", al:openApp("Obsidian") },
   { hk.mods.meh, "p", "1Password", al:openApp("1Password") },
   { hk.mods.meh, "r", "Reminders", al:openApp("Reminders") },
   { hk.mods.meh, "s", "Safari", al:openApp("Safari") },
+  { hk.mods.meh, "c", "Slack", al:openApp("Slack") }, -- chat
   { hk.mods.meh, "t", "WezTerm", al:openApp("WezTerm") },
   { hk.mods.meh, "v", "Microsoft Teams", al:openApp("Microsoft Teams") },
   -- meh + w: Window manager mode (one shot)
@@ -59,43 +68,12 @@ local baseSpecs = {
 }
 
 -- Modal hotkeys
-
--- Common modal specs
----@type hs.hotkey.KeySpec[]
-local commonModalSpecs = {
-  -- Uniform ways of exiting modal environments
-  { {}, "escape", nil, hk.activeModeExit },
-}
-
--- System manipulation mode
----@type Hotkeys.ModalSpec
-local modeSystem = {
-  trigger = { hk.mods.meh, ",", "System" }, -- `cmd + ,` is the standard shortcut for preferences on macOS
-  isOneShot = true,
-  specs = {
-    { {}, "a", "Activity Monitor", al:openApp("Activity Monitor") },
-    { {}, "c", "Caffeine", cf.toggle },
-    { {}, "h", "Hammerspoon", al:openApp("Hammerspoon") },
-    {
-      {},
-      "r",
-      "Reload Config",
-      function()
-        hs.notify.new({ title = "Reloading Configuration", subTitle = "This may take a few seconds" }):send()
-        hs.reload()
-      end,
-    },
-    { {}, ",", "System Preferences", al:openApp("System Preferences") },
-  },
-}
-
 -- AppLauncher mode
 ---@type hs.hotkey.KeySpec[]
 local appLauncherSpecs = {
   { {}, "d", "Discord", al:openApp("Discord") },
   { {}, "m", "Messages", al:openApp("Messages") },
   { {}, "w", "WhatsApp", al:openApp("WhatsApp") },
-  { {}, "s", "Slack", al:openApp("Slack") },
 }
 
 ---@type Hotkeys.ModalSpec
@@ -168,6 +146,28 @@ local modeWindowManagerSticky = {
   specs = windowModeSpecs,
 }
 
+-- System manipulation mode
+---@type Hotkeys.ModalSpec
+local modeSystem = {
+  trigger = { hk.mods.meh, ",", "System" }, -- `cmd + ,` is the standard shortcut for preferences on macOS
+  isOneShot = true,
+  specs = {
+    { {}, "a", "Activity Monitor", al:openApp("Activity Monitor") },
+    { {}, "c", "Caffeine", cf.toggle },
+    { {}, "h", "Hammerspoon", al:openApp("Hammerspoon") },
+    {
+      {},
+      "r",
+      "Reload Config",
+      function()
+        hs.notify.new({ title = "Reloading Configuration", subTitle = "This may take a few seconds" }):send()
+        hs.reload()
+      end,
+    },
+    { {}, ",", "System Preferences", al:openApp("System Preferences") },
+  },
+}
+
 -- Append commonModalSpecs to each modal's specs
 hs.fnutils.each(
   { modeAppLauncherOneShot, modeAppLauncherSticky, modeSystem, modeWindowManagerOneShot, modeWindowManagerSticky },
@@ -175,7 +175,7 @@ hs.fnutils.each(
 )
 
 hk:bindHotkeys({
-  specs = baseSpecs,
+  specs = normalSpecs,
   modes = {
     modeAppLauncherOneShot,
     modeAppLauncherSticky,
