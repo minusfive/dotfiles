@@ -106,7 +106,26 @@ function {
   unset REPLY
   echo "\n"
 
+
+  # Update bat theme
   if [[ $(command -v bat) != "" ]]; then
+    vared -p "$(_v::q "Update $(_v::fmt::u bat) theme")" -c REPLY
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      _v::log::info "Updating $(_v::fmt::u bat) theme"
+      wget -O "$(bat --config-dir)/themes/Catppuccin Mocha.tmTheme" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
+
+      if [[ $? == 0 ]]; then
+        _v::log::ok "$(_v::fmt::u bat) theme updated"
+      fi
+    elif [[ $REPLY == "" || $REPLY =~ ^[Nn]$ ]]; then
+      _v::log::warn "Skipping $(_v::fmt::u bat) theme update"
+    else
+      _v::log::error "Invalid input"
+      exit 1
+    fi
+    unset REPLY
+    echo "\n"
+
     _v::log::info "Refreshing $(_v::fmt::u Bat) cache"
     bat cache --build
 
