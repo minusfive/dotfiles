@@ -2,41 +2,43 @@
 
 tap 'buo/cask-upgrade' # auto-upgrade casks
 
-brew 'mas' # Mac App Store
-brew 'zsh' # Shell
-brew 'eza' # `ls` replacement
-brew 'vivid' # `LS_COLORS` generator
-brew 'git' # Version control
-brew 'lazygit' # Git Terminal UI
-brew 'coreutils' # GNU core utilities
-brew 'wget' # GNU Wget
-brew 'curl' # CLI for transferring data
-brew 'neovim' # Preferred text editor
-brew 'stow' # Symlink manager
-brew 'fzf' # Fuzzy finder
-brew 'fd' # `find` replacement
 brew 'bat' # `cat` replacement
-brew 'ripgrep' # `grep` replacement
-brew 'zoxide' # `cd` replacement
-brew 'libyaml' # dependency for ruby
-brew 'luarocks' # dependency for nvim
-brew 'mise' # version, environment manager
-brew 'docker' # Container manager
-brew 'htop' # `top` replacement
-brew 'yazi' # File manager in terminal
+brew 'coreutils' # GNU core utilities
+brew 'curl' # CLI for transferring data
+brew 'eza' # `ls` replacement
+brew 'fd' # `find` replacement
+brew 'fzf' # Fuzzy finder
+brew 'git' # Version control
 brew 'gum' # Go based interactive shell script generator
+brew 'htop' # `top` replacement
 brew 'jq' # JSON processor
 brew 'just' # Command runner
+brew 'lazygit' # Git Terminal UI
+brew 'libyaml' # dependency for ruby
+brew 'luarocks' # dependency for nvim
+brew 'mas' # Mac App Store
+brew 'mise' # version, environment manager
+brew 'neovim' # Preferred text editor
+brew 'ripgrep' # `grep` replacement
+brew 'stow' # Symlink manager
+brew 'vivid' # `LS_COLORS` generator
+brew 'wget' # GNU Wget
+brew 'yazi' # File manager in terminal
+brew 'zoxide' # `cd` replacement
+brew 'zsh' # Shell
 
 cask '1password' # Password manager
-cask 'hammerspoon' # macOS automation
-cask 'wezterm@nightly' # Terminal emulator
-cask 'obsidian' # Note-taking
+cask '1password-cli' # 1Password CLI
 cask 'betterdisplay' # Display configuration manager
-cask 'imageoptim' # Image optimizer
 cask 'discord' # Chat app
+cask 'docker' # Containerization
+cask 'google-chrome' # Browser
 cask 'gpg-suite' # GPG keychain
-cask 'google-chrome'
+cask 'hammerspoon' # macOS automation
+cask 'imageoptim' # Image optimizer
+cask 'insomnium' # HTTP Client
+cask 'obsidian' # Note-taking
+cask 'wezterm@nightly' # Terminal emulator
 
 # mas 'WhatsApp Messenger', id: 310_633_997
 mas '1Password for Safari', id: 1_569_813_296
