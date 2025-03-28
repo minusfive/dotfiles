@@ -61,10 +61,45 @@ local normalSpecs = {
   { hk.mods.meh, "c", "Slack", al:openApp("Slack") }, -- chat
   { hk.mods.meh, "t", "WezTerm", al:openApp("WezTerm") },
   { hk.mods.meh, "v", "Microsoft Teams", al:openApp("Microsoft Teams") },
-  -- meh + w: Window manager mode (one shot)
-  -- hyper + w: Window manager mode (sticky)
   { hk.mods.meh, "x", "Microsoft Excel", al:openApp("Microsoft Excel") },
   { hk.mods.meh, "z", "Zoom.us", al:openApp("Zoom.us") },
+
+  -- These only make sense with my custom layout https://github.com/minusfive/zmk-config
+  { hk.mods.hyper, "7", "1/2 Left", wm:move(wm.layout.left50) },
+  { hk.mods.hyper, "8", "1/2 Center", wm:move(wm.layout.center50) },
+  { hk.mods.hyper, "9", "1/2 Right", wm:move(wm.layout.right50) },
+
+  { hk.mods.meh, "5", "1/2 Top", wm:move(wm.layout.top50) },
+  { hk.mods.meh, "0", "1/2 Bottom", wm:move(wm.layout.bottom50) },
+
+  { hk.mods.meh, "7", "1/3 Left", wm:move(wm.layout.left33) },
+  { hk.mods.meh, "8", "1/3 Center", wm:move(wm.layout.center33) },
+  { hk.mods.meh, "9", "1/3 Right", wm:move(wm.layout.right33) },
+
+  { hk.mods.meh, "1", "1/4 1", wm:move(wm.layout.first25) },
+  { hk.mods.meh, "2", "1/4 2", wm:move(wm.layout.second25) },
+  { hk.mods.meh, "3", "1/4 3", wm:move(wm.layout.third25) },
+  { hk.mods.meh, "4", "1/4 4", wm:move(wm.layout.fourth25) },
+
+  -- Corners
+  { hk.mods.hyper, "1", "1/4 Top-Left", wm:move(wm.layout.topLeft25) },
+  { hk.mods.hyper, "5", "1/4 Top-Right", wm:move(wm.layout.topRigh25) },
+  { hk.mods.hyper, "6", "1/4 Bottom-Left", wm:move(wm.layout.bottomLeft25) },
+  { hk.mods.hyper, "0", "1/4 Bottom-Right", wm:move(wm.layout.bottomRigh25) },
+
+  -- Focus
+  { hk.mods.meh, "[", "Focus Window Left", wm.focusL },
+  { hk.mods.meh, "]", "Focus Window Right", wm.focusR },
+
+  -- Move
+  { hk.mods.hyper, "[", "Move Left", wm.moveL },
+  { hk.mods.hyper, "]", "Move Right", wm.moveR },
+
+  -- Resize
+  { hk.mods.meh, "=", "Grow Width", wm.growX },
+  { hk.mods.meh, "-", "Shrink Width", wm.shrinkX },
+  { hk.mods.hyper, "=", "Grow Height", wm.growY },
+  { hk.mods.hyper, "-", "Shrink Height", wm.shrinkY },
 }
 
 -- Modal hotkeys
@@ -93,56 +128,25 @@ local modeAppLauncherSticky = {
 ---@type hs.hotkey.KeySpec[]
 local windowModeSpecs = {
   -- Resize
-  { {}, "m", "Maximize", wm.maximixe },
-  { {}, "f", "Full Screen", wm.toggleFullScreen },
-
-  { {}, "=", "Grow Width", wm.growX },
-  { {}, "-", "Shrink Width", wm.shrinkX },
-  { hk.mods.shift, "=", "Grow Height", wm.growY },
-  { hk.mods.shift, "-", "Shrink Height", wm.shrinkY },
-
-  -- Move
-  { {}, "up", "1/2 Top", wm:move(wm.layout.top50) },
-  { {}, "down", "1/2 Bottom", wm:move(wm.layout.bottom50) },
-
-  { {}, "left", "Move Left", wm.moveL },
-  { {}, "right", "Move Right", wm.moveR },
-
-  { hk.mods.shift, "left", "Prev Screen", wm.screenPrev },
-  { hk.mods.shift, "right", "Next Screen", wm.screenNext },
-
+  { hk.mods.shift, "m", "Maximize", wm.maximixe },
+  { hk.mods.shift, "f", "Full Screen", wm.toggleFullScreen },
   { hk.mods.shift, "c", "Center", wm.center },
 
-  { {}, "r", "1/2 Left", wm:move(wm.layout.left50) },
-  { {}, "s", "1/2 Center", wm:move(wm.layout.center50) },
-  { {}, "t", "1/2 Right", wm:move(wm.layout.right50) },
-
-  { hk.mods.shift, "r", "1/3 Left", wm:move(wm.layout.left33) },
-  { hk.mods.shift, "s", "1/3 Center", wm:move(wm.layout.center33) },
-  { hk.mods.shift, "t", "1/3 Right", wm:move(wm.layout.right33) },
-
-  { {}, "a", "1/4 1", wm:move(wm.layout.first25) },
-  { hk.mods.alt, "r", "1/4 2", wm:move(wm.layout.second25) },
-  { hk.mods.alt, "t", "1/4 3", wm:move(wm.layout.third25) },
-  { {}, "g", "1/4 4", wm:move(wm.layout.fourth25) },
-
-  -- Corners
-  { {}, "q", "1/4 Top-Left", wm:move(wm.layout.topLeft25) },
-  { {}, "b", "1/4 Top-Right", wm:move(wm.layout.topRigh25) },
-  { {}, "z", "1/4 Bottom-Left", wm:move(wm.layout.bottomLeft25) },
-  { {}, "v", "1/4 Bottom-Right", wm:move(wm.layout.bottomRigh25) },
+  -- Move
+  { hk.mods.shift, "left", "Prev Screen", wm.screenPrev },
+  { hk.mods.shift, "right", "Next Screen", wm.screenNext },
 }
 
 ---@type Hotkeys.ModalSpec
 local modeWindowManagerOneShot = {
-  trigger = { hk.mods.meh, "w", "Window" },
+  trigger = { hk.mods.meh, "space", "Window" },
   isOneShot = true,
   specs = windowModeSpecs,
 }
 
 ---@type Hotkeys.ModalSpec
 local modeWindowManagerSticky = {
-  trigger = { hk.mods.hyper, "w", "Window" },
+  trigger = { hk.mods.hyper, "space", "Window" },
   specs = windowModeSpecs,
 }
 
@@ -190,7 +194,7 @@ cf.options.notifyOnStateChange = true
 cf:start()
 
 --- Start WindowManager
-wm:start()
+wm:start() -- too slow
 
 --- Start AppLauncher
 al:start()

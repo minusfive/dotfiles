@@ -203,6 +203,12 @@ function WindowManager:resizeWindowHeightInSteps(direction, step, minHeight)
   __setFrameInScreenBounds({ x = window.x, y = newY, w = window.w, h = newH })
 end
 
+-- Focus window to the left
+function WindowManager:focusL() hs.window.focusedWindow():focusWindowWest(nil, true, true) end
+
+-- Focus window to the right
+function WindowManager:focusR() hs.window.focusedWindow():focusWindowEast(nil, true, true) end
+
 -- Cycle window position to the right
 function WindowManager:moveR() return WindowManager:cycleHorizontalPosition(">") end
 
@@ -259,9 +265,9 @@ end
 
 --- Initialize WindowManager
 function WindowManager:init()
-  local focusedWindowFilter = hs.window.filter.new()
-  focusedWindowFilter:setOverrideFilter({ visible = true, focused = true, activeApplication = true })
-  local weztermWindowFilter = hs.window.filter.new({ "Terminal", "WezTerm" })
+  local focusedWindowFilter =
+    hs.window.filter.new():setOverrideFilter({ visible = true, focused = true, activeApplication = true })
+  local weztermWindowFilter = hs.window.filter.new({ "Terminal", "WezTerm", "Ghostty", "Kitty" })
   local browserWindowFilter = hs.window.filter.new({ "Safari", "Google Chrome", "Firefox", "Brave" })
 
   --- Starts the WindowManager watchers
