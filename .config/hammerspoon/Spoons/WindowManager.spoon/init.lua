@@ -104,33 +104,36 @@ function WindowManager:screenPrev()
 end
 
 -- Places window in a specific location within current screen bounds
+---@param window hs.window
 ---@param rect hs.geometry.rect
 ---@param duration? number
 ---@return hs.window
-local function __setFrameInScreenBounds(rect, duration)
-  local win = hs.window.focusedWindow()
-  __optimizeFrame(function() win:setFrameInScreenBounds(rect, duration) end)
-  return win
+local function __setFrameInScreenBounds(window, rect, duration)
+  __optimizeFrame(function() window:setFrameInScreenBounds(rect, duration) end)
+  return window
 end
 
 -- Cycle window position to next available of equal size
 ---@param direction "<" | ">"
 function WindowManager:cycleHorizontalPosition(direction)
   local screen = hs.window.focusedWindow():screen():frame()
-  local window = hs.window.focusedWindow():frame()
-  local x = window.x
-  local w = window.w
-  local sw = screen.w
-  local newX = x
+  local window = hs.window.focusedWindow()
+  local windowFrame = window:frame()
+  local oldWindowFrame = windowFrame:copy()
+  local neighbor = nil
 
   if direction == "<" then
-    newX = x >= w and x - w or sw - w
+    windowFrame.x = windowFrame.x >= windowFrame.w and windowFrame.x - windowFrame.w or screen.w - windowFrame.w
+    neighbor = window:windowsToWest(nil, true, true)[1]
   elseif direction == ">" then
-    newX = x + w
-    newX = newX <= (sw - w) and newX or 0
+    windowFrame.x = windowFrame.x + windowFrame.w
+    windowFrame.x = windowFrame.x <= (screen.w - windowFrame.w) and windowFrame.x or 0
+    neighbor = window:windowsToEast(nil, true, true)[1]
   end
 
-  __setFrameInScreenBounds({ x = newX, y = window.y, w = w, h = window.h })
+  -- Swap with neighbor
+  if neighbor then __setFrameInScreenBounds(neighbor, oldWindowFrame) end
+  __setFrameInScreenBounds(window, windowFrame)
 end
 
 -- Increase or decrease window width in steps
@@ -143,30 +146,29 @@ function WindowManager:resizeWindowWidthInSteps(direction, step, minWidth)
   minWidth = minWidth or 200
 
   local screen = hs.window.focusedWindow():screen():frame()
-  local window = hs.window.focusedWindow():frame()
-  local newW = window.w
-  local newX = window.x
-  local isCentered = math.abs(window.x - (screen.x2 - window.x2)) < 4
+  local window = hs.window.focusedWindow()
+  local windowFrame = window:frame()
+  local isCentered = math.abs(windowFrame.x - (screen.x2 - windowFrame.x2)) < 4
 
   if isCentered then step = step / 2 end
 
   if direction == "+" then
-    newW = window.w + step
-    newW = newW > screen.w and screen.w or newW
+    windowFrame.w = windowFrame.w + step
+    windowFrame.w = windowFrame.w > screen.w and screen.w or windowFrame.w
   elseif direction == "-" then
-    newW = window.w - step
-    newW = newW < minWidth and minWidth or newW
+    windowFrame.w = windowFrame.w - step
+    windowFrame.w = windowFrame.w < minWidth and minWidth or windowFrame.w
   end
 
-  if window.x <= screen.x then
-    newX = screen.x
-  elseif window.x2 >= screen.x2 then
-    newX = screen.w - newW
+  if windowFrame.x <= screen.x then
+    windowFrame.x = screen.x
+  elseif windowFrame.x2 >= screen.x2 then
+    windowFrame.x = screen.w - windowFrame.w
   elseif isCentered then
-    newX = math.max(0, math.floor((screen.w - newW) / 2))
+    windowFrame.x = math.max(0, math.floor((screen.w - windowFrame.w) / 2))
   end
 
-  __setFrameInScreenBounds({ x = newX, y = window.y, w = newW, h = window.h })
+  __setFrameInScreenBounds(window, windowFrame)
 end
 
 -- Resize window height in steps
@@ -179,28 +181,27 @@ function WindowManager:resizeWindowHeightInSteps(direction, step, minHeight)
   minHeight = minHeight or 200
 
   local screen = hs.window.focusedWindow():screen():frame()
-  local window = hs.window.focusedWindow():frame()
-  local newH = window.h
-  local newY = window.y
-  local isCentered = math.abs(window.y - (screen.y2 - window.y2)) < (screen.y + 4)
+  local window = hs.window.focusedWindow()
+  local windowFrame = window:frame()
+  local isCentered = math.abs(windowFrame.y - (screen.y2 - windowFrame.y2)) < (screen.y + 4)
 
   if direction == "+" then
-    newH = window.h + step
-    newH = newH > screen.h and screen.h or newH
+    windowFrame.h = windowFrame.h + step
+    windowFrame.h = windowFrame.h > screen.h and screen.h or windowFrame.h
   elseif direction == "-" then
-    newH = window.h - step
-    newH = newH < minHeight and minHeight or newH
+    windowFrame.h = windowFrame.h - step
+    windowFrame.h = windowFrame.h < minHeight and minHeight or windowFrame.h
   end
 
-  if window.y <= screen.y then
-    newY = screen.y
-  elseif window.y2 >= screen.y2 then
-    newY = screen.h - newH
+  if windowFrame.y <= screen.y then
+    windowFrame.y = screen.y
+  elseif windowFrame.y2 >= screen.y2 then
+    windowFrame.y = screen.h - windowFrame.h
   elseif isCentered then
-    newY = math.max(0, math.floor((screen.h - newH) / 2))
+    windowFrame.y = math.max(0, math.floor((screen.h - windowFrame.h) / 2))
   end
 
-  __setFrameInScreenBounds({ x = window.x, y = newY, w = window.w, h = newH })
+  __setFrameInScreenBounds(window, windowFrame)
 end
 
 -- Focus window to the left
