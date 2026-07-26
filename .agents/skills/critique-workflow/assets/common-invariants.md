@@ -1,0 +1,46 @@
+# Common Critique Invariants
+
+Apply these invariants in both human walkthrough and autonomous modes.
+
+## Shared Procedure
+
+1. Build a complete findings set and assign each finding a stable identifier.
+2. Run a preliminary clustering pass to group findings that can be addressed by one cohesive solution.
+3. If the findings set is empty, return an explicit no-findings verdict with residual risks or confidence caveats, then end the flow.
+4. Present grouped and ungrouped findings in deterministic order, using numeric indexes, including batching rationale.
+5. For each batch or standalone finding, provide:
+   - the concrete issue
+   - why it matters
+   - a suggested fix
+   - tradeoffs and residual risks
+6. Use explicit verdict status tokens for findings and decisions: `PASS`, `FAIL`, `RISK`, `NOTE`.
+7. Record each finding and decision in a compact, machine-readable decision log keyed by finding identifier and batch identifier.
+8. After all findings have decisions, run a dedicated critique pass on the decision log before any execution:
+   - check for decision conflicts
+   - check for unresolved or newly introduced risks
+   - check for unverified assumptions
+9. Present the decision-log critique and resolve issues before execution.
+10. If a decision materially changes downstream findings, restate the updated assumptions before continuing.
+11. Keep each finding self-contained so decisions do not depend on hidden context.
+
+## Required Decision Log Fields
+
+- `batch_id`
+- `finding_id`
+- `status_token` (`PASS` | `FAIL` | `RISK` | `NOTE`)
+- `issue`
+- `evidence_refs`
+- `impact`
+- `confidence` (routing only)
+- `decision`
+- `residual_risks`
+- `closure_criteria`
+- `decision_rationale`
+- `mode` (`human_walkthrough` | `autonomous`)
+- `terminal_state` (`closed` | `escalated` | `deferred`)
+
+## Terminal States
+
+- `closed` — all required closure criteria are met and no unresolved blocking `FAIL` remains.
+- `escalated` — blocking risk or control limits prevent safe closure; hand off with concrete next-investigation output.
+- `deferred` — scope intentionally postponed with explicit reasons and dependencies.

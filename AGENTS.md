@@ -5,22 +5,32 @@
 - IMPORTANT: Prefer retrieval-led reasoning over pre-training-led reasoning
 - Prioritize technical accuracy and facts over validating beliefs.
 - Provide honest, objective feedback even when it may not align with expectations.
-- Investigate uncertainty first rather than confirming assumptions. If research doesn't suffice, interview me relentlessly until we reach a common understanding.
+- Investigate uncertainty first rather than confirming assumptions. If research doesn't suffice, ask focused follow-up questions until we reach a common understanding; keep questions concise and only as many as needed to unblock correct execution.
 - Apply rigorous standards consistently to all ideas.
 - Critique plans and implementations; do not merely validate them. Surface blind spots, weak assumptions, edge cases, and sequencing risks even when the work appears correct.
 - **Critique gate (required terminal step):** After validation passes, run a fresh critique pass over every produced artifact before any terminal workflow transition (for example: done, completed, closed, shipped). Ask: does the change do what was asked, are there edge cases missed, are any assumptions unverified? Validation answers "does it parse/run"; critique answers "is it right". Do not treat a passing validation as done — work is complete only after critique passes. This gate takes precedence over brevity or early-exit instructions.
 - Be concise and direct; focus output on the specific task and skip unnecessary preambles and postambles.
 - Ask for confirmation before destructive or irreversible operations.
-- **MUST NOT** use emojis or icons unless explicitly requested. The verdict-glyph convention below is the only sanctioned exception.
+- **MUST NOT** use emojis or icons unless explicitly requested.
 
-### Verdict output glyphs
+## Critique Workflow
 
-In critique, review, audit, and other verdict-style output (any structured report that classifies items as pass / fail / risk), label each classified item with the canonical Unicode status glyph below, rendered in the named semantic color. Apply only to verdict-bearing items; leave ordinary prose, headings, and unclassified bullet lists undecorated. The active harness chooses how to realize the color; do not hard-code escape sequences inline.
+- Load `critique-workflow` when I explicitly request a walkthrough critique flow.
+- Load `critique-workflow` when you run an autonomous critique/review/audit cycle before execution or terminal transition.
+- For all critique procedure details, follow the `critique-workflow` skill.
 
-- `✓` green — pass: claim verified, rule survives critique, no action needed.
-- `✗` red — fail: claim falsified, rule rejected, change must not ship as-is.
-- `⚠` yellow — risk: known unknown, residual edge case, or assumption deliberately accepted but worth surfacing.
-- `ℹ` cyan — note: contextual remark that is neither a verdict nor a risk.
+## Verdict Classification Output
+
+In any verdict-style classification output (including critique, review, and audit), label each classified item with the canonical ASCII status token below. Tokens are authoritative and must be present in text, regardless of whether the `critique-workflow` skill was activated. Apply only to verdict-bearing items; leave ordinary prose, headings, and unclassified bullet lists undecorated.
+
+Present critique findings as a numbered list using Markdown numeric indexes (`1.`, `2.`, `3.`).
+
+- `PASS` — pass: claim verified, rule survives critique, no action needed.
+- `FAIL` — fail: claim falsified, rule rejected, change must not ship as-is.
+- `RISK` — risk: known unknown, residual edge case, or assumption deliberately accepted but worth surfacing.
+- `NOTE` — note: contextual remark that is neither a verdict nor a risk.
+
+When I am in human-interaction mode and the active harness supports it, you may add color, emphasis, or other formatting around these tokens to improve readability. Do not replace tokens with glyph-only or icon-only output.
 
 ## Asking and Failing Gracefully
 
@@ -81,6 +91,7 @@ The skills below are available under [`.agents/skills/`](.agents/skills/).
 - `agent-instructions-authoring` — Author, audit, and modify agent instruction files (skills, `AGENTS.md`, `CLAUDE.md`, subagent/agent definitions); consolidate duplicated rules; validate skill metadata and discoverability.
 - `agentic-projects` — Organize per-repo agentic project workspaces under `.agents/projects/<project>/` (prompts, plans, research, temporary artifacts).
 - `coding-guidelines` — Apply repository coding standards when adding features, fixing bugs, refactoring, updating tests, or resolving lint/type/build issues.
+- `critique-workflow` — Run critique walkthroughs and autonomous critique cycles with finding clustering, status-token verdicts, decision logs, and terminal critique gates.
 - `commit-guidelines` — Create branches and commits from local diffs using project commit-message conventions (Conventional Commits, commitlint).
 - `execution-workflow` — Execute deterministic story plans through dependency-aware workflow state transitions, PR/card lifecycle discipline, and critique-gated completion; use when implementing an existing plan artifact.
 - `github-cli` — Use the `gh` CLI for pull requests, issues, workflow runs, releases, repository metadata, and file content on GitHub; invoke when interacting with any GitHub resource from the terminal.

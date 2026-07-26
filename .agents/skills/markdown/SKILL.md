@@ -21,4 +21,4 @@ description: Apply Markdown authoring conventions for clarity, link style, and t
 
 - Validate all reference links after changes; fix dangling or moved targets.
 - Analyze the whole file and apply these rules consistently; flag deviations.
-- For Markdown files, run linters following the `linting` skill.
+- For Markdown lint execution policy, follow the `linting` skill.

@@ -10,7 +10,7 @@ description: >-
 
 # Rspack SplitChunks Optimization
 
-Use this skill when the task is to recommend, review, or debug `optimization.splitChunks`. If you are using ESM library, it's not the same algorithm of this skill.
+Use this skill when the task is to recommend, review, or debug `optimization.splitChunks`. This guidance targets web-app chunking behavior and does not apply to ESM library packaging workflows.
 
 ## Default stance
 

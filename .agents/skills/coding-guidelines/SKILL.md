@@ -31,8 +31,7 @@ description: Apply repository coding standards for implementation and review tas
 - Validate that all rules were followed after completing changes
 - Handle all errors
 - Validate all user inputs and system states
-- Run linters following the `linting` skill
-- Run builds and tests before non-trivial changes to baseline unrelated failures
+- For lint execution policy and validation cadence, follow the `linting` skill.
 - Prefer tools from the ecosystem to automate tasks and reduce mistakes
 - Use refactoring tools to automate changes
 - Use local variables to limit scope
