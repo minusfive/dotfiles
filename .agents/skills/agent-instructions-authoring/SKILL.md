@@ -30,7 +30,7 @@ Required upstream references are listed alongside the work they govern: see [Ski
 - Verify every concrete claim in the file before shipping: every command runs, every flag behaves as stated, every URL resolves, every directive, or syntax example matches current tool behavior. Inherited assumptions from a source skill or older docs do not count as verified.
 - For non-trivial skill behavior edits and description-focused edits, load `agent-instructions-evaluation` and follow its evaluation workflows before shipping.
 - Run linters following the `linting` skill.
-- For changes that touch the `AGENTS.md` skill index or any skill directory under `.agents/skills/`, run `mise run lint-skill-index` to verify the index and on-disk skills stay in sync.
+- For changes that touch the `AGENTS.md` skill index or any skill directory under `.agents/skills/`, run `mise run lint-skill-index` when the task exists in the active repository. If it is not defined, verify manually that every `.agents/skills/<dir>/` has a corresponding `AGENTS.md` index entry and every index entry maps to a real skill directory.
 
 ## Critique
 

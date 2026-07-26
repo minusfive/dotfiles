@@ -1,6 +1,3 @@
-[task_config]
-includes = ["tasks"]
-
 [settings]
 # paranoid = true
 env_file = ".env"
