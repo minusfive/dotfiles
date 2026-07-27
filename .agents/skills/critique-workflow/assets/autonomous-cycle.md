@@ -6,7 +6,7 @@ Use this mode for deterministic unattended critique cycles.
 
 1. Apply all shared invariants in [`common-invariants.md`](common-invariants.md).
 2. Do not wait for approvals.
-3. Apply policy gates, record rationale, and continue until a terminal state is reached.
+3. Apply policy gates, record decision state, and continue until a terminal state is reached.
 4. Enforce a hard cap at `max_loops = 3` with no override.
 5. Treat confidence as a routing signal only; do not close high-impact `FAIL` items based on confidence alone.
 6. If unresolved `FAIL` findings remain at loop cap, stop and escalate with a useful final output for further investigation.

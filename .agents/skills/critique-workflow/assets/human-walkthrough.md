@@ -14,6 +14,16 @@ Use this mode for interactive critique with explicit decision gates.
 8. Set `mode` to `human_walkthrough` in each decision record.
 9. Use `terminal_state` values with semantics defined in [`common-invariants.md`](common-invariants.md).
 10. In human interaction mode, you may use harness-supported color or formatting for readability, but keep canonical status tokens in text.
+11. Do not require `decision_rationale` or `closure_criteria` by default; include them only when I explicitly ask or when policy requires them.
+
+## Presentation Format
+
+Use a compact, scan-friendly format for each item:
+
+- `ID` + `status_token` on the first line.
+- One short line each for issue, impact, and proposed fix.
+- End with a single clear decision prompt (for example: `Approve`, `Revise`, or `Defer`).
+- Keep prose concise; avoid long narrative unless I ask for detail.
 
 ## Shared Requirements
 

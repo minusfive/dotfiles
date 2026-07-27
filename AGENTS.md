@@ -13,12 +13,6 @@
 - Ask for confirmation before destructive or irreversible operations.
 - **MUST NOT** use emojis or icons unless explicitly requested.
 
-## Critique Workflow
-
-- Load `critique-workflow` when I explicitly request a walkthrough critique flow.
-- Load `critique-workflow` when you run an autonomous critique/review/audit cycle before execution or terminal transition.
-- For all critique procedure details, follow the `critique-workflow` skill.
-
 ## Verdict Classification Output
 
 In any verdict-style classification output (including critique, review, and audit), label each classified item with the canonical ASCII status token below. Tokens are authoritative and must be present in text, regardless of whether the `critique-workflow` skill was activated. Apply only to verdict-bearing items; leave ordinary prose, headings, and unclassified bullet lists undecorated.
@@ -91,7 +85,7 @@ The skills below are available under [`.agents/skills/`](.agents/skills/).
 - `agent-instructions-authoring` — Author, audit, and modify agent instruction files (skills, `AGENTS.md`, `CLAUDE.md`, subagent/agent definitions); consolidate duplicated rules; validate skill metadata and discoverability.
 - `agentic-projects` — Organize per-repo agentic project workspaces under `.agents/projects/<project>/` (prompts, plans, research, temporary artifacts).
 - `coding-guidelines` — Apply repository coding standards when adding features, fixing bugs, refactoring, updating tests, or resolving lint/type/build issues.
-- `critique-workflow` — Run critique walkthroughs and autonomous critique cycles with finding clustering, status-token verdicts, decision logs, and terminal critique gates.
+- `critique-workflow` — Run structured critique, review, and audit workflows.
 - `commit-guidelines` — Create branches and commits from local diffs using project commit-message conventions (Conventional Commits, commitlint).
 - `execution-workflow` — Execute deterministic story plans through dependency-aware workflow state transitions, PR/card lifecycle discipline, and critique-gated completion; use when implementing an existing plan artifact.
 - `github-cli` — Use the `gh` CLI for pull requests, issues, workflow runs, releases, repository metadata, and file content on GitHub; invoke when interacting with any GitHub resource from the terminal.

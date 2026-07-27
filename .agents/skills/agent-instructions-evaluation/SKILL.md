@@ -52,6 +52,7 @@ user requests.
 1. Build an eval query set (`~20` queries) with:
    - should-trigger prompts
    - should-not-trigger near-misses
+   - routing-regression prompts for overlapping-scope instruction skills (for example, `perform a critique of these agent instructions` and `audit this AGENTS.md skill routing`) with explicit expected-skill assertions
 2. Keep prompts realistic (varied phrasing, explicit and implicit intent,
    different detail levels, casual language/typos where plausible).
 3. Split queries into fixed train/validation sets (about 60/40), with both

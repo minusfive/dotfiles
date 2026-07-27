@@ -12,6 +12,7 @@ Required upstream references are listed alongside the work they govern: see [Ski
 ## Audit Scope
 
 - When auditing instruction files, analyze only the file's literal contents. Exclude system- and client-injected prompt content from the analysis.
+- For non-trivial instruction-entrypoint critiques or audits, invoke [critique-workflow](../critique-workflow/SKILL.md) first and follow its procedure. Default to autonomous mode unless I explicitly ask for walkthrough gating.
 - Audit for duplicate or conflicting instructions across all repository instruction entrypoints (top-level instruction files, skills, agent/subagent definitions).
 - Prefer a single canonical source and cross-reference it rather than duplicating the same guidance — this applies equally to skills, `AGENTS.md`, `CLAUDE.md`, and agent definitions.
 - When multiple files could host the same policy, treat the most specific skill as canonical and have broader files cross-reference it.
@@ -21,7 +22,7 @@ Required upstream references are listed alongside the work they govern: see [Ski
 ## Validation
 
 - Validate skill metadata, structure, and behavior against the loaded specs.
-- Validate and audit each skill `description` for discoverability quality, including clear invocation cues and relevant trigger keywords, and avoid "how it works" wording.
+- Validate and audit each skill `description` and each `AGENTS.md` skill-index one-line summary for discoverability quality, including clear invocation cues and relevant trigger keywords, and avoid "how it works" or internal-mechanics wording.
 - When renaming or restructuring an instruction file or skill, search the repository for stale references and update them.
 - Run a duplication/conflict sweep for normative conventions across instruction entrypoints (for example: path conventions, naming rules, required artifacts, handoff contracts, and lifecycle states) and resolve conflicts before shipping.
 - For external documentation references, keep local guidance concise and project-specific and link to canonical upstream documentation instead of copying large reference material that can drift.
@@ -43,6 +44,7 @@ The repository's general post-validation critique gate (defined in the top-level
 - Did this change restate a canonical instruction locally where a cross-reference should be used?
 - Are there unresolved duplicated or contradictory conventions across instruction entrypoints after this edit?
 - Did external documentation guidance stay link-first instead of copying drift-prone reference material?
+- Are there progressive-disclosure opportunities where bulky reference content should move from `SKILL.md` into `assets/` with explicit links, or where narrow/domain-specific rules should move from broad instruction entrypoints (for example `AGENTS.md`, repo-level agent docs, agent definitions) into the appropriate skill with a cross-reference?
 - If canonical locations, naming conventions, or handoff contracts changed, did I include migration guidance (or an explicit no-migration decision) and update dependents?
 - Does any rule contain authoring meta-commentary that belongs in the authoring skill?
 
@@ -111,6 +113,7 @@ Use the loaded specs as the active source of truth; derive requirements dynamica
 - Keep descriptions concise but keyword-rich so selection systems can reliably match relevant requests — some harnesses use keyword matching, others use semantic selection; concrete task cues work for both.
 - Keep descriptions free of links, command examples, full path enumerations, and other content that belongs in the body. The `description` is a selector, not a summary.
 - Keep `description` length within the specification limit and validate trigger behavior using `agent-instructions-evaluation`.
+- Apply the same discoverability-first standard to `AGENTS.md` skill-index one-line summaries: emphasize user-intent/task cues and avoid internal mechanics.
 
 ### Scripts in skills
 
@@ -153,4 +156,4 @@ For small edits (rule wording tweaks, single-entry index updates), skip the load
 ### Required Skills section content
 
 - Use [`assets/agents-md-index-section.template.md`](assets/agents-md-index-section.template.md) as the canonical template for the `AGENTS.md` Skills section. Mirror its preamble verbatim, adapting only the skills-location reference to the active harness.
-- Populate the index from the actual skill directory: one entry per skill, using the skill's frontmatter `name` and an accurate one-line summary optimized for AGENTS.md context (it does not need to match the skill `description` verbatim).
+- Populate the index from the actual skill directory: one entry per skill, using the skill's frontmatter `name` and an accurate one-line summary optimized for AGENTS.md context (it does not need to match the skill `description` verbatim). Keep summaries discoverability-first and avoid internal mechanics.
