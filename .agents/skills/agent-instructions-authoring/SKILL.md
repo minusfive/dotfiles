@@ -19,12 +19,24 @@ Required upstream references are listed alongside the work they govern: see [Ski
 - When a rule already exists canonically, reference the canonical instruction instead of restating the same normative rule in another instruction file unless the local file adds a necessary scoped delta.
 - Flag or remove drift-prone duplication that can diverge from real behavior over time.
 
+## Instruction Update Workflow
+
+Use this workflow when I ask you to encode, correct, or enhance instruction guidance.
+
+1. Scan local and global instructions, skills, and relevant mechanical enforcement (code, tests, linters, hooks, schemas, scripts) for intent coverage, including partial coverage, and for conflicts.
+2. Re-analyze instruction scope boundaries and context-budget impact to identify fresh progressive-disclosure opportunities before adding new always-loaded guidance.
+3. Determine scope and target: local vs. global, and instruction file vs. skill. If coverage already exists, extend or reconcile it instead of creating duplicates.
+4. Prefer executable enforcement over prose when feasible. If behavior cannot be encoded mechanically, keep instruction text as fallback context.
+5. Draft the exact wording changes and ask me to confirm before applying.
+6. Apply the confirmed wording in versioned instruction files, then complete required mechanical follow-ups (index entries, cross-references). Do not treat a harness-memory update as completion.
+
 ## Validation
 
 - Validate skill metadata, structure, and behavior against the loaded specs.
 - Validate and audit each skill `description` and each `AGENTS.md` skill-index one-line summary for discoverability quality, including clear invocation cues and relevant trigger keywords, and avoid "how it works" or internal-mechanics wording.
 - When renaming or restructuring an instruction file or skill, search the repository for stale references and update them.
 - Run a duplication/conflict sweep for normative conventions across instruction entrypoints (for example: path conventions, naming rules, required artifacts, handoff contracts, and lifecycle states) and resolve conflicts before shipping.
+- Before adding or changing instruction guidance, run the [Instruction Update Workflow](#instruction-update-workflow).
 - For external documentation references, keep local guidance concise and project-specific and link to canonical upstream documentation instead of copying large reference material that can drift.
 - When changing canonical locations, naming conventions, or handoff contracts, include migration guidance (or an explicit no-migration decision) and update dependent references in the same change.
 - Verify every `assets/…` (or equivalent referenced-resource) path resolves to an existing file and that the asset's current contents still match how the body cites them.
@@ -38,13 +50,14 @@ Required upstream references are listed alongside the work they govern: see [Ski
 The repository's general post-validation critique gate (defined in the top-level instruction file) applies to every change. This skill adds the following instruction-file-specific checks; apply them during that critique pass rather than as a separate cycle:
 
 - Does this rule conflict with another instruction entry point?
+- Did this change account for pre-existing coverage (including partial coverage) and conflicting mechanical enforcement before introducing new instruction text?
 - Would a reasonable agent misread it?
 - Does it over- or under-constrain compared to my actual intent?
 - Is the canonical source still canonical after this edit?
 - Did this change restate a canonical instruction locally where a cross-reference should be used?
 - Are there unresolved duplicated or contradictory conventions across instruction entrypoints after this edit?
 - Did external documentation guidance stay link-first instead of copying drift-prone reference material?
-- Are there progressive-disclosure opportunities where bulky reference content should move from `SKILL.md` into `assets/` with explicit links, or where narrow/domain-specific rules should move from broad instruction entrypoints (for example `AGENTS.md`, repo-level agent docs, agent definitions) into the appropriate skill with a cross-reference?
+- After re-analyzing scope and context-budget impact, are there fresh progressive-disclosure opportunities where bulky reference content should move from `SKILL.md` into `assets/` with explicit links, or where narrow/domain-specific rules should move from broad instruction entrypoints (for example `AGENTS.md`, repo-level agent docs, agent definitions) into the appropriate skill with a cross-reference?
 - If canonical locations, naming conventions, or handoff contracts changed, did I include migration guidance (or an explicit no-migration decision) and update dependents?
 - Does any rule contain authoring meta-commentary that belongs in the authoring skill?
 
@@ -52,6 +65,7 @@ The repository's general post-validation critique gate (defined in the top-level
 
 - Write concise rules using imperative language optimized for accurate and efficient agentic execution.
 - Keep prose harness-agnostic and capability-based. Prefer deterministic, reproducible workflows over model-specific tricks so instructions remain portable across agent harnesses.
+- Prefer executable enforcement over prose when feasible: if a rule can be implemented in code, tests, linters, hooks, schemas, or scripts, implement that first and keep instruction text as fallback context for behavior that cannot be encoded.
 - Avoid naming specific models, effort levels, tools, or products in reusable instructions unless the file is intentionally tool-specific.
 - Instruct agents to choose execution approach based on efficiency, cost, capability, and task requirements instead of fixed named components.
 - Prefer clear, specific, and deterministic instructions that can be delegated to lower-cost but capable subagents.

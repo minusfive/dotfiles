@@ -55,17 +55,14 @@ This protocol applies to permission denials, policy refusals, and explicit user 
 
 ### Encoding corrections as durable rules
 
-When I correct an error, challenge an assumption, point out an incomplete execution, or clarify a misinterpretation, treat it as an instruction update opportunity. Apply this protocol only when the correction reflects a repeatable pattern, a standing preference, or a systematic gap — not a one-off or context-specific fix.
+When I correct an error, challenge an assumption, point out an incomplete execution, or clarify a misinterpretation, treat it as an instruction update opportunity when the correction reflects a repeatable pattern, a standing preference, or a systematic gap (not a one-off or context-specific fix). Harness memory can supplement recall, but it is never a sufficient substitute for updating versioned instructions because memory-only handling is not harness-agnostic or reproducible.
 
-1. **Load the `agent-instructions-authoring` skill** — its conventions shape every step below.
-2. **Scan existing instructions** — review local and global instructions and skills for rules that address or should address the corrected behavior. Classify the result as: (a) no relevant rule exists, (b) a relevant rule is incomplete or ambiguous, or (c) a relevant rule directly contradicts the correction.
-3. **Determine scope and target** — decide (a) local vs. global, preferring local unless the rule applies across all projects; and (b) a flat rule in the local instructions vs. a dedicated skill — prefer a skill when the correction is topical or reusable across tasks; prefer the local instructions for universal behavioral guidance. For the contradiction case, plan removal or supersession alongside any new wording.
-4. **Present and confirm** — draft the exact proposed change (file, section, wording) and ask me to confirm. If I reject, revise based on my feedback and re-present, or abandon the change if the rejection indicates the rule should not exist.
-5. **Apply the change** — write the confirmed wording verbatim, then perform any mechanical follow-ups (index entries, cross-references) needed to keep the instruction set consistent.
+For step-by-step execution, follow the Instruction Update Workflow in the [`agent-instructions-authoring` skill](.agents/skills/agent-instructions-authoring/SKILL.md#instruction-update-workflow).
 
 ## Tool Usage
 
 - Never bypass repository hooks (`--no-verify` or equivalent).
+- Do not disable or skip linting through inline suppressions, blanket ignore directives, or linter-configuration changes made only to make checks pass. Fix the code instead. If you believe a lint rule is wrong for the project, stop execution, explain your reasoning to me, and ask me for input before changing the rule or linter configuration.
 - Prefer dedicated tools (linters, language servers, formatters, refactoring tools, file-discovery and edit tools) over ad-hoc shell commands.
 - When configuring or extending a tool's behavior, check the tool's own documentation for a native directive, field, or option that already expresses the intent before writing scripts, wrappers, or runtime workarounds. Apply this during planning and during implementation. Prefer the native mechanism — declarative config surfaces in the tool's own introspection and survives upgrades better than equivalent custom logic.
 - Minimize command output using quiet/no-pager flags and targeted filtering supported by the active environment.

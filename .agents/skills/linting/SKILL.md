@@ -19,9 +19,10 @@ wrapper, or as part of a git hook.
 
 ## Responding to Failures
 
-- Fix the root cause in the offending file. Do not silence rules, add blanket
-  ignores, or edit linter configuration to make failures go away unless the
-  rule itself is wrong for the project.
+- Fix the root cause in the offending file.
+- Follow the canonical lint-governance policy in `AGENTS.md` for suppressions,
+  ignore directives, linter-configuration changes, and lint-rule-change
+  escalation.
 - Follow the hook-bypass rule in `AGENTS.md`: never pass `--no-verify` or any
   equivalent flag to skip a failing check.
 - When a linter reports across multiple files, fix each file rather than
