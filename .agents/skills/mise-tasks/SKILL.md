@@ -1,6 +1,6 @@
 ---
 name: mise-tasks
-description: Add, modify, or invoke mise tasks (file tasks and TOML tasks); wire task help via usage directives; invoke tasks through the mise task runner. Use when adding, modifying, running, or debugging tasks in a mise-managed project.
+description: Create, update, run, or debug mise tasks (file tasks and TOML tasks), including task interfaces, usage directives, and output behavior. Use when working on a mise-managed task workflow.
 ---
 
 # Mise Tasks
@@ -11,10 +11,16 @@ This skill complements the `scripts` skill (broader script authoring, testing, a
 
 ## Discovery and Execution
 
-- List tasks by reading the MCP resource `mise://tasks` when your harness exposes MCP resource reads; otherwise use [`mise tasks`](https://mise.jdx.dev/cli/tasks.html) (alias `mise tasks ls`).
-- Inspect a single task from `mise://tasks` when available; otherwise use `mise tasks info <task>`.
+- Prefer CLI for discovery/help: list tasks with [`mise tasks`](https://mise.jdx.dev/cli/tasks.html) (alias `mise tasks ls`) and inspect a task with `mise tasks info <task>`.
+- Treat the `mise-run_task` MCP tool as execution-only; pass a task name and do not use it for `mise` subcommands such as `mise tasks`.
 - Execute tasks by invoking the task runner directly (prefer the `mise-run_task` MCP tool when available; otherwise use `mise run <task>`).
 - Render task help with `mise run <task> --help` (or `-h`). See [`mise run`](https://mise.jdx.dev/cli/run.html) and [running tasks](https://mise.jdx.dev/tasks/running-tasks.html).
+- When your harness exposes direct MCP resource reads and you need structured metadata, read `mise://tasks` (for example, `source`, `config_sources`, and dependency fields).
+
+## MCP Limitations and Fallbacks
+
+- Treat `mise-install_tool` as optional; some mise versions report it as not implemented. When that happens, use the repository's normal CLI installation flow instead.
+- During portability checks, confirm task origin from `mise://tasks` metadata or `mise tasks info` so you can distinguish repository tasks from user-global tasks.
 
 ## Authoring Conventions
 
