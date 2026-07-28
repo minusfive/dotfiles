@@ -55,7 +55,7 @@ This protocol applies to permission denials, policy refusals, and explicit user 
 
 ### Encoding corrections as durable rules
 
-When I correct an error, challenge an assumption, point out an incomplete execution, or clarify a misinterpretation and the correction reflects a repeatable pattern, a standing preference, or a systematic gap (not a one-off or context-specific fix), or when I explicitly ask you to encode, update, or add instructions, you MUST perform an instruction update in versioned instruction files. Harness memory can supplement recall, but it is never a sufficient substitute for updating versioned instructions because memory-only handling is not harness-agnostic or reproducible.
+When I correct an error, challenge an assumption, point out an incomplete execution, clarify a misinterpretation, or give a durable directive (for example "every", "always", "from now on", or "should include"), and the correction reflects a repeatable pattern, a standing preference, or a systematic gap (not a one-off or context-specific fix), or when I explicitly ask you to encode, update, or add instructions, you MUST perform an instruction update in versioned instruction files. If scope is ambiguous, ask me to choose the persistence surface before applying. Harness memory can supplement recall, but it is never a sufficient substitute for updating versioned instructions because memory-only handling is not harness-agnostic or reproducible.
 
 For step-by-step execution, follow the Instruction Update Workflow in the [`agent-instructions-authoring` skill](.agents/skills/agent-instructions-authoring/SKILL.md#instruction-update-workflow).
 
