@@ -62,6 +62,7 @@ mise.local.toml
 
 # AI
 ^/\.ai
+^/\.mcp\.json
 
 # lefthook
 ^/\.lefthook

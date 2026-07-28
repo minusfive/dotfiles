@@ -73,7 +73,7 @@ For step-by-step execution, follow the Instruction Update Workflow in the [`agen
 The skills below are available under [`.agents/skills/`](.agents/skills/).
 
 - **MUST NOT** preload any skill in this index. Load any skill on demand when its description or use-when criteria match the current task; load multiple when several apply.
-- Keep this index synchronized with the contents of `.agents/skills/`; when adding, renaming, or removing a skill, update this section in the same change and run `mise run lint-skill-index`.
+- Keep this index synchronized with the contents of `.agents/skills/`; when adding, renaming, or removing a skill, update this section in the same change and run the skill-index sync validation workflow from `agent-instructions-authoring`.
 - Each entry must use the skill's frontmatter `name` and an accurate one-line summary optimized for this context; it does not need to match the skill `description` verbatim.
 - For changes to this file, any listed skill, subagent/agent definitions, or other rule entrypoints, use the `agent-instructions-authoring` skill as the canonical source.
 
@@ -94,7 +94,7 @@ The skills below are available under [`.agents/skills/`](.agents/skills/).
 - `migrate-to-rslib` — Migrate TypeScript library build pipelines from tsc or tsup to Rslib while keeping package behavior stable.
 - `migrate-to-rslint` — Migrate ESLint or other lint setups to Rslint, including config, scripts, and editor integration.
 - `migrate-to-rstest` — Migrate Jest or Vitest test suites and configuration to Rstest equivalents.
-- `mise-tasks` — Add, modify, or invoke mise tasks (file tasks and TOML tasks); wire task help via usage directives; run tasks with mise run.
+- `mise-tasks` — Add, modify, or invoke mise tasks (file tasks and TOML tasks); wire task help via usage directives; invoke tasks through the mise task runner.
 - `nvim` — Apply LazyVim Neovim configuration rules when working with config files, plugins, or Lua modules.
 - `node-npm-bun` — Guide Node package-manager execution across bun, npm, and bunx/npx. Use when installing dependencies, running scripts, or invoking Node CLIs, while preferring bun/bunx when available and respecting project standards.
 - `opencode-copilot-multipliers` — Sync GitHub Copilot model alias multiplier labels in the OpenCode config with current `github/docs` paid multipliers.

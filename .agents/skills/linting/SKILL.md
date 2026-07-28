@@ -40,9 +40,10 @@ wrapper, or as part of a git hook.
 
 - Use the `project-overview` skill to locate linter configs, runner tasks, and
   CI workflows before invoking anything directly.
-- Prefer project task wrappers (for example, `mise run <task>`) over invoking
-  linters directly when wrappers exist — they encode the project's expected
-  flags and exclusions.
+- Prefer project task wrappers (for example, invoking tasks via the
+  `mise-run_task` MCP tool or `mise run <task>`) over invoking linters
+  directly when wrappers exist — they encode the project's expected flags and
+  exclusions.
 
 ## Projects Using `hk`
 
@@ -50,8 +51,9 @@ wrapper, or as part of a git hook.
 projects that adopt it. Recognize it by a top-level `hk.pkl` file.
 
 - Run all configured checks: `hk check` (read-only) or `hk fix` (auto-fix).
-  Project task wrappers may shorten this to `mise run check` and `mise run
-fix`; prefer the wrapper when present.
+  Project task wrappers may shorten this to `check` and `fix` task
+  invocations (for example, via `mise-run_task` or `mise run check` / `mise
+run fix`); prefer the wrapper when present.
 - Run a single step with `hk check -S <step>` (read-only) or `hk fix -S
 <step>` (auto-fix). This is the right tool when iterating on a single
   linter's failures. The same `-S` flag is accepted by `hk run <hook>` when

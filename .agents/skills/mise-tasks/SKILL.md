@@ -1,6 +1,6 @@
 ---
 name: mise-tasks
-description: Add, modify, or invoke mise tasks (file tasks and TOML tasks); wire task help via usage directives; run tasks with mise run. Use when adding, modifying, running, or debugging tasks in a mise-managed project.
+description: Add, modify, or invoke mise tasks (file tasks and TOML tasks); wire task help via usage directives; invoke tasks through the mise task runner. Use when adding, modifying, running, or debugging tasks in a mise-managed project.
 ---
 
 # Mise Tasks
@@ -11,8 +11,9 @@ This skill complements the `scripts` skill (broader script authoring, testing, a
 
 ## Discovery and Execution
 
-- List tasks with [`mise tasks`](https://mise.jdx.dev/cli/tasks.html) (alias `mise tasks ls`).
-- Inspect a single task with `mise tasks info <task>`.
+- List tasks by reading the MCP resource `mise://tasks` when your harness exposes MCP resource reads; otherwise use [`mise tasks`](https://mise.jdx.dev/cli/tasks.html) (alias `mise tasks ls`).
+- Inspect a single task from `mise://tasks` when available; otherwise use `mise tasks info <task>`.
+- Execute tasks by invoking the task runner directly (prefer the `mise-run_task` MCP tool when available; otherwise use `mise run <task>`).
 - Render task help with `mise run <task> --help` (or `-h`). See [`mise run`](https://mise.jdx.dev/cli/run.html) and [running tasks](https://mise.jdx.dev/tasks/running-tasks.html).
 
 ## Authoring Conventions
