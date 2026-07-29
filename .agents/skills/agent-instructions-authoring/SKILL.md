@@ -26,7 +26,7 @@ Use this workflow when I ask you to encode, correct, or enhance instruction guid
 1. Scan local and global instructions, skills, and relevant mechanical enforcement (code, tests, linters, hooks, schemas, scripts) for intent coverage, including partial coverage, and for conflicts.
 2. Re-analyze instruction scope boundaries and context-budget impact to identify fresh progressive-disclosure opportunities before adding new always-loaded guidance.
 3. Treat durable-directive cues (for example "every", "always", "from now on", or "should include") as instruction-update candidates by default, even when a memory update may also apply.
-4. Determine scope and target: user preference memory, repository instruction, global instruction, and instruction file vs. skill. If scope is ambiguous, ask me before applying. If coverage already exists, extend or reconcile it instead of creating duplicates.
+4. Determine scope and target: user preference memory, repository-wide instruction, sub-directory instruction (the nearest applicable instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`), global instruction, and instruction file vs. skill. If scope is mixed or ambiguous, ask me before applying. If coverage already exists, extend or reconcile it instead of creating duplicates.
 5. Prefer executable enforcement over prose when feasible. If behavior cannot be encoded mechanically, keep instruction text as fallback context.
 6. Draft the exact wording changes and ask me to confirm before applying.
 7. Apply the confirmed wording in versioned instruction files, then complete required mechanical follow-ups (index entries, cross-references). Do not treat a harness-memory update as completion.
@@ -39,7 +39,7 @@ Use this workflow when I ask you to encode, correct, or enhance instruction guid
 - When renaming or restructuring an instruction file or skill, search the repository for stale references and update them.
 - Run a duplication/conflict sweep for normative conventions across instruction entrypoints (for example: path conventions, naming rules, required artifacts, handoff contracts, and lifecycle states) and resolve conflicts before shipping.
 - Before adding or changing instruction guidance, run the [Instruction Update Workflow](#instruction-update-workflow).
-- For durable-directive requests, verify the selected persistence surface explicitly: instruction files updated (or an explicit no-change rationale) and memory updated only when applicable.
+- For durable-directive requests, verify the selected persistence surface explicitly: chosen scope, instruction files updated (or an explicit no-change rationale with my confirmation), and memory updated only when applicable. Memory-only outcomes are invalid unless I explicitly reject instruction-file updates after you ask.
 - For external documentation references, keep local guidance concise and project-specific and link to canonical upstream documentation instead of copying large reference material that can drift.
 - When changing canonical locations, naming conventions, or handoff contracts, include migration guidance (or an explicit no-migration decision) and update dependent references in the same change.
 - Verify every `assets/…` (or equivalent referenced-resource) path resolves to an existing file and that the asset's current contents still match how the body cites them.

@@ -53,9 +53,15 @@ This protocol applies to permission denials, policy refusals, and explicit user 
 3. **WAIT** for instructions before proceeding.
 4. **DO NOT** retry the same approach without new information.
 
-### Encoding corrections as durable rules
+### Encoding corrections, direction, and/or preferences as durable rules vs. memory
 
-When I correct an error, challenge an assumption, point out an incomplete execution, clarify a misinterpretation, or give a durable directive (for example "every", "always", "from now on", or "should include"), and the correction reflects a repeatable pattern, a standing preference, or a systematic gap (not a one-off or context-specific fix), or when I explicitly ask you to encode, update, or add instructions, you MUST perform an instruction update in versioned instruction files. If scope is ambiguous, ask me to choose the persistence surface before applying. Harness memory can supplement recall, but it is never a sufficient substitute for updating versioned instructions because memory-only handling is not harness-agnostic or reproducible.
+When I correct an error, challenge an assumption, point out an incomplete execution, clarify a misinterpretation, give a durable directive (for example "every", "always", "from now on", or "should include"), or explicitly ask you to encode, update, or add instructions, you MUST run persistence triage before closing the turn:
+
+1. Determine persistence scope and target surface: user/global scope, repository-wide scope, or sub-directory scope (the nearest applicable instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`).
+2. If scope is mixed or ambiguous, ask me to choose before applying changes.
+3. Apply versioned instruction-file updates on the chosen surface first.
+4. Memory can supplement persistence when applicable, but memory-only handling is invalid for durable directives.
+5. If no instruction-file change is made, provide an explicit no-change rationale with citation and get my confirmation.
 
 For step-by-step execution, follow the Instruction Update Workflow in the [`agent-instructions-authoring` skill](.agents/skills/agent-instructions-authoring/SKILL.md#instruction-update-workflow).
 
