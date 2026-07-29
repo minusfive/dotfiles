@@ -21,20 +21,21 @@ Required upstream references are listed alongside the work they govern: see [Ski
 - Bias toward removing duplicated instruction text and improving the best canonical owner (clarification, correction, and/or discoverability). Add or keep non-canonical references only when they materially improve discoverability or scoped context.
 - Flag or remove drift-prone duplication that can diverge from real behavior over time.
 
-## Instruction Update Workflow
+## Mandatory Instruction Authoring Workflow
 
 Use this workflow when I ask you to encode, correct, or enhance instruction guidance.
 
 1. Scan local and global instructions, skills, and relevant mechanical enforcement (code, tests, linters, hooks, schemas, scripts) for intent coverage, including partial coverage, and for conflicts.
 2. Before adding always-loaded guidance, check scope and context cost, and look for chances to keep core instructions short by moving long reference material to linked assets.
 3. Treat durable-directive cues (for example "every", "always", "from now on", or "should include") as instruction-update candidates by default, even when a memory update may also apply.
-4. Determine scope and target: user preference memory, repository-wide instruction, sub-directory instruction (the nearest applicable instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`), global instruction, and instruction file vs. skill. If scope is mixed or ambiguous, ask me before applying. If coverage already exists, extend or reconcile it instead of creating duplicates.
+4. Determine scope and target first across executable enforcement and instruction-file handling: executable enforcement surfaces (code, tests, linters, hooks, schemas, scripts), repository-wide instruction, sub-directory instruction (the nearest applicable instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`), global instruction, and instruction file vs. skill. Then decide where to save the directive on the selected instruction-file scope before closing the turn. If scope is mixed or ambiguous, ask me before applying. If coverage already exists, extend or reconcile it instead of creating duplicates.
 5. For duplicate/conflict fixes, compare all overlapping entrypoints, choose the single best canonical owner, and improve that owner first (clarification, correction, and/or discoverability) instead of spreading equivalent edits across multiple files.
 6. Before replacing non-canonical copies with references, assess whether those references are worth maintaining; if canonical discoverability improvements already cover routing needs, remove the duplicates without adding cross-reference maintenance.
 7. Prefer executable enforcement over prose when feasible. If behavior cannot be encoded mechanically, keep instruction text as fallback context.
 8. Draft the exact wording changes and ask me to confirm before applying.
-9. Apply the confirmed wording in versioned instruction files, then complete required mechanical follow-ups (index entries, cross-references). Do not treat a harness-memory update as completion.
-10. When memory is also warranted, store or update memory in the same task after instruction-file updates. Memory augments persistence but never substitutes for versioned instruction changes.
+9. Apply the confirmed wording in versioned instruction files on the selected scope, then complete required mechanical follow-ups (index entries, cross-references). Do not treat a harness-memory update as completion.
+10. If no instruction-file change is made, provide an explicit no-change rationale with citation and get my confirmation before closing.
+11. When memory is also warranted, store or update memory in the same task. Memory augments persistence and never substitutes for versioned instruction changes.
 
 ## Validation
 
@@ -43,7 +44,7 @@ Use this workflow when I ask you to encode, correct, or enhance instruction guid
 - For instruction discoverability and clarity, write in plain language first. Use domain jargon only when plain wording loses essential meaning, and do not treat local term frequency as justification to introduce broader or overloaded meanings.
 - When renaming or restructuring an instruction file or skill, search the repository for stale references and update them.
 - Run a duplication/conflict sweep for normative conventions across instruction entrypoints (for example: path conventions, naming rules, required artifacts, handoff contracts, and lifecycle states) and resolve conflicts before shipping.
-- Before adding or changing instruction guidance, run the [Instruction Update Workflow](#instruction-update-workflow).
+- Before adding or changing instruction guidance, run the [Mandatory Instruction Authoring Workflow](#mandatory-instruction-authoring-workflow).
 - For durable-directive requests, verify the selected persistence surface explicitly: chosen scope, instruction files updated (or an explicit no-change rationale with my confirmation), and memory updated only when applicable. Memory-only outcomes are invalid unless I explicitly reject instruction-file updates after you ask.
 - For external documentation references, keep local guidance concise and project-specific and link to canonical upstream documentation instead of copying large reference material that can drift.
 - When changing canonical locations, naming conventions, or handoff contracts, include migration guidance (or an explicit no-migration decision) and update dependent references in the same change.

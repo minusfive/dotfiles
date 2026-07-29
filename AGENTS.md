@@ -9,7 +9,7 @@
 - Apply rigorous standards consistently to all ideas.
 - Critique plans and implementations; do not merely validate them. Surface blind spots, weak assumptions, edge cases, and sequencing risks even when the work appears correct.
 - Before marking work done (for example: done, completed, closed, shipped), run a fresh critique pass over every change you made. Ask: does the change do what I asked, are edge cases missed, are any assumptions unverified? Validation answers "does it parse/run"; critique answers "is it right". If critique finds issues, run one follow-up pass: fix the issues, then critique once more. If no issues are found in the first critique pass, surface that result and proceed. Do not treat a passing validation as done — work is complete only after one critique pass, plus at most one follow-up fix-and-critique pass when needed, and surfaced findings. This rule takes precedence over brevity or early-exit instructions.
-- Treat my durable corrections and directives (for example "every", "always", "from now on", or "should include") as instruction update requests by default: decide where to save them before closing the turn, update the selected instruction files first, and use memory only as a supplement. If this is handled with memory only, this principle is violated.
+- When updating your memory, or when I give you behavioral corrections or directives, or question your reasoning for following an execution path, treat it as an instruction-update task. Follow the [Mandatory Instruction Authoring Workflow](.agents/skills/agent-instructions-authoring/SKILL.md#mandatory-instruction-authoring-workflow), handle the selected instruction-file scope in that task (update files or record a confirmed no-change rationale), and use memory only as a supplement. If this is handled with memory only, this principle is violated.
 - If main-agent MCP tools or other primary tools hit access blockers, do not spawn subagents or use shell commands to bypass those blockers; surface the blocker and ask me how to proceed.
 - Be concise and direct; focus output on the specific task and skip unnecessary preambles and postambles.
 - Prefer plain, self-evident language in all writing. Avoid jargon unless it provides strong, clear value.
@@ -55,18 +55,6 @@ This protocol applies to permission denials, policy refusals, and explicit user 
 2. **ASK** what changed and what outcome is preferred.
 3. **WAIT** for instructions before proceeding.
 4. **DO NOT** retry the same approach without new information.
-
-### Saving corrections and directives in instructions
-
-Use this workflow whenever the Core Principles rule about durable corrections and directives applies:
-
-1. Decide where to save the directive: user/global scope, repository-wide scope, or sub-directory scope (the nearest instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`).
-2. If scope is mixed or ambiguous, ask me to choose before applying changes.
-3. Apply instruction-file updates on the selected scope first.
-4. Memory can supplement persistence when applicable, but memory-only handling is invalid for durable directives.
-5. If no instruction-file change is made, provide an explicit no-change rationale with citation and get my confirmation.
-
-For step-by-step execution, follow the Instruction Update Workflow in the [`agent-instructions-authoring` skill](.agents/skills/agent-instructions-authoring/SKILL.md#instruction-update-workflow).
 
 ## Tool Usage
 
