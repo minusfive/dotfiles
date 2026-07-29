@@ -149,6 +149,7 @@ Use the loaded specs as the active source of truth; derive requirements dynamica
 ### Body authoring style
 
 - Write rules as positive, imperative directives. State what to do; describe the desired end state. Reserve "do not X" or "X is wrong" framings for cases where the antipattern is concrete, plausible, high-risk, and not already excluded by a positive rule — instruction-file authoring contains several such antipatterns (e.g., assuming the harness auto-loads referenced assets, restating canonical rules in multiple entrypoints), so negative framings appear in this skill where the exception is met.
+- When tightening instruction text, first check whether simple removal of extra wording preserves intent; add explicit negative admonitions only when omission would leave a realistic, high-risk misread.
 - Negative rules carry two costs: they plant the anti-pattern in agent context (which can prompt the very behavior they forbid), and they can conflict with project-specific configuration (aliases, custom directories, custom commands) that legitimately uses the named token.
 - Defer to upstream documentation as the durable source of truth. When the underlying system supports configuration (custom paths, directories, environment names, command aliases), reference the docs and the project's configuration; do not enumerate defaults inline as if they were invariant.
 - For external documentation, prefer concise links to canonical sources and keep local instruction text focused on project-specific behavior and constraints.
