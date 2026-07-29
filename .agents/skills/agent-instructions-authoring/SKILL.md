@@ -17,6 +17,8 @@ Required upstream references are listed alongside the work they govern: see [Ski
 - Prefer a single canonical source and cross-reference it rather than duplicating the same guidance — this applies equally to skills, `AGENTS.md`, `CLAUDE.md`, and agent definitions.
 - When multiple files could host the same policy, treat the most specific skill as canonical and have broader files cross-reference it.
 - When a rule already exists canonically, reference the canonical instruction instead of restating the same normative rule in another instruction file unless the local file adds a necessary scoped delta.
+- When resolving duplicate or conflicting guidance, run a holistic cross-entrypoint analysis first and avoid patching each copy independently.
+- Bias toward removing duplicated instruction text and improving the best canonical owner (clarification, correction, and/or discoverability). Add or keep non-canonical references only when they materially improve discoverability or scoped context.
 - Flag or remove drift-prone duplication that can diverge from real behavior over time.
 
 ## Instruction Update Workflow
@@ -27,10 +29,12 @@ Use this workflow when I ask you to encode, correct, or enhance instruction guid
 2. Re-analyze instruction scope boundaries and context-budget impact to identify fresh progressive-disclosure opportunities before adding new always-loaded guidance.
 3. Treat durable-directive cues (for example "every", "always", "from now on", or "should include") as instruction-update candidates by default, even when a memory update may also apply.
 4. Determine scope and target: user preference memory, repository-wide instruction, sub-directory instruction (the nearest applicable instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`), global instruction, and instruction file vs. skill. If scope is mixed or ambiguous, ask me before applying. If coverage already exists, extend or reconcile it instead of creating duplicates.
-5. Prefer executable enforcement over prose when feasible. If behavior cannot be encoded mechanically, keep instruction text as fallback context.
-6. Draft the exact wording changes and ask me to confirm before applying.
-7. Apply the confirmed wording in versioned instruction files, then complete required mechanical follow-ups (index entries, cross-references). Do not treat a harness-memory update as completion.
-8. When memory is also warranted, store or update memory in the same task after instruction-file updates. Memory augments persistence but never substitutes for versioned instruction changes.
+5. For duplicate/conflict fixes, compare all overlapping entrypoints, choose the single best canonical owner, and improve that owner first (clarification, correction, and/or discoverability) instead of spreading equivalent edits across multiple files.
+6. Before replacing non-canonical copies with references, assess whether those references are worth maintaining; if canonical discoverability improvements already cover routing needs, remove the duplicates without adding cross-reference maintenance.
+7. Prefer executable enforcement over prose when feasible. If behavior cannot be encoded mechanically, keep instruction text as fallback context.
+8. Draft the exact wording changes and ask me to confirm before applying.
+9. Apply the confirmed wording in versioned instruction files, then complete required mechanical follow-ups (index entries, cross-references). Do not treat a harness-memory update as completion.
+10. When memory is also warranted, store or update memory in the same task after instruction-file updates. Memory augments persistence but never substitutes for versioned instruction changes.
 
 ## Validation
 
