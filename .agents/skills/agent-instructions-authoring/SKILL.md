@@ -1,13 +1,13 @@
 ---
 name: agent-instructions-authoring
-description: Use when creating, editing, auditing, or restructuring agent instruction entrypoints (`SKILL.md`, `AGENTS.md`, `CLAUDE.md`, subagent/agent definitions). Consolidate duplicate or conflicting rules, improve skill description discoverability, and validate metadata, assets, and cross-file consistency.
+description: Create, audit, or restructure agent instruction entrypoints. Use when editing skills, `AGENTS.md`/`CLAUDE.md`, or agent definitions to resolve duplicate/conflicting rules, improve discoverability, or validate metadata/assets consistency.
 ---
 
 # Agent Instructions Authoring
 
 Use this skill for any task that creates, edits, audits, or restructures files that instruct agent behavior. This includes skills (`SKILL.md`), top-level instruction files (`AGENTS.md`, `CLAUDE.md`, repo-level agent docs), subagent and agent definitions, and any other rule/instruction entry point.
 
-Required upstream references are listed alongside the work they govern: see [Skill Authoring](#skill-authoring) for skill schema/structure references and [AGENTS.md Authoring](#agentsmd-authoring) for top-level instruction-file references. Load them when the task scope warrants; for small edits (description rewrites, wording tweaks, index updates, typo fixes), skip the load.
+Required upstream references are listed alongside the work they govern: see [Skill Creation or Update](#skill-creation-or-update) for skill schema/structure references and [AGENTS.md Authoring](#agentsmd-authoring) for top-level instruction-file references. Load them when the task scope warrants; for small edits (description rewrites, wording tweaks, index updates, typo fixes), skip the load.
 
 ## Audit Scope
 

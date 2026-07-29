@@ -1,6 +1,6 @@
 ---
 name: rspress-custom-theme
-description: Customize Rspress themes using CSS variables, Layout slots, component wrapping, or component ejection. Use when I want to change the look and feel of an Rspress site, override theme components, add custom navigation/sidebar/footer content, inject global providers, or modify the default Rspress theme in any way. Also use when I mention theme/index.tsx, Layout slots, BEM class overrides, or rspress eject.
+description: Customize Rspress themes. Use when changing site branding/layout, overriding theme components, adding slot content or global providers, or ejecting theme components.
 ---
 
 # Rspress Custom Theme

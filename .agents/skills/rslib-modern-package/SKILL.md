@@ -1,6 +1,6 @@
 ---
 name: rslib-modern-package
-description: Opinionated Rslib recommendations for modern JS/TS npm package design covering pure ESM, strict TypeScript, explicit exports, small stable APIs, pragmatic dependencies, accurate sideEffects, correct declarations, package validation, provenance, README.md, and AGENTS.md. Use when I want to make a JS/TS package more modern, check whether the current package setup is healthy, review package.json/exports/types/dependencies/docs/release readiness, or apply a modern library baseline.
+description: Apply a modern Rslib package baseline for JS/TS libraries. Use when creating or modernizing package exports/types, API contracts, dependency strategy, release readiness, or package-level agent invariants.
 ---
 
 # Rslib Modern Package

@@ -1,6 +1,6 @@
 ---
 name: linting
-description: Run linters and respond to lint failures across languages and hook-managed projects. Use when running checks, fixing lint or format issues, recovering from pre-commit failures, scoping a lint run to changed files or the whole tree, or invoking individual `hk` steps.
+description: Run project linters and handle lint/format failures. Use when baselining checks, fixing hook failures, scoping lint runs, or invoking `hk` lint steps.
 ---
 
 # Linting

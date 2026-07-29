@@ -1,6 +1,6 @@
 ---
 name: task-orchestration
-description: Decide when to parallelize tool calls, when to spawn, launch, or dispatch subagents instead of running directly, which model tier (higher- vs lower-capability) suits each sub-task, and how to coordinate multi-step work via shared scratch, temp, or orchestration directories. Use when fanning out concurrent tool calls, delegating scopes to subagents, picking a capability tier for sub-work, or sharing intermediate files across steps.
+description: Orchestrate multi-step execution across direct tools and subagents. Use when deciding what to parallelize, what to delegate, which model tier to use, and how to coordinate shared intermediate artifacts.
 ---
 
 # Task Orchestration

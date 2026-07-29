@@ -1,6 +1,6 @@
 ---
 name: migrate-to-rstest
-description: Migrate Jest or Vitest test suites and configs to Rstest. Use when asked to move from Jest/Vitest to Rstest, replace framework APIs with `@rstest/core`, translate test config to `rstest.config.ts`, or update test scripts and setup files for Rstest equivalents.
+description: Migrate Jest or Vitest suites to Rstest with minimal behavior change. Use when replacing test APIs, configs, setup files, scripts, or migration blockers.
 ---
 
 # Migrate to Rstest
