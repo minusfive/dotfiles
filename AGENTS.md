@@ -2,7 +2,7 @@
 
 ## Core Principles
 
-- IMPORTANT: Prefer retrieval-led reasoning over pre-training-led reasoning
+- IMPORTANT: Base decisions on repository files and tool output first. Use prior knowledge only when local evidence is missing.
 - Prioritize technical accuracy and facts over validating beliefs.
 - Provide honest, objective feedback even when it may not align with expectations.
 - Investigate uncertainty first rather than confirming assumptions. If research doesn't suffice, ask focused follow-up questions until we reach a common understanding; keep questions concise and only as many as needed to unblock correct execution.
@@ -10,6 +10,7 @@
 - Critique plans and implementations; do not merely validate them. Surface blind spots, weak assumptions, edge cases, and sequencing risks even when the work appears correct.
 - **Critique gate (required terminal step):** After validation passes, run a fresh critique pass over every produced artifact before any terminal workflow transition (for example: done, completed, closed, shipped). Ask: does the change do what was asked, are there edge cases missed, are any assumptions unverified? Validation answers "does it parse/run"; critique answers "is it right". Do not treat a passing validation as done — work is complete only after critique passes. This gate takes precedence over brevity or early-exit instructions.
 - Be concise and direct; focus output on the specific task and skip unnecessary preambles and postambles.
+- Prefer plain, self-evident language in all writing. Avoid jargon unless it provides strong, clear value.
 - Ask for confirmation before destructive or irreversible operations.
 - **MUST NOT** use emojis or icons unless explicitly requested.
 
@@ -76,24 +77,19 @@ For step-by-step execution, follow the Instruction Update Workflow in the [`agen
 
 ## Skills
 
-The skills below are available under [`.agents/skills/`](.agents/skills/).
-
-- **MUST NOT** preload any skill in this index. Load any skill on demand when its description or use-when criteria match the current task; load multiple when several apply.
-- Keep this index synchronized with the contents of `.agents/skills/`; when adding, renaming, or removing a skill, update this section in the same change and run the skill-index sync validation workflow from `agent-instructions-authoring`.
-- Each entry must use the skill's frontmatter `name` and an accurate one-line summary optimized for this context; it does not need to match the skill `description` verbatim.
-- For changes to this file, any listed skill, subagent/agent definitions, or other rule entrypoints, use the `agent-instructions-authoring` skill as the canonical source.
+The skills below are available under [`.agents/skills/`](.agents/skills/). **MUST NOT** preload any skill in this index. Load skills as needed when their description or use-when criteria match the task.
 
 ### Index
 
-- `agent-instructions-authoring` — Author, audit, and modify agent instruction files (skills, `AGENTS.md`, `CLAUDE.md`, subagent/agent definitions); consolidate duplicated rules; validate skill metadata and discoverability.
+- `agent-instructions-authoring` — Create, update, and review agent instruction files (skills, `AGENTS.md`, `CLAUDE.md`, and agent definitions). Use when fixing conflicting rules, removing duplicates, or improving instruction clarity and discoverability.
 - `agentic-projects` — Organize per-repo agentic project workspaces under `.agents/projects/<project>/` (prompts, plans, research, temporary artifacts).
 - `coding-guidelines` — Apply repository coding standards when adding features, fixing bugs, refactoring, updating tests, or resolving lint/type/build issues.
 - `critique-workflow` — Run structured critique, review, and audit workflows.
 - `commit-guidelines` — Create branches and commits from local diffs using project commit-message conventions (Conventional Commits, commitlint).
-- `execution-workflow` — Execute deterministic story plans through dependency-aware workflow state transitions, PR/card lifecycle discipline, and critique-gated completion; use when implementing an existing plan artifact.
-- `github-cli` — Use the `gh` CLI for pull requests, issues, workflow runs, releases, repository metadata, and file content on GitHub; invoke when interacting with any GitHub resource from the terminal.
+- `execution-workflow` — Execute an existing multi-story plan artifact from start to finish. Use when a plan already exists and needs coordinated delivery.
+- `github-cli` — Use the `gh` CLI for GitHub tasks. Use when working with pull requests, issues, workflow runs, releases, or repository metadata.
 - `hammerspoon` — Apply Hammerspoon macOS automation and window management rules when working with scripts, Spoons, hotkeys, or Lua code.
-- `linting` — Run linters and respond to lint failures across languages and hook-managed projects; covers `hk` step-level invocation and changed-file vs. whole-tree scope.
+- `linting` — Run linters and fix lint failures across project languages. Use when running checks, fixing lint/format issues, or recovering from hook failures.
 - `lua` — Apply Lua authoring conventions for Neovim, Hammerspoon, WezTerm, and Yazi configurations (module structure, returns, EmmyLua annotations).
 - `markdown` — Apply Markdown authoring conventions (clarity, link style, table-of-contents discipline).
 - `migrate-to-rsbuild` — Migrate Webpack, Vite, CRA/CRACO, or Vue CLI projects to Rsbuild when replacing an existing build setup with minimal behavior change.
@@ -102,14 +98,14 @@ The skills below are available under [`.agents/skills/`](.agents/skills/).
 - `migrate-to-rstest` — Migrate Jest or Vitest test suites and configuration to Rstest equivalents.
 - `mise-tasks` — Create, update, run, or debug mise tasks (file tasks and TOML tasks), including task interfaces, usage directives, and output behavior.
 - `nvim` — Apply LazyVim Neovim configuration rules when working with config files, plugins, or Lua modules.
-- `node-npm-bun` — Guide Node package-manager execution across bun, npm, and bunx/npx. Use when installing dependencies, running scripts, or invoking Node CLIs, while preferring bun/bunx when available and respecting project standards.
+- `node-npm-bun` — Run Node package-manager tasks across bun and npm. Use when installing dependencies, running scripts, or invoking Node CLIs, while following project standards.
 - `opencode-copilot-multipliers` — Sync GitHub Copilot model alias multiplier labels in the OpenCode config with current `github/docs` paid multipliers.
 - `planning` — Produce execution-ready implementation plans for multi-step, high-risk, ambiguous, or multi-file/service work.
 - `pr-guidelines` — Push branches and open pull requests using the project's title/body conventions and linked issues.
 - `project-overview` — Discover project structure, architecture, and tooling before implementation in an unfamiliar area.
 - `qmd-setup` — Set up QMD in a repository with repository scanning, collection planning, YAML-defined collections, and approval-gated execution.
 - `qmd-usage` — Search and retrieve indexed markdown knowledge with QMD, including structured query authoring and source-grounded answers.
-- `rewrite-imports` — Bulk-migrate import paths after module renames, file moves, or package refactors; use when changing how modules are referenced across many files.
+- `rewrite-imports` — Bulk-update import paths after module moves or renames. Use when a refactor changes module references across many files.
 - `rsbuild-best-practices` — Apply Rsbuild configuration, CLI, type-checking, optimization, asset handling, and debugging best practices.
 - `rsbuild-v2-upgrade` — Upgrade Rsbuild projects from v1.x to v2, including dependency and configuration updates.
 - `rsdoctor-analysis` — Analyze local `rsdoctor-data.json` bundle reports and produce evidence-based optimization recommendations.
@@ -127,8 +123,8 @@ The skills below are available under [`.agents/skills/`](.agents/skills/).
 - `rstest-best-practices` — Apply Rstest best practices for test authoring, mocking, snapshots, DOM testing, coverage, CI, and performance.
 - `rstest-debugging` — Debug Rstest performance regressions when startup or execution is slower than expected and isolate root causes with controlled experiments.
 - `scripts` — Author and maintain setup, automation, and bootstrap shell/task scripts and install flows.
-- `security` — Apply security checks for secrets, credentials, permissions, external network access, dependency risk, and sensitive configuration; use during implementation and security review passes.
-- `agent-instructions-evaluation` — Evaluate agent-instruction behavior and discoverability with baseline comparisons, assertion grading, and benchmark-based iteration loops.
-- `task-orchestration` — Decide when to parallelize tool calls, when to dispatch subagents, which model tier suits each sub-task, and how to coordinate multi-step work via shared temporary artifacts.
-- `tanstack-cli` — Use TanStack CLI for app scaffolding, add-on management, docs lookup, and MCP migration whenever a project uses TanStack tools or I ask for TanStack workflows.
+- `security` — Apply security checks for secrets, credentials, permissions, network access, dependency risk, and sensitive config. Use during implementation and security review.
+- `agent-instructions-evaluation` — Evaluate whether instruction changes improve outcomes. Use when revising skills or AGENTS/CLAUDE files and comparing before/after results with pass/fail checks.
+- `task-orchestration` — Choose how to split and coordinate work. Use when deciding what to run in parallel, what to delegate, and how to share temporary outputs.
+- `tanstack-cli` — Use TanStack CLI for app setup, add-on management, docs lookup, and MCP migration. Use when a project uses TanStack tools.
 - `zsh` — Apply Zsh shell scripting conventions (error safety, logging helpers); use when authoring or modifying Zsh scripts.

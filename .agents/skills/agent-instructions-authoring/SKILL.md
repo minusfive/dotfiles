@@ -26,7 +26,7 @@ Required upstream references are listed alongside the work they govern: see [Ski
 Use this workflow when I ask you to encode, correct, or enhance instruction guidance.
 
 1. Scan local and global instructions, skills, and relevant mechanical enforcement (code, tests, linters, hooks, schemas, scripts) for intent coverage, including partial coverage, and for conflicts.
-2. Re-analyze instruction scope boundaries and context-budget impact to identify fresh progressive-disclosure opportunities before adding new always-loaded guidance.
+2. Before adding always-loaded guidance, check scope and context cost, and look for chances to keep core instructions short by moving long reference material to linked assets.
 3. Treat durable-directive cues (for example "every", "always", "from now on", or "should include") as instruction-update candidates by default, even when a memory update may also apply.
 4. Determine scope and target: user preference memory, repository-wide instruction, sub-directory instruction (the nearest applicable instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`), global instruction, and instruction file vs. skill. If scope is mixed or ambiguous, ask me before applying. If coverage already exists, extend or reconcile it instead of creating duplicates.
 5. For duplicate/conflict fixes, compare all overlapping entrypoints, choose the single best canonical owner, and improve that owner first (clarification, correction, and/or discoverability) instead of spreading equivalent edits across multiple files.
@@ -40,6 +40,7 @@ Use this workflow when I ask you to encode, correct, or enhance instruction guid
 
 - Validate skill metadata, structure, and behavior against the loaded specs.
 - Validate and audit each skill `description` and each `AGENTS.md` skill-index one-line summary for discoverability quality, including clear invocation cues and relevant trigger keywords, and avoid "how it works" or internal-mechanics wording.
+- For instruction discoverability and clarity, write in plain language first. Use domain jargon only when plain wording loses essential meaning, and do not treat local term frequency as justification to introduce broader or overloaded meanings.
 - When renaming or restructuring an instruction file or skill, search the repository for stale references and update them.
 - Run a duplication/conflict sweep for normative conventions across instruction entrypoints (for example: path conventions, naming rules, required artifacts, handoff contracts, and lifecycle states) and resolve conflicts before shipping.
 - Before adding or changing instruction guidance, run the [Instruction Update Workflow](#instruction-update-workflow).
@@ -64,14 +65,14 @@ The repository's general post-validation critique gate (defined in the top-level
 - Did this change restate a canonical instruction locally where a cross-reference should be used?
 - Are there unresolved duplicated or contradictory conventions across instruction entrypoints after this edit?
 - Did external documentation guidance stay link-first instead of copying drift-prone reference material?
-- After re-analyzing scope and context-budget impact, are there fresh progressive-disclosure opportunities where bulky reference content should move from `SKILL.md` into `assets/` with explicit links, or where narrow/domain-specific rules should move from broad instruction entrypoints (for example `AGENTS.md`, repo-level agent docs, agent definitions) into the appropriate skill with a cross-reference?
+- After checking scope and context cost, confirm that long reference material lives in linked assets, and that narrow domain rules live in the most specific skill instead of broad instruction files.
 - If canonical locations, naming conventions, or handoff contracts changed, did I include migration guidance (or an explicit no-migration decision) and update dependents?
 - Does any rule contain authoring meta-commentary that belongs in the authoring skill?
 
 ## Authoring Style
 
 - Write concise rules using imperative language optimized for accurate and efficient agentic execution.
-- Keep prose harness-agnostic and capability-based. Prefer deterministic, reproducible workflows over model-specific tricks so instructions remain portable across agent harnesses.
+- Write instructions so they work across agent tools. Describe required capabilities and repeatable steps, and avoid model-specific tricks.
 - Prefer executable enforcement over prose when feasible: if a rule can be implemented in code, tests, linters, hooks, schemas, or scripts, implement that first and keep instruction text as fallback context for behavior that cannot be encoded.
 - Avoid naming specific models, effort levels, tools, or products in reusable instructions unless the file is intentionally tool-specific.
 - Instruct agents to choose execution approach based on efficiency, cost, capability, and task requirements instead of fixed named components.
@@ -86,7 +87,7 @@ The repository's general post-validation critique gate (defined in the top-level
 - Keep behavioral guidance and authoring meta-commentary separate. Behavioral rules tell executing agents what to do; meta-commentary (labels like "this is the canonical X", directives about how other files should reference the rule, taxonomy notes, audience asides) tells skill authors how to treat the rule. Meta-commentary belongs in the authoring skill (`agent-instructions-authoring`), not embedded in the behavioral rule itself.
 - When a skill has critique findings that apply only to its own domain, place them in a `## Critique` section that defers to the top-level critique gate and lists only the domain-specific checks. Do not restate the gate itself, and do not push domain-specific findings up into top-level instruction files (e.g., `AGENTS.md`).
 
-## Skill Authoring
+## Skill Creation or Update
 
 This section governs how to create, edit, and structure individual skills.
 
@@ -170,6 +171,7 @@ For small edits (rule wording tweaks, single-entry index updates), skip the load
 
 - Keep `AGENTS.md` to rules that apply to all agents and all tasks, regardless of domain, language, or workflow, plus a skill index. Anything narrower belongs in a skill.
 - Keep the `AGENTS.md` Skills preamble behavioral. Put rationale and implementation context for skill catalogs (for example, discovery-model details) in this authoring skill, not in `AGENTS.md`.
+- For changes to `AGENTS.md`, any listed skill, subagent/agent definitions, or other rule entrypoints, use this skill as the canonical source.
 - Extract domain-, language-, or workflow-specific guidance into skills and reference them from the index.
 - Update the index in the same change that adds, renames, or removes a skill.
 - Pair every `AGENTS.md` with a `CLAUDE.md` at the same path whose entire contents are the literal string `@AGENTS.md` (and nothing else). Create, move, rename, and delete them in lockstep. This ensures Claude resolves to the same canonical entry point as other harnesses.
