@@ -10,7 +10,7 @@
 - Before marking work done (for example: done, completed, closed, shipped), run a fresh critique pass over every change you made. Ask: does the change do what I asked, are edge cases missed, are any assumptions unverified? Validation answers "does it parse/run"; critique answers "is it right". If critique finds issues, run one follow-up pass: fix the issues, then critique once more. If no issues are found in the first critique pass, surface that result and proceed. Do not treat a passing validation as done — work is complete only after one critique pass, plus at most one follow-up fix-and-critique pass when needed, and surfaced findings. This rule takes precedence over brevity or early-exit instructions.
 - If main-agent MCP tools or other primary tools hit access blockers, do not spawn subagents or use shell commands to bypass those blockers; surface the blocker and ask me how to proceed.
 - Be concise and direct; focus output on the specific task and skip unnecessary preambles and postambles.
-- Prefer plain, self-evident language in all writing. Avoid jargon unless it provides strong, clear value.
+- For shared prose and tone conventions across authored content, follow [`writing-style`](.agents/skills/writing-style/SKILL.md).
 - Ask for confirmation before destructive or irreversible operations.
 - **MUST NOT** use emojis or icons unless explicitly requested.
 
@@ -115,4 +115,5 @@ The skills below are available under [`.agents/skills/`](.agents/skills/). **MUS
 - `agent-instructions-evaluation` — Evaluate whether instruction changes improve outcomes. Use when revising skills or AGENTS/CLAUDE files and comparing before/after results with pass/fail checks.
 - `task-orchestration` — Choose how to split and coordinate work. Use when deciding what to run in parallel, what to delegate, and how to share temporary outputs.
 - `tanstack-cli` — Use TanStack CLI for app setup, add-on management, docs lookup, and MCP migration. Use when a project uses TanStack tools.
+- `writing-style` — Apply prose tone, standards, and publication-readiness rules for all writing.
 - `zsh` — Apply Zsh shell scripting conventions (error safety, logging helpers); use when authoring or modifying Zsh scripts.

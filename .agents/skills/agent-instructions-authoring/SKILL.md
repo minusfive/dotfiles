@@ -41,7 +41,7 @@ Use this workflow when I ask you to encode, correct, or enhance instruction guid
 
 - Validate skill metadata, structure, and behavior against the loaded specs.
 - Validate and audit each skill `description` and each `AGENTS.md` skill-index one-line summary for discoverability quality, including clear invocation cues and relevant trigger keywords, and avoid "how it works" or internal-mechanics wording.
-- For instruction discoverability and clarity, write in plain language first. Use domain jargon only when plain wording loses essential meaning, and do not treat local term frequency as justification to introduce broader or overloaded meanings.
+- Apply shared prose conventions from [writing-style](../writing-style/SKILL.md). For instruction discoverability and clarity, use domain jargon only when plain wording loses essential meaning, and do not treat local term frequency as justification to introduce broader or overloaded meanings.
 - When renaming or restructuring an instruction file or skill, search the repository for stale references and update them.
 - Run a duplication/conflict sweep for normative conventions across instruction entrypoints (for example: path conventions, naming rules, required artifacts, handoff contracts, and lifecycle states) and resolve conflicts before shipping.
 - Before adding or changing instruction guidance, run the [Mandatory Instruction Authoring Workflow](#mandatory-instruction-authoring-workflow).
@@ -73,6 +73,7 @@ The repository's general post-validation critique gate (defined in the top-level
 ## Authoring Style
 
 - Write concise rules using imperative language optimized for accurate and efficient agentic execution.
+- Follow [writing-style](../writing-style/SKILL.md) for shared prose and tone conventions before applying the instruction-specific rules in this section.
 - Write instructions so they work across agent tools. Describe required capabilities and repeatable steps, and avoid model-specific tricks.
 - Prefer executable enforcement over prose when feasible: if a rule can be implemented in code, tests, linters, hooks, schemas, or scripts, implement that first and keep instruction text as fallback context for behavior that cannot be encoded.
 - Avoid naming specific models, effort levels, tools, or products in reusable instructions unless the file is intentionally tool-specific.
@@ -82,7 +83,6 @@ The repository's general post-validation critique gate (defined in the top-level
 - Ground guidance in observed project reality and concrete failure modes (not generic "best practices"), per [Best practices for skill creators](https://agentskills.io/skill-creation/best-practices).
 - Keep high-value "gotchas" in the always-loaded body when they prevent common, costly mistakes; move bulky reference material to assets for progressive disclosure.
 - Follow `coding-guidelines` skill Markdown guidance.
-- Use Markdown links (`[text](url)`) instead of bare URLs.
 - Use me-style phrasing when referring to me in instruction text: write forms like `ask me`, `when I ask`, and `my`, and avoid third-person requester phrasing.
 - Use you-style phrasing when referring to the executing agent in instruction text: write forms like `you`, `your`, and `when you`, and avoid third-person agent phrasing.
 - Keep behavioral guidance and authoring meta-commentary separate. Behavioral rules tell executing agents what to do; meta-commentary (labels like "this is the canonical X", directives about how other files should reference the rule, taxonomy notes, audience asides) tells skill authors how to treat the rule. Meta-commentary belongs in the authoring skill (`agent-instructions-authoring`), not embedded in the behavioral rule itself.
