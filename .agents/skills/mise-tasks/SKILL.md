@@ -26,6 +26,13 @@ This skill complements the `scripts` skill (broader script authoring, testing, a
 
 Mise supports two task styles. Detect the style the project already uses and match it; do not introduce a second style without a clear reason.
 
+### Script language selection
+
+- Detect the project's preferred scripting language from existing task files and automation scripts before adding a new task.
+- If project conventions are mixed or unclear, default to Bash for simple tasks because it is portable and simple.
+- Reassess the language when task complexity grows; move to a better-fit language when Bash becomes hard to maintain.
+- If a project's scripts are already standardized on one language, keep new scripts in that language unless a clear technical constraint requires otherwise.
+
 ### File tasks
 
 See [file tasks](https://mise.jdx.dev/tasks/file-tasks.html).
@@ -34,7 +41,8 @@ See [file tasks](https://mise.jdx.dev/tasks/file-tasks.html).
 - Make the file executable; mise auto-registers executable files in the tasks directory.
 - Use a file extension that matches the task language/interpreter (for example `.zsh`, `.sh`, `.js`, `.ts`).
 - Keep files named `_default` extensionless; mise default-task resolution breaks when `_default` has an extension.
-- Before authoring a file task, assess whether any of its logic should be reusable across other tasks or scripts. When it should, extract the reusable code into a directory outside the mise-detected tasks directory and import it from the task file. Keep the task namespace populated only by tasks; let shared logic live alongside the project's other source code for clearer separation of concerns.
+- Detect the most appropriate non-task location for reusable script code from project conventions and existing layout before extracting shared logic.
+- Shared script code belongs outside directories that mise scans for tasks. Anything mise discovers in those directories can become a task entry, so keep helpers/importable modules in the project's reusable-script location and import from there.
 
 ### TOML tasks
 

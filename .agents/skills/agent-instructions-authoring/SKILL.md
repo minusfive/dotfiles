@@ -47,6 +47,14 @@ Use this workflow when I ask you to encode, correct, or enhance instruction guid
 - Before adding or changing instruction guidance, run the [Mandatory Instruction Authoring Workflow](#mandatory-instruction-authoring-workflow).
 - For durable-directive requests, verify the selected persistence surface explicitly: chosen scope, instruction files updated (or an explicit no-change rationale with my confirmation), and memory updated only when applicable. Memory-only outcomes are invalid unless I explicitly reject instruction-file updates after you ask.
 - For external documentation references, keep local guidance concise and project-specific and link to canonical upstream documentation instead of copying large reference material that can drift.
+- For imported skills, verify `metadata.imported.from` and `metadata.imported.date` exist in frontmatter, `from` points to the canonical upstream `SKILL.md`, and `date` is the import date in `YYYY-MM-DD`.
+- For imported skills, preserve a 1:1 copy of upstream content by default; if you must diverge locally, keep the delta minimal and explicit.
+- For imported skills with local deltas, require `references/import-instructions.md` in the skill directory with rationale and re-apply steps for every local modification.
+- If an imported skill has no non-canonical local deltas, do not create `references/import-instructions.md`.
+- In `references/import-instructions.md`, document local deltas only; do not restate instructions that already exist in the canonical imported skill.
+- Treat `metadata.imported.from` and `metadata.imported.date` handling as canonical imported-skill policy; do not duplicate that policy in per-skill `references/import-instructions.md` files.
+- For imported skills, run an update check against `metadata.imported.from` and compare current local files to upstream content since `metadata.imported.date`; report all deltas and do not apply them without my explicit approval.
+- For imported skills, validate that files contain no comments (for example `<!-- ... -->`) and no invisible characters before shipping.
 - When changing canonical locations, naming conventions, or handoff contracts, include migration guidance (or an explicit no-migration decision) and update dependent references in the same change.
 - Verify every `assets/…` (or equivalent referenced-resource) path resolves to an existing file and that the asset's current contents still match how the body cites them.
 - Verify every concrete claim in the file before shipping: every command runs, every flag behaves as stated, every URL resolves, every directive, or syntax example matches current tool behavior. Inherited assumptions from a source skill or older docs do not count as verified.
@@ -113,7 +121,20 @@ Use the loaded specs as the active source of truth; derive requirements dynamica
 - Set `name` to a kebab-case slug that matches the skill's directory name.
 - Match every required frontmatter field to the Agent Skills specification; prefer spec fields over harness-specific extensions.
 - The fields `name`, `description`, `license`, and `allowed-tools` are recognized across all known conformant harnesses. The optional spec fields `compatibility` and `metadata` are spec-defined but not documented by all harnesses — include them when useful and accept that they may be ignored.
+- When you import a skill from an external source, add `metadata.imported.from` with the canonical upstream `SKILL.md` URL and `metadata.imported.date` with the import date (`YYYY-MM-DD`).
 - Harness-specific fields (e.g., Claude Code's `user-invocable`, `disable-model-invocation`) are additive — include them only when intentionally targeting that harness feature, and accept that other conformant harnesses will ignore them.
+
+### Imported skill update workflow
+
+When a skill has `metadata.imported.from` and `metadata.imported.date`, follow this workflow:
+
+1. Fetch the upstream source from `metadata.imported.from` and any referenced files.
+2. Compare upstream content to the local imported skill directory.
+3. Keep the local copy 1:1 with upstream where possible; if intentional local deviations exist, record them in `references/import-instructions.md`.
+4. In `references/import-instructions.md`, write only non-canonical, skill-specific local deltas and re-apply steps; do not restate canonical imported-skill policy (including metadata handling). If no such deltas exist, do not add the file.
+5. Produce a delta report that lists added, removed, and changed files plus notable behavioral changes.
+6. Present the delta report to me and ask for explicit approval before applying any upstream changes.
+7. After approved updates, set `metadata.imported.date` to the date of the applied import and update `references/import-instructions.md` only when non-canonical local deviations changed.
 
 ### Scope and splitting
 
@@ -134,6 +155,7 @@ Use the loaded specs as the active source of truth; derive requirements dynamica
 - Describe when to invoke the skill using concrete "use when" language and likely user wording.
 - Avoid descriptions that mostly explain what the skill does internally or how it works.
 - Keep descriptions concise but keyword-rich so selection systems can reliably match relevant requests — some harnesses use keyword matching, others use semantic selection; concrete task cues work for both.
+- When scope wording feels gated by example lists, evaluate whether removing the list or replacing it with a broader phrase preserves discoverability while expanding valid scope; expand the examples only when broad wording would reduce routing precision.
 - Keep descriptions free of links, command examples, full path enumerations, and other content that belongs in the body. The `description` is a selector, not a summary.
 - Keep `description` length within the specification limit and validate trigger behavior using `agent-instructions-evaluation`.
 - Apply the same discoverability-first standard to `AGENTS.md` skill-index one-line summaries: emphasize user-intent/task cues and avoid internal mechanics.

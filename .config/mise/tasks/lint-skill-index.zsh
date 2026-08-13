@@ -102,6 +102,125 @@ while IFS= read -r skill; do
         print -u2 -- "error: ${skill_file} frontmatter name '${frontmatter_name}' does not match directory name '${skill}'"
         exit 1
     fi
+
+    imported_metadata=$(
+        awk '
+            BEGIN {
+                in_frontmatter = 0
+                frontmatter_done = 0
+                in_metadata = 0
+                in_imported = 0
+                has_imported = 0
+                imported_from = ""
+                imported_date = ""
+            }
+            /^---$/ {
+                if (in_frontmatter == 0 && frontmatter_done == 0) {
+                    in_frontmatter = 1
+                    next
+                }
+                if (in_frontmatter == 1) {
+                    frontmatter_done = 1
+                    exit
+                }
+            }
+            in_frontmatter == 1 && /^metadata:[[:space:]]*$/ {
+                in_metadata = 1
+                next
+            }
+            in_frontmatter == 1 && in_metadata == 1 {
+                if ($0 ~ /^[^[:space:]]/) {
+                    in_metadata = 0
+                    in_imported = 0
+                    next
+                }
+                if ($0 ~ /^  imported:[[:space:]]*$/) {
+                    has_imported = 1
+                    in_imported = 1
+                    next
+                }
+                if ($0 ~ /^  [^[:space:]][^:]*:[[:space:]]*/ && $0 !~ /^  imported:[[:space:]]*$/) {
+                    in_imported = 0
+                    next
+                }
+                if (in_imported == 1 && $0 ~ /^    from:[[:space:]]*/) {
+                    imported_from = $0
+                    sub(/^    from:[[:space:]]*/, "", imported_from)
+                    gsub(/^[[:space:]]+|[[:space:]]+$/, "", imported_from)
+                    next
+                }
+                if (in_imported == 1 && $0 ~ /^    date:[[:space:]]*/) {
+                    imported_date = $0
+                    sub(/^    date:[[:space:]]*/, "", imported_date)
+                    gsub(/^[[:space:]]+|[[:space:]]+$/, "", imported_date)
+                }
+            }
+            END {
+                print has_imported "\t" imported_from "\t" imported_date
+            }
+        ' "$skill_file"
+    )
+
+    IFS=$'\t' read -r has_imported metadata_imported_from metadata_imported_date <<< "$imported_metadata"
+
+    if [[ "$has_imported" == "1" || -n "$metadata_imported_from" || -n "$metadata_imported_date" ]]; then
+        if [[ "$has_imported" != "1" ]]; then
+            print -u2 -- "error: ${skill_file} has imported metadata fields but no metadata.imported block"
+            exit 1
+        fi
+        if [[ -z "$metadata_imported_from" ]]; then
+            print -u2 -- "error: ${skill_file} has metadata.imported but metadata.imported.from is missing"
+            exit 1
+        fi
+        if [[ ! "$metadata_imported_from" =~ '^https?://[^[:space:]]+$' ]]; then
+            print -u2 -- "error: ${skill_file} metadata.imported.from must be an absolute URL (got '${metadata_imported_from}')"
+            exit 1
+        fi
+        if [[ -z "$metadata_imported_date" ]]; then
+            print -u2 -- "error: ${skill_file} has metadata.imported but metadata.imported.date is missing"
+            exit 1
+        fi
+        if [[ ! "$metadata_imported_date" =~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' ]]; then
+            print -u2 -- "error: ${skill_file} metadata.imported.date must use YYYY-MM-DD (got '${metadata_imported_date}')"
+            exit 1
+        fi
+
+        import_instructions_file="${skills_dir}/${skill}/references/import-instructions.md"
+        if [[ -f "$import_instructions_file" ]]; then
+            if ! rg -q '^## Local modifications$' "$import_instructions_file"; then
+                print -u2 -- "error: ${import_instructions_file} must include a '## Local modifications' section"
+                exit 1
+            fi
+            if ! rg -q '^## Re-apply steps' "$import_instructions_file"; then
+                print -u2 -- "error: ${import_instructions_file} must include a '## Re-apply steps' section"
+                exit 1
+            fi
+            if ! rg -q 'local modifications only' "$import_instructions_file"; then
+                print -u2 -- "error: ${import_instructions_file} must state that it documents local modifications only"
+                exit 1
+            fi
+            if rg -q 'metadata\.imported\.' "$import_instructions_file"; then
+                print -u2 -- "error: ${import_instructions_file} must not restate canonical metadata.imported policy"
+                exit 1
+            fi
+            if rg -q '^None\.' "$import_instructions_file"; then
+                print -u2 -- "error: remove ${import_instructions_file} when there are no meaningful local deltas"
+                exit 1
+            fi
+        fi
+
+        if rg --pcre2 -n '<!--|-->' "${skills_dir}/${skill}" >/dev/null 2>&1; then
+            print -u2 -- "error: imported skill '${skill}' contains comments; remove comment content from imported files"
+            rg --pcre2 -n '<!--|-->' "${skills_dir}/${skill}" | head -n 5 >&2
+            exit 1
+        fi
+
+        if rg --pcre2 -n '\p{Cf}' "${skills_dir}/${skill}" >/dev/null 2>&1; then
+            print -u2 -- "error: imported skill '${skill}' contains invisible Unicode characters"
+            rg --pcre2 -n '\p{Cf}' "${skills_dir}/${skill}" | head -n 5 >&2
+            exit 1
+        fi
+    fi
 done <<< "$on_disk"
 
 print -- "AGENTS.md skill index is in sync and passed integrity checks."

@@ -112,6 +112,7 @@ The skills below are available under [`.agents/skills/`](.agents/skills/). **MUS
 - `rstest-debugging` — Debug Rstest performance regressions when startup or execution is slower than expected and isolate root causes with controlled experiments.
 - `scripts` — Author and maintain setup, automation, and bootstrap shell/task scripts and install flows.
 - `security` — Apply security checks for secrets, credentials, permissions, network access, dependency risk, and sensitive config. Use during implementation and security review.
+- `simple-english` — Apply ASD-STE100 Simplified Technical English to write or rewrite clear, unambiguous technical text.
 - `agent-instructions-evaluation` — Evaluate whether instruction changes improve outcomes. Use when revising skills or AGENTS/CLAUDE files and comparing before/after results with pass/fail checks.
 - `task-orchestration` — Choose how to split and coordinate work. Use when deciding what to run in parallel, what to delegate, and how to share temporary outputs.
 - `tanstack-cli` — Use TanStack CLI for app setup, add-on management, docs lookup, and MCP migration. Use when a project uses TanStack tools.
