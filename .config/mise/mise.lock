@@ -403,6 +403,18 @@ provenance = "github-attestations"
 version = "4.0.6"
 backend = "core:ruby"
 
+[tools.ruby."platforms.windows-x64"]
+checksum = "sha256:328d7a86bea2f4c432783025050c9ffa1c36fcfc54ebccc466b63450ec3af223"
+url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.6-1/rubyinstaller-4.0.6-1-x64.7z"
+
+[tools.ruby."platforms.windows-x64-baseline"]
+checksum = "sha256:328d7a86bea2f4c432783025050c9ffa1c36fcfc54ebccc466b63450ec3af223"
+url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.6-1/rubyinstaller-4.0.6-1-x64.7z"
+
+[[tools.ruby]]
+version = "4.0.6"
+backend = "core:ruby"
+
 [tools.ruby.options]
 compile = "false"
 precompiled_url = "jdx/ruby"
@@ -451,18 +463,6 @@ url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.6.tar.gz"
 [tools.ruby."platforms.macos-x64-baseline"]
 checksum = "sha256:837d299e8f7ddf2be31a229a7a7e019d354979825117989acb3b32b1a9be262a"
 url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.6.tar.gz"
-
-[[tools.ruby]]
-version = "4.0.6"
-backend = "core:ruby"
-
-[tools.ruby."platforms.windows-x64"]
-checksum = "sha256:328d7a86bea2f4c432783025050c9ffa1c36fcfc54ebccc466b63450ec3af223"
-url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.6-1/rubyinstaller-4.0.6-1-x64.7z"
-
-[tools.ruby."platforms.windows-x64-baseline"]
-checksum = "sha256:328d7a86bea2f4c432783025050c9ffa1c36fcfc54ebccc466b63450ec3af223"
-url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.6-1/rubyinstaller-4.0.6-1-x64.7z"
 
 [[tools.rust]]
 version = "nightly"
