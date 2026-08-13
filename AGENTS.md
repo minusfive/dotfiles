@@ -79,12 +79,12 @@ The skills below are available under [`.agents/skills/`](.agents/skills/). **MUS
 - `hammerspoon` — Apply Hammerspoon macOS automation and window management rules when working with scripts, Spoons, hotkeys, or Lua code.
 - `linting` — Run linters and fix lint failures across project languages. Use when running checks, fixing lint/format issues, or recovering from hook failures.
 - `lua` — Apply Lua authoring conventions for Neovim, Hammerspoon, WezTerm, and Yazi configurations (module structure, returns, EmmyLua annotations).
-- `markdown` — Apply Markdown authoring conventions (clarity, link style, table-of-contents discipline).
+- `markdown` — Apply global Markdown authoring conventions.
 - `migrate-to-rsbuild` — Migrate Webpack, Vite, CRA/CRACO, or Vue CLI projects to Rsbuild when replacing an existing build setup with minimal behavior change.
 - `migrate-to-rslib` — Migrate TypeScript library build pipelines from tsc or tsup to Rslib while keeping package behavior stable.
 - `migrate-to-rslint` — Migrate ESLint or other lint setups to Rslint, including config, scripts, and editor integration.
 - `migrate-to-rstest` — Migrate Jest or Vitest test suites and configuration to Rstest equivalents.
-- `mise-tasks` — Create, update, run, or debug mise tasks (file tasks and TOML tasks), including task interfaces, usage directives, and output behavior.
+- `mise-tasks` — Create, update, run, or debug mise task workflows.
 - `nvim` — Apply LazyVim Neovim configuration rules when working with config files, plugins, or Lua modules.
 - `node-npm-bun` — Run Node package-manager tasks across bun and npm. Use when installing dependencies, running scripts, or invoking Node CLIs, while following project standards.
 - `opencode-copilot-multipliers` — Sync GitHub Copilot model alias multiplier labels in the OpenCode config with current `github/docs` paid multipliers.

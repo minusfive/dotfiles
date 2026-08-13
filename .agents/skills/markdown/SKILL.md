@@ -1,6 +1,6 @@
 ---
 name: markdown
-description: Apply Markdown authoring conventions for clarity, link style, and table-of-contents discipline. Use when writing or editing Markdown files, documentation, READMEs, or instruction files.
+description: Apply global Markdown authoring conventions. Use when working with Markdown files.
 ---
 
 # Markdown Authoring Conventions
