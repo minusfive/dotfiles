@@ -17,6 +17,9 @@ return {
             ["harper-ls"] = {
               userDictPath = "~/.config/harper/dictionaries/user.txt",
               fileDictPath = "~/.config/harper/dictionaries/files/",
+              linters = {
+                UseTitleCase = false,
+              },
               codeActions = { forceStable = true },
             },
           },
