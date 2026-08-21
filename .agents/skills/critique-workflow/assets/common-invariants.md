@@ -15,13 +15,14 @@ Apply these invariants in both human walkthrough and autonomous modes.
    - residual risks (only when material)
 6. Use explicit verdict status tokens for findings and decisions: `PASS`, `FAIL`, `RISK`, `NOTE`.
 7. Record each finding and decision in a compact, machine-readable decision log keyed by finding identifier and batch identifier.
-8. After all findings have decisions, run a dedicated critique pass on the decision log before any execution:
+8. When scope includes authored prose or instruction text, load `writing-style`, then `simple-english`, run a `writing-style` evaluation, and include style findings before decision-log critique. When not applicable, add one explicit `NOTE`.
+9. After all findings have decisions, run a dedicated critique pass on the decision log before any execution:
    - check for decision conflicts
    - check for unresolved or newly introduced risks
    - check for unverified assumptions
-9. Present the decision-log critique and resolve issues before execution.
-10. If a decision materially changes downstream findings, restate the updated assumptions before continuing.
-11. Keep each finding self-contained so decisions do not depend on hidden context.
+10. Present the decision-log critique and resolve issues before execution.
+11. If a decision materially changes downstream findings, restate the updated assumptions before continuing.
+12. Keep each finding self-contained so decisions do not depend on hidden context.
 
 ## Required Decision Log Fields
 

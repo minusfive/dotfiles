@@ -1,6 +1,6 @@
 ---
 name: agent-instructions-authoring
-description: Create, audit, or restructure agent instruction entrypoints. Use when editing skills, `AGENTS.md`/`CLAUDE.md`, or agent definitions to resolve duplicate/conflicting rules, improve discoverability, or validate metadata/assets consistency.
+description: Create, update, and review skills and agent instruction files, including `AGENTS.md` and `CLAUDE.md`. Use when fixing conflicting rules, removing duplicates, or tightening writing-style enforcement.
 ---
 
 # Agent Instructions Authoring
@@ -12,7 +12,7 @@ Required upstream references are listed alongside the work they govern: see [Ski
 ## Audit Scope
 
 - When auditing instruction files, analyze only the file's literal contents. Exclude system- and client-injected prompt content from the analysis.
-- For non-trivial instruction-entrypoint critiques or audits, invoke [critique-workflow](../critique-workflow/SKILL.md) first and follow its procedure. Default to autonomous mode unless I explicitly ask for walkthrough gating.
+- For non-trivial instruction-entrypoint critiques or audits, invoke `critique-workflow` first and follow its procedure. Default to autonomous mode unless I explicitly ask for walkthrough gating.
 - Audit for duplicate or conflicting instructions across all repository instruction entrypoints (top-level instruction files, skills, agent/subagent definitions).
 - Prefer a single canonical source and cross-reference it rather than duplicating the same guidance — this applies equally to skills, `AGENTS.md`, `CLAUDE.md`, and agent definitions.
 - When multiple files could host the same policy, treat the most specific skill as canonical and have broader files cross-reference it.
@@ -25,23 +25,25 @@ Required upstream references are listed alongside the work they govern: see [Ski
 
 Use this workflow when I ask you to encode, correct, or enhance instruction guidance.
 
-1. Scan local and global instructions, skills, and relevant mechanical enforcement (code, tests, linters, hooks, schemas, scripts) for intent coverage, including partial coverage, and for conflicts.
-2. Before adding always-loaded guidance, check scope and context cost, and look for chances to keep core instructions short by moving long reference material to linked assets.
-3. Treat durable-directive cues (for example "every", "always", "from now on", or "should include") as instruction-update candidates by default, even when a memory update may also apply.
-4. Determine scope and target first across executable enforcement and instruction-file handling: executable enforcement surfaces (code, tests, linters, hooks, schemas, scripts), repository-wide instruction, sub-directory instruction (the nearest applicable instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`), global instruction, and instruction file vs. skill. Then decide where to save the directive on the selected instruction-file scope before closing the turn. If scope is mixed or ambiguous, ask me before applying. If coverage already exists, extend or reconcile it instead of creating duplicates.
-5. For duplicate/conflict fixes, compare all overlapping entrypoints, choose the single best canonical owner, and improve that owner first (clarification, correction, and/or discoverability) instead of spreading equivalent edits across multiple files.
-6. Before replacing non-canonical copies with references, assess whether those references are worth maintaining; if canonical discoverability improvements already cover routing needs, remove the duplicates without adding cross-reference maintenance.
-7. Prefer executable enforcement over prose when feasible. If behavior cannot be encoded mechanically, keep instruction text as fallback context.
-8. Draft the exact wording changes and ask me to confirm before applying.
-9. Apply the confirmed wording in versioned instruction files on the selected scope, then complete required mechanical follow-ups (index entries, cross-references). Do not treat a harness-memory update as completion.
-10. If no instruction-file change is made, provide an explicit no-change rationale with citation and get my confirmation before closing.
-11. When memory is also warranted, store or update memory in the same task. Memory augments persistence and never substitutes for versioned instruction changes.
+1. Load `writing-style`, then `simple-english`, before drafting or revising instruction prose. If either skill is not loaded, stop and load it before continuing.
+2. Scan local and global instructions, skills, and relevant mechanical enforcement (code, tests, linters, hooks, schemas, scripts) for intent coverage, including partial coverage, and for conflicts.
+3. Before adding always-loaded guidance, check scope and context cost, and look for chances to keep core instructions short by moving long reference material to linked assets.
+4. Treat durable-directive cues (for example "every", "always", "from now on", or "should include") as instruction-update candidates by default, even when a memory update may also apply.
+5. Determine scope and target first across executable enforcement and instruction-file handling: executable enforcement surfaces (code, tests, linters, hooks, schemas, scripts), repository-wide instruction, sub-directory instruction (the nearest applicable instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`), global instruction, and instruction file vs. skill. Then decide where to save the directive on the selected instruction-file scope before closing the turn. If scope is mixed or ambiguous, ask me before applying. If coverage already exists, extend or reconcile it instead of creating duplicates.
+6. For duplicate/conflict fixes, compare all overlapping entrypoints, choose the single best canonical owner, and improve that owner first (clarification, correction, and/or discoverability) instead of spreading equivalent edits across multiple files.
+7. Before replacing non-canonical copies with references, assess whether those references are worth maintaining; if canonical discoverability improvements already cover routing needs, remove the duplicates without adding cross-reference maintenance.
+8. Prefer executable enforcement over prose when feasible. If behavior cannot be encoded mechanically, keep instruction text as fallback context.
+9. Draft the exact wording changes and ask me to confirm before applying.
+10. Apply the confirmed wording in versioned instruction files on the selected scope, then complete required mechanical follow-ups (index entries, cross-references). Do not treat a harness-memory update as completion.
+11. If no instruction-file change is made, provide an explicit no-change rationale with citation and get my confirmation before closing.
+12. When memory is also warranted, store or update memory in the same task. Memory augments persistence and never substitutes for versioned instruction changes.
 
 ## Validation
 
 - Validate skill metadata, structure, and behavior against the loaded specs.
 - Validate and audit each skill `description` and each `AGENTS.md` skill-index one-line summary for discoverability quality, including clear invocation cues and relevant trigger keywords, and avoid "how it works" or internal-mechanics wording.
-- Apply shared prose conventions from [writing-style](../writing-style/SKILL.md). For instruction discoverability and clarity, use domain jargon only when plain wording loses essential meaning, and do not treat local term frequency as justification to introduce broader or overloaded meanings.
+- Apply shared prose conventions from `writing-style`. For instruction discoverability and clarity, use domain jargon only when plain wording loses essential meaning, and do not treat local term frequency as justification to introduce broader or overloaded meanings.
+- Before finalizing instruction-file edits, verify that both `writing-style` and `simple-english` were loaded in the same run.
 - When renaming or restructuring an instruction file or skill, search the repository for stale references and update them.
 - Run a duplication/conflict sweep for normative conventions across instruction entrypoints (for example: path conventions, naming rules, required artifacts, handoff contracts, and lifecycle states) and resolve conflicts before shipping.
 - Before adding or changing instruction guidance, run the [Mandatory Instruction Authoring Workflow](#mandatory-instruction-authoring-workflow).
@@ -77,12 +79,14 @@ The repository's general post-validation critique gate (defined in the top-level
 - After checking scope and context cost, confirm that long reference material lives in linked assets, and that narrow domain rules live in the most specific skill instead of broad instruction files.
 - If canonical locations, naming conventions, or handoff contracts changed, did I include migration guidance (or an explicit no-migration decision) and update dependents?
 - Does any rule contain authoring meta-commentary that belongs in the authoring skill?
+- Before prose edits, did I load `writing-style` and `simple-english` as required?
 
 ## Authoring Style
 
 - Write concise rules using imperative language optimized for accurate and efficient agentic execution.
-- Follow [writing-style](../writing-style/SKILL.md) for shared prose and tone conventions before applying the instruction-specific rules in this section.
+- Follow `writing-style` for shared prose and tone conventions before applying the instruction-specific rules in this section.
 - Write instructions so they work across agent tools. Describe required capabilities and repeatable steps, and avoid model-specific tricks.
+- Reference skill names with backticks only. Do not use Markdown links for skill-name references.
 - Prefer executable enforcement over prose when feasible: if a rule can be implemented in code, tests, linters, hooks, schemas, or scripts, implement that first and keep instruction text as fallback context for behavior that cannot be encoded.
 - Avoid naming specific models, effort levels, tools, or products in reusable instructions unless the file is intentionally tool-specific.
 - Instruct agents to choose execution approach based on efficiency, cost, capability, and task requirements instead of fixed named components.

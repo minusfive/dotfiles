@@ -1,16 +1,17 @@
 # AI Agent Interaction Rules
 
-- You **MUST** always update instruction files when updating your memory, when I give you behavioral corrections or directives (e.g. "do/don't", "you should/shouldn't", "never", "always", etc.), or question your ability to follow instructions. Follow the [Mandatory Instruction Authoring Workflow](.agents/skills/agent-instructions-authoring/SKILL.md#mandatory-instruction-authoring-workflow). If this is handled with memory only, this principle is violated.
+- You **MUST** always update instruction files when updating your memory, when I give you behavioral corrections or directives (e.g. "do/don't", "you should/shouldn't", "never", "always", etc.), or question your ability to follow instructions. Follow the `Mandatory Instruction Authoring Workflow` in `agent-instructions-authoring`. If this is handled with memory only, this principle is violated.
 - You **MUST** base decisions on repository files and tool output first. Use prior knowledge only when local evidence is missing.
 - Prioritize technical accuracy and facts over validating beliefs.
 - Provide honest, objective feedback even when it may not align with expectations.
 - Investigate uncertainty first rather than confirming assumptions. If research doesn't suffice, ask focused follow-up questions until we reach a common understanding; keep questions concise and only as many as needed to unblock correct execution.
 - Apply rigorous standards consistently to all ideas.
 - Critique plans and implementations; do not merely validate them. Surface blind spots, weak assumptions, edge cases, and sequencing risks even when the work appears correct.
+- When critique scope includes authored prose or instruction files, follow the `critique-workflow`, `writing-style`, and `simple-english` evaluation requirements.
 - Before marking work done (for example: done, completed, closed, shipped), run a fresh critique pass over every change you made. Ask: does the change do what I asked, are edge cases missed, are any assumptions unverified? Validation answers "does it parse/run"; critique answers "is it right". If critique finds issues, run one follow-up pass: fix the issues, then critique once more. If no issues are found in the first critique pass, surface that result and proceed. Do not treat a passing validation as done — work is complete only after one critique pass, plus at most one follow-up fix-and-critique pass when needed, and surfaced findings. This rule takes precedence over brevity or early-exit instructions.
 - If main-agent MCP tools or other primary tools hit access blockers, do not spawn subagents or use shell commands to bypass those blockers; surface the blocker and ask me how to proceed.
 - Be concise and direct; focus output on the specific task and skip unnecessary preambles and postambles.
-- For shared prose and tone conventions across authored content, follow [`writing-style`](.agents/skills/writing-style/SKILL.md).
+- For shared prose and tone conventions across authored content, follow `writing-style`.
 - Ask for confirmation before destructive or irreversible operations.
 - **MUST NOT** use emojis or icons unless explicitly requested.
 
@@ -69,10 +70,10 @@ The skills below are available under [`.agents/skills/`](.agents/skills/). **MUS
 
 ### Index
 
-- `agent-instructions-authoring` — Create, update, and review agent instruction files (skills, `AGENTS.md`, `CLAUDE.md`, and agent definitions). Use when fixing conflicting rules, removing duplicates, or improving instruction clarity and discoverability.
+- `agent-instructions-authoring` — Create, update, and review skills and agent instruction files, including `AGENTS.md` and `CLAUDE.md`. Use when fixing conflicting rules, removing duplicates, or tightening writing-style enforcement.
 - `agentic-projects` — Organize per-repo agentic project workspaces under `.agents/projects/<project>/` (prompts, plans, research, temporary artifacts).
 - `coding-guidelines` — Apply repository coding standards when adding features, fixing bugs, refactoring, updating tests, or resolving lint/type/build issues.
-- `critique-workflow` — Run structured critique, review, and audit workflows.
+- `critique-workflow` — Run critique, review, and audit workflows for agent instructions and prose, with verdicts and writing-style enforcement.
 - `commit-guidelines` — Create branches and commits from local diffs using project commit-message conventions (Conventional Commits, commitlint).
 - `execution-workflow` — Execute an existing multi-story plan artifact from start to finish. Use when a plan already exists and needs coordinated delivery.
 - `github-cli` — Use the `gh` CLI for GitHub tasks. Use when working with pull requests, issues, workflow runs, releases, or repository metadata.
@@ -112,9 +113,9 @@ The skills below are available under [`.agents/skills/`](.agents/skills/). **MUS
 - `rstest-debugging` — Debug Rstest performance regressions when startup or execution is slower than expected and isolate root causes with controlled experiments.
 - `scripts` — Author and maintain setup, automation, and bootstrap shell/task scripts and install flows.
 - `security` — Apply security checks for secrets, credentials, permissions, network access, dependency risk, and sensitive config. Use during implementation and security review.
-- `simple-english` — Apply ASD-STE100 Simplified Technical English to write or rewrite clear, unambiguous technical text.
+- `simple-english` — Apply ASD-STE100 Simplified Technical English to write, rewrite, or critique clear, unambiguous technical text.
 - `agent-instructions-evaluation` — Evaluate whether instruction changes improve outcomes. Use when revising skills or AGENTS/CLAUDE files and comparing before/after results with pass/fail checks.
 - `task-orchestration` — Choose how to split and coordinate work. Use when deciding what to run in parallel, what to delegate, and how to share temporary outputs.
 - `tanstack-cli` — Use TanStack CLI for app setup, add-on management, docs lookup, and MCP migration. Use when a project uses TanStack tools.
-- `writing-style` — Apply prose tone, standards, and publication-readiness rules for all writing.
+- `writing-style` — Apply prose tone, standards, and publication-readiness rules when drafting, editing, or critiquing authored content.
 - `zsh` — Apply Zsh shell scripting conventions (error safety, logging helpers); use when authoring or modifying Zsh scripts.
