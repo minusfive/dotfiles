@@ -186,118 +186,78 @@ local function axisNextDirection(axis)
   return "Down"
 end
 
+---Walk panes aligned on the same axis as the active pane.
+---@param pane Pane
+---@param axis "x" | "y"
+---@param window Window
 ---@param tab MuxTab
----@param pane_id integer
----@return { index: integer, is_active: boolean, is_zoomed: boolean, left: integer, top: integer, width: integer, height: integer, pixel_width: integer, pixel_height: integer, pane: Pane }?
-local function findPaneInfoById(tab, pane_id)
+---@param fn? fun(candidate: Pane): Pane
+---@return Pane[]
+local function walkSiblingPanes(pane, axis, window, tab, fn)
+  local siblings = { fn and fn(pane) or pane }
+  local previous_direction = axisPreviousDirection(axis)
+  local next_direction = axisNextDirection(axis)
+  local max_iter = 20
+  local initial_pane_index = 0
+
   for _, pane_info in ipairs(tab:panes_with_info()) do
-    if pane_info.pane:pane_id() == pane_id then
-      return pane_info
+    if pane_info.is_active then
+      initial_pane_index = pane_info.index or 0
+      break
     end
   end
-  return nil
-end
 
----@param tab MuxTab
----@return { index: integer, is_active: boolean, is_zoomed: boolean, left: integer, top: integer, width: integer, height: integer, pixel_width: integer, pixel_height: integer, pane: Pane }[]
-local function collectPaneInfos(tab)
-  return tab:panes_with_info()
+  for _, step in ipairs({ "prev", "next" }) do
+    local move_direction = step == "prev" and previous_direction or next_direction
+    local last_pane = tab:active_pane()
+    window:perform_action(act.ActivatePaneDirection(move_direction), last_pane)
+    local current_pane = tab:active_pane()
+    local i = 0
+
+    while current_pane:pane_id() ~= last_pane:pane_id() and i < max_iter do
+      if step == "prev" then
+        table.insert(siblings, 1, fn and fn(current_pane) or current_pane)
+      else
+        table.insert(siblings, fn and fn(current_pane) or current_pane)
+      end
+
+      last_pane = tab:active_pane()
+      window:perform_action(act.ActivatePaneDirection(move_direction), last_pane)
+      current_pane = tab:active_pane()
+      i = i + 1
+    end
+
+    window:perform_action(act.ActivatePaneByIndex(initial_pane_index), tab:active_pane())
+  end
+
+  return siblings
 end
 
 ---Rebalances pane sizes equally across a single axis.
 ---@param window Window
 ---@param pane Pane
 ---@param axis "x" | "y"
----@param split_direction? "Up" | "Down" | "Left" | "Right"
-local function rebalancePaneAxis(window, pane, axis, split_direction)
+local function rebalancePaneAxis(window, pane, axis)
   local tab = pane:tab()
-  local source_info = findPaneInfoById(tab, pane:pane_id())
-  if not source_info then return end
-
-  local axis_start_key = axis == "x" and "left" or "top"
-  local axis_size_key = axis == "x" and "width" or "height"
-  local orth_start_key = axis == "x" and "top" or "left"
-  local orth_size_key = axis == "x" and "height" or "width"
-  local source_orth_start = source_info[orth_start_key]
-  local source_orth_size = source_info[orth_size_key]
   local previous_direction = axisPreviousDirection(axis)
   local next_direction = axisNextDirection(axis)
-  local initial_active_pane = tab:active_pane()
-  local initial_active_pane_id = initial_active_pane and initial_active_pane:pane_id() or nil
+  local siblings = walkSiblingPanes(pane, axis, window, tab)
 
-  ---@return { index: integer, is_active: boolean, is_zoomed: boolean, left: integer, top: integer, width: integer, height: integer, pixel_width: integer, pixel_height: integer, pane: Pane }[]
-  local function collectBand()
-    local band = {}
-    for _, info in ipairs(collectPaneInfos(tab)) do
-      if info[orth_start_key] == source_orth_start and info[orth_size_key] == source_orth_size then
-        table.insert(band, info)
-      end
+  if #siblings <= 1 then return end
+
+  local tab_size_key = axis == "x" and "cols" or "rows"
+  local target_size = math.floor(tab:get_size()[tab_size_key] / #siblings)
+  local pane_size_key = axis == "x" and "cols" or "viewport_rows"
+
+  walkSiblingPanes(pane, axis, window, tab, function(candidate)
+    local pane_size = candidate:get_dimensions()[pane_size_key]
+    local delta = pane_size - target_size
+    if delta ~= 0 then
+      local direction = delta < 0 and next_direction or previous_direction
+      window:perform_action(act.AdjustPaneSize({ direction, math.abs(delta) }), candidate)
     end
-    table.sort(band, function(a, b)
-      if a[axis_start_key] == b[axis_start_key] then
-        return a.pane:pane_id() < b.pane:pane_id()
-      end
-      return a[axis_start_key] < b[axis_start_key]
-    end)
-    return band
-  end
-
-  local band = collectBand()
-  if #band <= 1 then return end
-
-  local total_extent = 0
-  for _, info in ipairs(band) do
-    total_extent = total_extent + info[axis_size_key]
-  end
-
-  local base_target = math.floor(total_extent / #band)
-  local remainder = total_extent - (base_target * #band)
-  local targets = {}
-  for i = 1, #band do
-    targets[i] = base_target + (i <= remainder and 1 or 0)
-  end
-
-  ---@param strategy "leading" | "trailing"
-  local function applyStrategy(strategy)
-    local start_i, end_i, step_i = 1, #targets - 1, 1
-    if strategy == "leading" then
-      start_i, end_i, step_i = #targets - 1, 1, -1
-    end
-
-    for i = start_i, end_i, step_i do
-      band = collectBand()
-      if #band <= i then break end
-
-      local current_prefix = 0
-      local target_prefix = 0
-      for j = 1, i do
-        current_prefix = current_prefix + band[j][axis_size_key]
-        target_prefix = target_prefix + targets[j]
-      end
-
-      local delta = current_prefix - target_prefix
-      if delta ~= 0 then
-        local activation_index = strategy == "leading" and (i + 1) or i
-        local pane_to_activate = band[activation_index].pane
-        pane_to_activate:activate()
-        local direction = delta > 0 and previous_direction or next_direction
-        window:perform_action(act.AdjustPaneSize({ direction, math.abs(delta) }), pane_to_activate)
-      end
-    end
-  end
-
-  if split_direction == "Left" or split_direction == "Up" then
-    applyStrategy("leading")
-  elseif split_direction == "Right" or split_direction == "Down" then
-    applyStrategy("trailing")
-  else
-    applyStrategy("leading")
-    applyStrategy("trailing")
-  end
-
-  if initial_active_pane_id == nil then return end
-  local active_info = findPaneInfoById(tab, initial_active_pane_id)
-  if active_info then active_info.pane:activate() end
+    return candidate
+  end)
 end
 
 ---Tries to activate a pane in the given direction, or splits the current pane in that direction.
@@ -307,17 +267,16 @@ local function activateOrSplitPane(opts)
     key = opts.key or (opts.direction .. "Arrow"),
     mods = opts.mods,
     action = wezterm.action_callback(function(window, pane)
-      local tab = pane:tab()
-      local pane_at_direction = tab:get_pane_direction(opts.direction)
+      local pane_at_direction = pane:tab():get_pane_direction(opts.direction)
 
       if pane_at_direction then
         pane_at_direction:activate()
         return
       end
 
-      local split_pane = pane:split({ direction = directionMap[opts.direction] })
+      pane:split({ direction = directionMap[opts.direction] })
       local axis = (opts.direction == "Left" or opts.direction == "Right") and "x" or "y"
-      rebalancePaneAxis(window, split_pane or pane, axis, opts.direction)
+      rebalancePaneAxis(window, pane, axis)
     end),
   }
 end

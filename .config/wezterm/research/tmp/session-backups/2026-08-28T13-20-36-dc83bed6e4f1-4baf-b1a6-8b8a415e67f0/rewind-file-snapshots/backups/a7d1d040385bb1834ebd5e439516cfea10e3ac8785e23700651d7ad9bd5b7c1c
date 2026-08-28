@@ -208,8 +208,7 @@ end
 ---@param window Window
 ---@param pane Pane
 ---@param axis "x" | "y"
----@param split_direction? "Up" | "Down" | "Left" | "Right"
-local function rebalancePaneAxis(window, pane, axis, split_direction)
+local function rebalancePaneAxis(window, pane, axis)
   local tab = pane:tab()
   local source_info = findPaneInfoById(tab, pane:pane_id())
   if not source_info then return end
@@ -257,42 +256,24 @@ local function rebalancePaneAxis(window, pane, axis, split_direction)
     targets[i] = base_target + (i <= remainder and 1 or 0)
   end
 
-  ---@param strategy "leading" | "trailing"
-  local function applyStrategy(strategy)
-    local start_i, end_i, step_i = 1, #targets - 1, 1
-    if strategy == "leading" then
-      start_i, end_i, step_i = #targets - 1, 1, -1
+  for i = #targets - 1, 1, -1 do
+    band = collectBand()
+    if #band <= i then break end
+
+    local current_prefix = 0
+    local target_prefix = 0
+    for j = 1, i do
+      current_prefix = current_prefix + band[j][axis_size_key]
+      target_prefix = target_prefix + targets[j]
     end
 
-    for i = start_i, end_i, step_i do
-      band = collectBand()
-      if #band <= i then break end
-
-      local current_prefix = 0
-      local target_prefix = 0
-      for j = 1, i do
-        current_prefix = current_prefix + band[j][axis_size_key]
-        target_prefix = target_prefix + targets[j]
-      end
-
-      local delta = current_prefix - target_prefix
-      if delta ~= 0 then
-        local activation_index = strategy == "leading" and (i + 1) or i
-        local pane_to_activate = band[activation_index].pane
-        pane_to_activate:activate()
-        local direction = delta > 0 and previous_direction or next_direction
-        window:perform_action(act.AdjustPaneSize({ direction, math.abs(delta) }), pane_to_activate)
-      end
+    local delta = current_prefix - target_prefix
+    if delta ~= 0 then
+      local pane_to_activate = band[i + 1].pane
+      pane_to_activate:activate()
+      local direction = delta > 0 and previous_direction or next_direction
+      window:perform_action(act.AdjustPaneSize({ direction, math.abs(delta) }), pane_to_activate)
     end
-  end
-
-  if split_direction == "Left" or split_direction == "Up" then
-    applyStrategy("leading")
-  elseif split_direction == "Right" or split_direction == "Down" then
-    applyStrategy("trailing")
-  else
-    applyStrategy("leading")
-    applyStrategy("trailing")
   end
 
   if initial_active_pane_id == nil then return end
@@ -317,7 +298,9 @@ local function activateOrSplitPane(opts)
 
       local split_pane = pane:split({ direction = directionMap[opts.direction] })
       local axis = (opts.direction == "Left" or opts.direction == "Right") and "x" or "y"
-      rebalancePaneAxis(window, split_pane or pane, axis, opts.direction)
+      if opts.direction == "Left" or opts.direction == "Up" then
+        rebalancePaneAxis(window, split_pane or pane, axis)
+      end
     end),
   }
 end

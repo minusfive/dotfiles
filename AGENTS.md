@@ -63,6 +63,7 @@ This protocol applies to permission denials, policy refusals, and explicit user 
 - When configuring or extending a tool's behavior, check the tool's own documentation for a native directive, field, or option that already expresses the intent before writing scripts, wrappers, or runtime workarounds. Apply this during planning and during implementation. Prefer the native mechanism — declarative config surfaces in the tool's own introspection and survives upgrades better than equivalent custom logic.
 - Minimize command output using quiet/no-pager flags and targeted filtering supported by the active environment.
 - Combine independent tool calls in parallel; sequence calls only when later parameters depend on earlier results. Do not artificially serialize independent operations to "be safe" — parallelism is the default for independent work.
+- When a task failure blocks the established path, stop and report it for troubleshooting before you try a workaround.
 
 ## Skills
 

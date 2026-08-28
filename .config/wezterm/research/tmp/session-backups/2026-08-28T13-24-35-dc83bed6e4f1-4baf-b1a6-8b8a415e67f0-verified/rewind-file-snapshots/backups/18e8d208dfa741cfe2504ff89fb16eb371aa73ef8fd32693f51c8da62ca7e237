@@ -1,0 +1,46 @@
+# WezTerm agent rules
+
+Use this file when you change files in `.config/wezterm/`.
+
+## Scope
+
+1. Keep edits local to this directory.
+2. Keep behavior-safe defaults for terminal use.
+3. Keep this file and `research/` as development artifacts. They are not dotfiles.
+
+## Existing local behavior rules
+
+1. Keep `Catppuccin Mocha (minusfive)` as the active color scheme.
+2. Keep pane activate-or-split on `CMD+Arrow`.
+3. Keep manual pane resize on `SHIFT+Arrow`.
+4. Keep close-pane on `CMD+w` with confirm.
+5. Keep close-tab on `CMD+SHIFT+w` with confirm.
+6. Keep copy mode on `LEADER+s` and command palette on `CMD+p`.
+7. Keep font-size overrides driven by `WEZTERM_CHANGE_FONT_SIZE`.
+
+## Split autosize rules
+
+1. Split with `pane:split({ direction = directionMap[opts.direction] })`.
+2. Rebalance after each split on the split axis.
+3. Build the rebalance set from one orthogonal band only.
+4. For x-axis rebalance, include panes with equal `top` and `height`.
+5. For y-axis rebalance, include panes with equal `left` and `width`.
+6. Compute target sizes from the current band extent.
+7. Distribute remainder cells from the start of the sorted band.
+8. For `Left` and `Up`, process boundaries from end to start.
+9. For `Left` and `Up`, activate the pane on the trailing side of each boundary.
+10. For `Right` and `Down`, process boundaries from start to end.
+11. For `Right` and `Down`, activate the pane on the leading side of each boundary.
+12. For directionless rebalances, run both boundary passes.
+13. Restore the previously active pane after rebalance.
+
+## Validation rules
+
+1. Parse-check Lua with `luac -p .config/wezterm/wezterm.lua`.
+2. For autosize edits, stress split logic in all four directions with `wezterm cli`.
+3. Stop if the GUI becomes unstable. Remove timer loops before adding new retries.
+
+## Research index
+
+- `research/README.md`
+- `research/2026-08-28-split-autosize-investigation.md`

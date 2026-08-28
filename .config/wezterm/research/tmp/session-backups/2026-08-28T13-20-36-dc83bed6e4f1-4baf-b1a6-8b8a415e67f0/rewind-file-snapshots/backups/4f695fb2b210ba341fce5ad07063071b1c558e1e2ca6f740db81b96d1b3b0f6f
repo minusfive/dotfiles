@@ -10,6 +10,7 @@ local wezterm = require("wezterm")
 local catppuccin = wezterm.plugin.require("https://github.com/minusfive/catppuccin-wezterm")
 
 local act = wezterm.action
+local pending_rebalance_generation_by_tab = {}
 
 --- This table will hold the configuration.
 local config = {}
@@ -204,100 +205,190 @@ local function collectPaneInfos(tab)
   return tab:panes_with_info()
 end
 
+---@param a_start integer
+---@param a_size integer
+---@param b_start integer
+---@param b_size integer
+---@return boolean
+local function rangesOverlap(a_start, a_size, b_start, b_size)
+  local a_end = a_start + a_size
+  local b_end = b_start + b_size
+  return a_start < b_end and b_start < a_end
+end
+
+---@param a number
+---@param b number
+---@return boolean
+local function touches(a, b)
+  return math.abs(a - b) <= 1
+end
+
+---@param axis "x" | "y"
+---@param current { left: integer, top: integer, width: integer, height: integer, pane: Pane }
+---@param candidate { left: integer, top: integer, width: integer, height: integer, pane: Pane }
+---@return boolean
+local function panesTouchOnAxis(axis, current, candidate)
+  if axis == "x" then
+    local current_right = current.left + current.width
+    local candidate_right = candidate.left + candidate.width
+    local horizontally_adjacent = touches(current_right, candidate.left)
+      or touches(candidate_right, current.left)
+    if not horizontally_adjacent then return false end
+    return rangesOverlap(current.top, current.height, candidate.top, candidate.height)
+  end
+
+  local current_bottom = current.top + current.height
+  local candidate_bottom = candidate.top + candidate.height
+  local vertically_adjacent = touches(current_bottom, candidate.top)
+    or touches(candidate_bottom, current.top)
+  if not vertically_adjacent then return false end
+  return rangesOverlap(current.left, current.width, candidate.left, candidate.width)
+end
+
+---@param tab MuxTab
+---@param pane_id integer
+---@param axis "x" | "y"
+---@return { index: integer, is_active: boolean, is_zoomed: boolean, left: integer, top: integer, width: integer, height: integer, pixel_width: integer, pixel_height: integer, pane: Pane }[]
+local function collectAxisConnectedPaneInfos(tab, pane_id, axis)
+  local pane_infos = collectPaneInfos(tab)
+  local pane_info_by_id = {}
+  for _, pane_info in ipairs(pane_infos) do
+    pane_info_by_id[pane_info.pane:pane_id()] = pane_info
+  end
+
+  local start_info = pane_info_by_id[pane_id]
+  if not start_info then return {} end
+
+  local connected = {}
+  local queue = { start_info }
+  local seen = { [pane_id] = true }
+  local queue_index = 1
+
+  while queue_index <= #queue do
+    local current = queue[queue_index]
+    queue_index = queue_index + 1
+    table.insert(connected, current)
+
+    for _, candidate in ipairs(pane_infos) do
+      local candidate_id = candidate.pane:pane_id()
+      if not seen[candidate_id] and panesTouchOnAxis(axis, current, candidate) then
+        seen[candidate_id] = true
+        table.insert(queue, candidate)
+      end
+    end
+  end
+
+  local axis_start_key = axis == "x" and "left" or "top"
+  table.sort(connected, function(a, b)
+    if a[axis_start_key] == b[axis_start_key] then
+      return a.pane:pane_id() < b.pane:pane_id()
+    end
+    return a[axis_start_key] < b[axis_start_key]
+  end)
+
+  return connected
+end
+
+---@param tab MuxTab
+---@param source_pane_id integer
+---@param axis "x" | "y"
+---@return integer
+local function computeAxisMaxError(tab, source_pane_id, axis)
+  local connected = collectAxisConnectedPaneInfos(tab, source_pane_id, axis)
+  if #connected <= 1 then return 0 end
+
+  local extent_key = axis == "x" and "width" or "height"
+  local total_extent = 0
+  for _, info in ipairs(connected) do
+    total_extent = total_extent + info[extent_key]
+  end
+
+  local base_target = math.floor(total_extent / #connected)
+  local remainder = total_extent - (base_target * #connected)
+  local max_error = 0
+
+  for i, info in ipairs(connected) do
+    local target = base_target + (i <= remainder and 1 or 0)
+    local error = math.abs(info[extent_key] - target)
+    if error > max_error then
+      max_error = error
+    end
+  end
+
+  return max_error
+end
+
+---@param window Window
+---@param tab MuxTab
+---@param source_pane_id integer
+---@param axis "x" | "y"
+local function rebalancePaneAxisPass(window, tab, source_pane_id, axis)
+  local connected = collectAxisConnectedPaneInfos(tab, source_pane_id, axis)
+  if #connected <= 1 then return end
+
+  local previous_direction = axisPreviousDirection(axis)
+  local next_direction = axisNextDirection(axis)
+  local extent_key = axis == "x" and "width" or "height"
+
+  local total_extent = 0
+  for _, info in ipairs(connected) do
+    total_extent = total_extent + info[extent_key]
+  end
+
+  local base_target = math.floor(total_extent / #connected)
+  local remainder = total_extent - (base_target * #connected)
+
+  for i = 1, #connected - 1 do
+    local current_id = connected[i].pane:pane_id()
+    local next_id = connected[i + 1].pane:pane_id()
+    local current_info = findPaneInfoById(tab, current_id)
+    local next_info = findPaneInfoById(tab, next_id)
+    local target = base_target + (i <= remainder and 1 or 0)
+    local delta = (current_info and current_info[extent_key] or connected[i][extent_key]) - target
+
+    if delta < 0 and current_info then
+      window:perform_action(act.AdjustPaneSize({ next_direction, math.abs(delta) }), current_info.pane)
+    elseif delta > 0 and next_info then
+      window:perform_action(act.AdjustPaneSize({ previous_direction, math.abs(delta) }), next_info.pane)
+    end
+  end
+end
+
+---@class RebalancePaneAxisOptions
+---@field max_passes? integer
+---@field pass_delay? number
+---@field generation? integer
+
 ---Rebalances pane sizes equally across a single axis.
 ---@param window Window
 ---@param pane Pane
 ---@param axis "x" | "y"
----@param split_direction? "Up" | "Down" | "Left" | "Right"
-local function rebalancePaneAxis(window, pane, axis, split_direction)
+---@param opts? RebalancePaneAxisOptions
+local function rebalancePaneAxis(window, pane, axis, opts)
+  opts = opts or {}
+  local max_passes = opts.max_passes or 1
+  local pass_delay = opts.pass_delay or 0.01
+
   local tab = pane:tab()
-  local source_info = findPaneInfoById(tab, pane:pane_id())
-  if not source_info then return end
+  local tab_id = tab:tab_id()
+  local source_pane_id = pane:pane_id()
 
-  local axis_start_key = axis == "x" and "left" or "top"
-  local axis_size_key = axis == "x" and "width" or "height"
-  local orth_start_key = axis == "x" and "top" or "left"
-  local orth_size_key = axis == "x" and "height" or "width"
-  local source_orth_start = source_info[orth_start_key]
-  local source_orth_size = source_info[orth_size_key]
-  local previous_direction = axisPreviousDirection(axis)
-  local next_direction = axisNextDirection(axis)
-  local initial_active_pane = tab:active_pane()
-  local initial_active_pane_id = initial_active_pane and initial_active_pane:pane_id() or nil
+  local function runPass(pass_index)
+    if opts.generation and pending_rebalance_generation_by_tab[tab_id] ~= opts.generation then return end
 
-  ---@return { index: integer, is_active: boolean, is_zoomed: boolean, left: integer, top: integer, width: integer, height: integer, pixel_width: integer, pixel_height: integer, pane: Pane }[]
-  local function collectBand()
-    local band = {}
-    for _, info in ipairs(collectPaneInfos(tab)) do
-      if info[orth_start_key] == source_orth_start and info[orth_size_key] == source_orth_size then
-        table.insert(band, info)
-      end
-    end
-    table.sort(band, function(a, b)
-      if a[axis_start_key] == b[axis_start_key] then
-        return a.pane:pane_id() < b.pane:pane_id()
-      end
-      return a[axis_start_key] < b[axis_start_key]
+    rebalancePaneAxisPass(window, tab, source_pane_id, axis)
+
+    if pass_index >= max_passes then return end
+
+    wezterm.time.call_after(pass_delay, function()
+      if opts.generation and pending_rebalance_generation_by_tab[tab_id] ~= opts.generation then return end
+      local max_error = computeAxisMaxError(tab, source_pane_id, axis)
+      if max_error <= 1 then return end
+      runPass(pass_index + 1)
     end)
-    return band
   end
 
-  local band = collectBand()
-  if #band <= 1 then return end
-
-  local total_extent = 0
-  for _, info in ipairs(band) do
-    total_extent = total_extent + info[axis_size_key]
-  end
-
-  local base_target = math.floor(total_extent / #band)
-  local remainder = total_extent - (base_target * #band)
-  local targets = {}
-  for i = 1, #band do
-    targets[i] = base_target + (i <= remainder and 1 or 0)
-  end
-
-  ---@param strategy "leading" | "trailing"
-  local function applyStrategy(strategy)
-    local start_i, end_i, step_i = 1, #targets - 1, 1
-    if strategy == "leading" then
-      start_i, end_i, step_i = #targets - 1, 1, -1
-    end
-
-    for i = start_i, end_i, step_i do
-      band = collectBand()
-      if #band <= i then break end
-
-      local current_prefix = 0
-      local target_prefix = 0
-      for j = 1, i do
-        current_prefix = current_prefix + band[j][axis_size_key]
-        target_prefix = target_prefix + targets[j]
-      end
-
-      local delta = current_prefix - target_prefix
-      if delta ~= 0 then
-        local activation_index = strategy == "leading" and (i + 1) or i
-        local pane_to_activate = band[activation_index].pane
-        pane_to_activate:activate()
-        local direction = delta > 0 and previous_direction or next_direction
-        window:perform_action(act.AdjustPaneSize({ direction, math.abs(delta) }), pane_to_activate)
-      end
-    end
-  end
-
-  if split_direction == "Left" or split_direction == "Up" then
-    applyStrategy("leading")
-  elseif split_direction == "Right" or split_direction == "Down" then
-    applyStrategy("trailing")
-  else
-    applyStrategy("leading")
-    applyStrategy("trailing")
-  end
-
-  if initial_active_pane_id == nil then return end
-  local active_info = findPaneInfoById(tab, initial_active_pane_id)
-  if active_info then active_info.pane:activate() end
+  runPass(1)
 end
 
 ---Tries to activate a pane in the given direction, or splits the current pane in that direction.
@@ -308,6 +399,7 @@ local function activateOrSplitPane(opts)
     mods = opts.mods,
     action = wezterm.action_callback(function(window, pane)
       local tab = pane:tab()
+      local tab_id = tab:tab_id()
       local pane_at_direction = tab:get_pane_direction(opts.direction)
 
       if pane_at_direction then
@@ -315,9 +407,30 @@ local function activateOrSplitPane(opts)
         return
       end
 
+      local expected_panes = #tab:panes_with_info() + 1
       local split_pane = pane:split({ direction = directionMap[opts.direction] })
       local axis = (opts.direction == "Left" or opts.direction == "Right") and "x" or "y"
-      rebalancePaneAxis(window, split_pane or pane, axis, opts.direction)
+      local rebalance_generation = (pending_rebalance_generation_by_tab[tab_id] or 0) + 1
+      pending_rebalance_generation_by_tab[tab_id] = rebalance_generation
+
+      local function rebalanceAfterSplit(attempts_left)
+        if pending_rebalance_generation_by_tab[tab_id] ~= rebalance_generation then return end
+        if #tab:panes_with_info() < expected_panes and attempts_left > 0 then
+          wezterm.time.call_after(0.01, function()
+            rebalanceAfterSplit(attempts_left - 1)
+          end)
+          return
+        end
+        rebalancePaneAxis(window, split_pane or pane, axis, {
+          max_passes = 16,
+          pass_delay = 0.01,
+          generation = rebalance_generation,
+        })
+      end
+
+      wezterm.time.call_after(0.01, function()
+        rebalanceAfterSplit(50)
+      end)
     end),
   }
 end

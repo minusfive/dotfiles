@@ -63,10 +63,6 @@ mise.local.toml
 # AI
 ^/\.ai
 ^/\.mcp\.json
-tmp$
-^/\.config/wezterm/AGENTS\.md
-^/\.config/wezterm/CLAUDE\.md
-^/\.config/wezterm/research
 
 # lefthook
 ^/\.lefthook
