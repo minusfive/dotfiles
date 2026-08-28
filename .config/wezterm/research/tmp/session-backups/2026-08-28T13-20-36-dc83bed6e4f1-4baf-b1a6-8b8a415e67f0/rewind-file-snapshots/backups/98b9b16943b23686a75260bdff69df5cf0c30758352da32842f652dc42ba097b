@@ -1,8 +1,0 @@
-# WezTerm research notes
-
-This directory stores development research for `.config/wezterm/`.
-
-## Files
-
-1. `2026-08-28-split-autosize-investigation.md`  
-   Root-cause analysis, upstream code references, and validation results for split autosizing.
