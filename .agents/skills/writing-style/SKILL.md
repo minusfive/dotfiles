@@ -18,6 +18,7 @@ Use this skill for authored prose across markdown documentation and instruction 
 - Capitalize organization, team, and program names when used as proper nouns; use lowercase forms when used as generic concepts.
 - Wrap technical nouns in single backticks in prose and tables.
 - Keep documents publish-ready by default: remove internal process notes, agent-session artifacts, and other draft-only content from final document bodies.
+- Match structure to content. Use bullets or numbering for discrete points. Use paragraphs for one connected idea.
 - Keep operational behavior directives in instruction files (for example `AGENTS.md` and skill `SKILL.md`) instead of reader-facing document bodies.
 - In reader-facing docs, use references the intended audience can actually access. If a public or published URL is not available yet, mark it as pending publication instead of linking private local-only paths.
 
