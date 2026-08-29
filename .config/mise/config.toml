@@ -30,7 +30,11 @@ lockfile = true
 # Personal LazyVim fork used for local plugin development.
 "~/dev/personal/nvim-plugins/LazyVim" = { url = "git@github.com:minusfive/LazyVim.git", ref = "minusfive" }
 
+[bootstrap.brew]
+adopt = true
+
 [bootstrap.packages]
+# Shared Homebrew formulas
 "brew:sqlite" = "latest"
 "brew:bat" = "latest"
 "brew:btop" = "latest"
@@ -68,6 +72,25 @@ lockfile = true
 "brew:zoxide" = "latest"
 "brew:zsh" = "latest"
 
+# Shared Homebrew casks
+"brew-cask:1password" = "latest"
+"brew-cask:1password-cli" = "latest"
+"brew-cask:betterdisplay" = "latest"
+"brew-cask:claude-code" = "latest"
+"brew-cask:docker-desktop" = "latest"
+"brew-cask:google-chrome" = "latest"
+"brew-cask:ghostty" = "latest"
+"brew-cask:gpg-suite" = "latest"
+"brew-cask:hammerspoon" = "latest"
+"brew-cask:imageoptim" = "latest"
+# insomnium no longer publishes Homebrew API metadata required by mise.
+"brew-cask:obsidian" = "latest"
+"brew-cask:wezterm@nightly" = "latest"
+
+# Shared Mac App Store apps (ADAM IDs)
+"mas:1497506650" = "latest"
+"mas:1569813296" = "latest"
+
 [tools]
 rust = "nightly"
 cargo-binstall = "latest"
@@ -83,9 +106,9 @@ stylua = "latest"
 prettier = "latest"
 tree-sitter = "latest"
 markdownlint-cli2 = "latest"
+opencode = "latest"
 
 "npm:@mermaid-js/mermaid-cli" = { version = "latest", install_env = { PUPPETEER_SKIP_DOWNLOAD = "1" } }
 "npm:mcp-hub" = "latest"
 "npm:@github/copilot" = "latest"
 "npm:@tobilu/qmd" = "latest"
-opencode = "latest"

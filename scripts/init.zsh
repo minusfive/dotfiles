@@ -99,7 +99,7 @@ function {
         exit 1
     fi
 
-    # Homebrew and Homebrew packages installation
+    # Homebrew bootstrap helper
     source "$__dotfiles_scripts_dir/brew.zsh"
 
     # Symlink dotfiles

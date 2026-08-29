@@ -19,8 +19,8 @@ description: Author and maintain setup, automation, and bootstrap scripts. Use w
 
 ## Environment Configuration Detection
 
-- Check for `Brewfile` before package operations and use it when present.
-- Check for mise configuration files (`mise.toml`, `.config/mise/config.toml`) before runtime or version operations and use them when present.
+- Check for mise configuration files (`mise.toml`, `.config/mise/config.toml`) before package or runtime operations and use them when present.
+- Treat `Brewfile` as legacy in this repository unless a script explicitly consumes it.
 - If neither exists, use the package/runtime manager already adopted by the project.
 - Avoid introducing a second package or runtime manager without a clear reason.
 

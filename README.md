@@ -26,7 +26,7 @@ cd ~/dev/dot
 
 ## Programs
 
-Most of the tools I use are installed via [Homebrew](https://brew.sh) (see the [Brewfile](./.config/brew/Brewfile)); others are installed and managed by [mise-en-place](https://mise.jdx.dev) (see [~/.config/mise/config.toml](./.config/mise/config.toml)), or through [Zsh scripts](./scripts/).
+System package state is managed by [mise-en-place](https://mise.jdx.dev) (see [~/.config/mise/config.toml](./.config/mise/config.toml) and [~/.config/mise/mise.personal.toml](./.config/mise/mise.personal.toml)), including Homebrew formulae, Homebrew casks, and Mac App Store apps. [Homebrew](https://brew.sh) is now only an optional bootstrap helper, while development tooling and setup flows continue through `mise` and the [Zsh scripts](./scripts/).
 
 ---
 

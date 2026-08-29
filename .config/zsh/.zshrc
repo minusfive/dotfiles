@@ -28,6 +28,35 @@ export ZSH="$XDG_CONFIG_HOME/oh-my-zsh"
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/omz"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump"
 
+path=(
+    # coreutils
+    $(brew --prefix coreutils)/libexec/gnubin
+
+    # findutils
+    $(brew --prefix findutils)/libexec/gnubin
+
+    # git diff-highlight
+    $(brew --prefix git)/share/git-core/contrib/diff-highlight
+
+    # curl
+    $(brew --prefix curl)/bin
+
+    # yarn
+    $HOME/.yarn/bin
+    $XDG_CONFIG_HOME/yarn/global/node_modules/.bin
+
+    # local
+    /usr/local/bin
+    /usr/local/sbin
+    $HOME/.local/bin
+
+    # default
+    $path
+)
+
+export PATH
+export FPATH
+export MANPATH
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -255,33 +284,3 @@ fpath=("$HOME/.docker/completions" $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
-
-path=(
-    # coreutils
-    $(brew --prefix coreutils)/libexec/gnubin
-
-    # findutils
-    $(brew --prefix findutils)/libexec/gnubin
-
-    # git diff-highlight
-    $(brew --prefix git)/share/git-core/contrib/diff-highlight
-
-    # curl
-    $(brew --prefix curl)/bin
-
-    # yarn
-    $HOME/.yarn/bin
-    $XDG_CONFIG_HOME/yarn/global/node_modules/.bin
-
-    # local
-    /usr/local/bin
-    /usr/local/sbin
-    $HOME/.local/bin
-
-    # default
-    $path
-)
-
-export PATH
-export FPATH
-export MANPATH

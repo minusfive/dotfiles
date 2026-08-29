@@ -26,6 +26,18 @@ Integration tests for BetterDisplay script execution:
 - ✅ Error handling for missing BetterDisplay app
 - ⚠️ User interaction simulation (limited)
 
+### mise Bootstrap Profile Smoke Test
+
+#### `test_mise_bootstrap_profiles.zsh`
+
+Smoke tests for the migration from Brewfile-owned package state to mise-owned package state:
+
+- mise installer bridge and PATH refresh checks in `scripts/mise.zsh`
+- package and tool phase ordering checks
+- shared vs personal package split checks
+- profile bridge checks from `DOT_PROFILE` to `MISE_ENV`
+- work vs personal config-loading behavior checks
+
 ## Running Tests
 
 ### Run All BetterDisplay Tests
@@ -34,6 +46,7 @@ Integration tests for BetterDisplay script execution:
 # From project root
 ./tests/scripts/test_betterdisplay.zsh
 ./tests/scripts/test_betterdisplay_integration.zsh
+./tests/scripts/test_mise_bootstrap_profiles.zsh
 ```
 
 ### Run Individual Test Categories

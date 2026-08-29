@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# Homebrew and Homebrew packages installation
+# Homebrew installation helper
 
 # Exit immediately if a command fails and treat unset vars as error
 set -euo pipefail
@@ -10,21 +10,15 @@ function {
     local __context="BREW"
     local __proceed="$__brew"
 
-    export HOMEBREW_PROFILE="$__profile"
-    export HOMEBREW_BUNDLE_FILE_GLOBAL="$__dotfiles_dir/.config/brew/Brewfile"
-
     if [[ "$__proceed" == true ]]; then
         echo "\n"
-        _v_log_info $__context "Installing $(_v_fmt_u Homebrew) and managed software..."
-        _v_log_info $__context "$(_v_color_fg green HOMEBREW_PROFILE)=$(_v_color_fg yellow "'$HOMEBREW_PROFILE'")"
-        _v_log_info $__context "$(_v_color_fg green HOMEBREW_BUNDLE_FILE_GLOBAL)=$(_v_color_fg yellow "'$HOMEBREW_BUNDLE_FILE_GLOBAL'")"
-
+        _v_log_info $__context "Installing $(_v_fmt_u Homebrew)..."
         _v_confirm_proceed
     fi
 
     if [[ "$__proceed" != true ]]; then
         echo "\n"
-        _v_log_warn $__context "Skipping $(_v_fmt_u Homebrew) and managed software installation"
+        _v_log_warn $__context "Skipping $(_v_fmt_u Homebrew) installation"
         return 0
     fi
 
@@ -41,28 +35,5 @@ function {
     else
         echo "\n"
         _v_log_ok $__context "$(_v_fmt_u Homebrew) installed at $(which brew)"
-    fi
-
-    # Install Homebrew packages and apps
-    if [[ $(command -v brew) != "" ]]; then
-        echo "\n"
-        if [[ ! -f $HOMEBREW_BUNDLE_FILE_GLOBAL ]]; then
-            _v_log_error $__context "$(_v_fmt_u Brewfile) not found"
-            exit 1
-        fi
-
-        _v_log_info $__context "Installing $(_v_fmt_u Homebrew bundle)"
-        brew bundle install -v --global --force-cleanup --zap
-
-        if [[ $? == 0 ]]; then
-            _v_log_ok $__context "$(_v_fmt_u Homebrew bundle) installed"
-        fi
-
-        _v_log_info $__context "Upgrading $(_v_fmt_u Homebrew bundle)"
-        brew cu -f
-
-        if [[ $? == 0 ]]; then
-            _v_log_ok $__context "$(_v_fmt_u Homebrew bundle) upgraded"
-        fi
     fi
 }
