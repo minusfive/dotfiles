@@ -87,6 +87,7 @@ The skills below are available under [`.agents/skills/`](.agents/skills/). **MUS
 - `migrate-to-rslint` — Migrate ESLint or other lint setups to Rslint, including config, scripts, and editor integration.
 - `migrate-to-rstest` — Migrate Jest or Vitest test suites and configuration to Rstest equivalents.
 - `mise-tasks` — Create, update, run, or debug mise task workflows.
+- `mise-bootstrap` — Use when bootstrapping machines with `mise` or changing bootstrap config, packages, files, repos, dotfiles, services, firewall, compose, macOS defaults, LaunchAgents, systemd, user settings, shell activation, or remote hosts.
 - `nvim` — Apply LazyVim Neovim configuration rules when working with config files, plugins, or Lua modules.
 - `node-npm-bun` — Run Node package-manager tasks across bun and npm. Use when installing dependencies, running scripts, or invoking Node CLIs, while following project standards.
 - `opencode-copilot-multipliers` — Sync GitHub Copilot model alias multiplier labels in the OpenCode config with current `github/docs` paid multipliers.

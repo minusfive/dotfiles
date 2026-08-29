@@ -26,7 +26,7 @@ Required upstream references are listed alongside the work they govern: see [Ski
 Use this workflow when I ask you to encode, correct, or enhance instruction guidance.
 
 1. Load `writing-style`, then `simple-english`, before drafting or revising instruction prose. If either skill is not loaded, stop and load it before continuing.
-2. Scan local and global instructions, skills, and relevant mechanical enforcement (code, tests, linters, hooks, schemas, scripts) for intent coverage, including partial coverage, and for conflicts.
+2. Scan local and global instructions, skills, and relevant mechanical enforcement (code, tests, linters, hooks, schemas, scripts) for intent coverage, including partial coverage, and for conflicts. Compare the draft against live MCP, CLI help, and upstream docs when they exist. Keep only the delta that the live surfaces do not already state.
 3. Before adding always-loaded guidance, check scope and context cost, and look for chances to keep core instructions short by moving long reference material to linked assets.
 4. Treat durable-directive cues (for example "every", "always", "from now on", or "should include") as instruction-update candidates by default, even when a memory update may also apply.
 5. Determine scope and target first across executable enforcement and instruction-file handling: executable enforcement surfaces (code, tests, linters, hooks, schemas, scripts), repository-wide instruction, sub-directory instruction (the nearest applicable instruction entrypoint such as `<subdir>/AGENTS.md` or path-scoped `*.instructions.md`), global instruction, and instruction file vs. skill. Then decide where to save the directive on the selected instruction-file scope before closing the turn. If scope is mixed or ambiguous, ask me before applying. If coverage already exists, extend or reconcile it instead of creating duplicates.
@@ -76,6 +76,7 @@ The repository's general post-validation critique gate (defined in the top-level
 - Did this change restate a canonical instruction locally where a cross-reference should be used?
 - Are there unresolved duplicated or contradictory conventions across instruction entrypoints after this edit?
 - Did external documentation guidance stay link-first instead of copying drift-prone reference material?
+- Did the edit restate behavior that live MCP, CLI help, or upstream docs already expose instead of keeping a minimal local delta?
 - After checking scope and context cost, confirm that long reference material lives in linked assets, and that narrow domain rules live in the most specific skill instead of broad instruction files.
 - If canonical locations, naming conventions, or handoff contracts changed, did I include migration guidance (or an explicit no-migration decision) and update dependents?
 - Does any rule contain authoring meta-commentary that belongs in the authoring skill?
@@ -181,6 +182,7 @@ When a skill has `metadata.imported.from` and `metadata.imported.date`, follow t
 - For external documentation, prefer concise links to canonical sources and keep local instruction text focused on project-specific behavior and constraints.
 - Keep guidance language-, tool-, and version-agnostic where possible. State the rule generically and use language-specific or version-specific names only as examples, not as the rule itself.
 - Prefer linking to canonical documentation over restating it; restated facts drift, links do not (and broken links are caught by validation).
+- For broad tool skills, structure the body by area or workflow. Give each section a short description and a canonical-doc pointer. Keep command inventories sparse.
 
 ## AGENTS.md Authoring
 
