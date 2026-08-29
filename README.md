@@ -26,7 +26,7 @@ cd ~/dev/dot
 
 ## Programs
 
-System package state is managed by [mise-en-place](https://mise.jdx.dev) (see [~/.config/mise/config.toml](./.config/mise/config.toml) and [~/.config/mise/mise.personal.toml](./.config/mise/mise.personal.toml)), including Homebrew formulae, Homebrew casks, and Mac App Store apps. [Homebrew](https://brew.sh) is now only an optional bootstrap helper, while development tooling and setup flows continue through `mise` and the [Zsh scripts](./scripts/).
+System package state is managed by [mise-en-place](https://mise.jdx.dev), with shared machine configuration in [~/.config/mise/config.toml](./.config/mise/config.toml) and [~/.config/mise/conf.d/](./.config/mise/conf.d/), and repo-local tooling in [./.mise/config.toml](./.mise/config.toml) and [./.mise/conf.d/](./.mise/conf.d/). This includes Homebrew formulae, Homebrew casks, and Mac App Store apps. [Homebrew](https://brew.sh) is now only an optional bootstrap helper, while development tooling and setup flows continue through `mise` and the [Zsh scripts](./scripts/).
 
 ---
 

@@ -1,1 +1,2 @@
 env = ["{{ env.DOT_PROFILE | default(value='work') }}"]
+env_conf_d = true

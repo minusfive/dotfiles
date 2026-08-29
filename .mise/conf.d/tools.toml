@@ -1,13 +1,3 @@
-[settings]
-lockfile = true
-
-[env]
-HK_MISE = 1
-HK_STAGE = 1
-
-[task_config]
-includes = ["scripts/tasks"]
-
 [tools]
 bun = "latest"
 betterleaks = "latest"

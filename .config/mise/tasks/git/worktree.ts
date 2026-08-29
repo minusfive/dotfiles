@@ -621,7 +621,8 @@ function runPullRequestFlow(prNumberOverride: string): void {
   runInherit("gh", ["pr", "checkout", selectedPr]);
   const hasMiseConfig =
     existsSync(resolve(resolvedWorktreePath, "mise.toml")) ||
-    existsSync(resolve(resolvedWorktreePath, ".mise.toml"));
+    existsSync(resolve(resolvedWorktreePath, ".mise.toml")) ||
+    existsSync(resolve(resolvedWorktreePath, ".mise/config.toml"));
   if (hasMiseConfig) {
     console.log("Trusting mise configuration ...");
     runInherit("mise", ["trust"]);
@@ -649,7 +650,8 @@ function runCreateFlow(name: string): void {
   runInherit("git", ["worktree", "add", worktreePath]);
   const hasMiseConfig =
     existsSync(resolve(resolvedWorktreePath, "mise.toml")) ||
-    existsSync(resolve(resolvedWorktreePath, ".mise.toml"));
+    existsSync(resolve(resolvedWorktreePath, ".mise.toml")) ||
+    existsSync(resolve(resolvedWorktreePath, ".mise/config.toml"));
   process.chdir(worktreePath);
   if (hasMiseConfig) {
     console.log("Trusting mise configuration ...");

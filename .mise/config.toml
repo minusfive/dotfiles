@@ -1,0 +1,6 @@
+[settings]
+lockfile = true
+
+[env]
+HK_MISE = 1
+HK_STAGE = 1

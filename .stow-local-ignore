@@ -28,6 +28,7 @@ _darcs
 # mise
 ^/mise.lock
 ^/mise.toml
+^/\.mise
 mise.local.toml
 
 # Project
