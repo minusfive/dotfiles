@@ -41,6 +41,7 @@ When producing or validating a plan, include only actionable execution instructi
    - Declare sequencing constraints and concurrency boundaries required by execution workflow.
    - Identify vertical integration checkpoints that execution must preserve as feedback anchors.
    - Include the exact persisted plan artifact path in the handoff and require execution to consume that exact path (no default-path inference).
+   - When a plan names a file, write the full path relative to `~`.
 4. Verification/acceptance checks
 
 All open questions must be resolved during the planning conversation before presenting final plan output.

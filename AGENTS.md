@@ -13,6 +13,7 @@
 - Be concise and direct; focus output on the specific task and skip unnecessary preambles and postambles.
 - For shared prose and tone conventions across authored content, follow `writing-style`.
 - Ask for confirmation before destructive or irreversible operations.
+- When the worktree is not `main`, assume I want changes committed and pushed on the current branch unless I tell you otherwise.
 - **MUST NOT** use emojis or icons unless explicitly requested.
 
 ## Verdict Classification Output
@@ -92,7 +93,7 @@ The skills below are available under [`.agents/skills/`](.agents/skills/). **MUS
 - `node-npm-bun` — Run Node package-manager tasks across bun and npm. Use when installing dependencies, running scripts, or invoking Node CLIs, while following project standards.
 - `opencode-copilot-multipliers` — Sync GitHub Copilot model alias multiplier labels in the OpenCode config with current `github/docs` paid multipliers.
 - `planning` — Produce execution-ready implementation plans for multi-step, high-risk, ambiguous, or multi-file/service work.
-- `pr-guidelines` — Push branches and open pull requests using the project's title/body conventions and linked issues.
+- `pr-guidelines` — Push branches, keep open pull requests current, and open pull requests using the project's title/body conventions and linked issues.
 - `project-overview` — Discover project structure, architecture, and tooling before implementation in an unfamiliar area.
 - `qmd-setup` — Set up QMD in a repository with repository scanning, collection planning, YAML-defined collections, and approval-gated execution.
 - `qmd-usage` — Search and retrieve indexed markdown knowledge with QMD, including structured query authoring and source-grounded answers.
